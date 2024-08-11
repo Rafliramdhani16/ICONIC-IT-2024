@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const CardNews = () => {
-  const scrollRef = React.useRef(null);
-  const [activeIndex, setActiveIndex] = React.useState(0);
+  const scrollRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const scrollLeft = () => {
     if (scrollRef.current) {
       const newIndex = Math.max(activeIndex - 1, 0);
       setActiveIndex(newIndex);
       scrollRef.current.scrollTo({
-        left: newIndex * 300, // Sesuaikan dengan lebar card
+        // kalo mau ngatur scrollnya berapa disini
+        left: newIndex * 300,
         behavior: "smooth",
       });
     }
@@ -21,17 +22,16 @@ const CardNews = () => {
       const newIndex = Math.min(activeIndex + 1, cards.length - 1);
       setActiveIndex(newIndex);
       scrollRef.current.scrollTo({
-        left: newIndex * 300, // Sesuaikan dengan lebar card
+        left: newIndex * 300,
         behavior: "smooth",
       });
     }
   };
-
-  // Dummy array to represent the cards
-  const cards = new Array(10).fill(0); // 10 cards sesuai dengan gambar
+  // data dummy cug
+  const cards = new Array(10).fill(0);
 
   return (
-    <div className="relative w-[80%] mx-auto mt-8">
+    <div className="relative w-[80%] mx-auto mt-14">
       <h2 className="text-lg font-bold mb-4">Terbaru dari GYANAKAYA</h2>
       <div className="relative flex items-center">
         <div
