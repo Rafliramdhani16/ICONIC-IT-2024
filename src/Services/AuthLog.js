@@ -73,3 +73,49 @@ export const logoutUser = async () => {
 export const getCurrentUserFromToken = () => {
   return sessionStorage.getItem("username");
 };
+
+export const resetPassword = async (data) => {
+  try {
+    const response = await axios.post(
+      "ganti bang sama api buat email reset password",
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { success: false, message: "No response from server." };
+    } else {
+      return { success: false, message: error.message };
+    }
+  }
+};
+
+export const requestResetPassword = async (data) => {
+  try {
+    const response = await axios.post(
+      "ganti api ini bang sama yang reset password ",
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { success: false, message: "No response from server." };
+    } else {
+      return { success: false, message: error.message };
+    }
+  }
+};

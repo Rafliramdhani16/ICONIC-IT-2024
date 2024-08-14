@@ -34,7 +34,7 @@ const FormRegister = () => {
         <BiArrowBack className="text-neutral-800 w-5 h-5" />
         <span className="ml-2">Kembali</span>
       </button>
-      <h2 className="text-2xl font-semibold text-neutral-800 m-3">Daftar</h2>
+      <h2 className="text-3xl font-semibold text-neutral-800 my-6">Daftar</h2>
       {message && (
         <div className="bg-red-100 text-red-700 p-2 rounded my-2">
           {message}
@@ -49,7 +49,7 @@ const FormRegister = () => {
         />
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-full mt-4"
+          className="w-full bg-blue-600 text-white py-2 rounded-full mt-4 font-semibold"
         >
           Daftar
         </button>

@@ -1,17 +1,12 @@
-import Jumbotron from "../Fragments/Jumbotron";
+import React from "react";
 import Navbar from "../Fragments/Navbar";
-import CardMateri from "../Fragments/Card/CardMateri";
-import CardNews from "../Fragments/Card/CardNews";
-import CardAbout from "../Fragments/Card/CardAbout";
 import Footer from "../Fragments/footer";
-const LayoutHome = () => {
+
+const LayoutHome = ({ children }) => {
   return (
     <>
       <Navbar />
-      <Jumbotron />
-      <CardMateri />
-      <CardNews />
-      <CardAbout />
+      {children}
       <Footer />
     </>
   );

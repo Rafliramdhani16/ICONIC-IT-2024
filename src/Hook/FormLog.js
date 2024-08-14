@@ -7,6 +7,16 @@ const useForm = (initialValues, onSubmit, redirectPath) => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  const validate = (values) => {
+    let errors = {};
+
+    if ("password" in values && values.password !== values.password2) {
+      errors.password2 = "Password tidak cocok.";
+    }
+
+    return errors;
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,18 +29,19 @@ const useForm = (initialValues, onSubmit, redirectPath) => {
     setErrors({});
     setMessage("");
 
-    try {
-      const combinedFormData = {
-        ...formData,
-        fullname: `${formData.firstname} ${formData.lastname}`,
-      };
+    const validationErrors = validate(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
-      const response = await onSubmit(combinedFormData);
+    try {
+      const response = await onSubmit(formData);
       if (response.success !== 200) {
         setMessage(response.message || "An unexpected error occurred.");
         setErrors(response.data || {});
       } else {
-        setMessage("Action successful!");
+        setMessage("Password berhasil direset!");
         navigate(redirectPath);
       }
     } catch (error) {

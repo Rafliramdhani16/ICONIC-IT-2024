@@ -1,52 +1,264 @@
-import React from "react";
-import { CgMenuGridR } from "react-icons/cg";
+import React, { useRef, useState } from "react";
+import {
+  FaChevronLeft,
+  FaChevronRight,
+  FaUserFriends,
+  FaRegClock,
+  FaListAlt,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const CardMateri = () => {
+  const scrollRefDasar = useRef(null);
+  const scrollRefLanjutan = useRef(null);
+  const [activeIndexDasar, setActiveIndexDasar] = useState(0);
+  const [activeIndexLanjutan, setActiveIndexLanjutan] = useState(0);
   const navigate = useNavigate();
 
-  const handleNavigate = (path) => {
-    navigate(path);
+  const scrollLeft = (type) => {
+    if (type === "Dasar" && scrollRefDasar.current) {
+      const newIndex = Math.max(activeIndexDasar - 1, 0);
+      setActiveIndexDasar(newIndex);
+      scrollRefDasar.current.scrollTo({
+        left: newIndex * 390,
+        behavior: "smooth",
+      });
+    } else if (type === "Lanjutan" && scrollRefLanjutan.current) {
+      const newIndex = Math.max(activeIndexLanjutan - 1, 0);
+      setActiveIndexLanjutan(newIndex);
+      scrollRefLanjutan.current.scrollTo({
+        left: newIndex * 390,
+        behavior: "smooth",
+      });
+    }
   };
 
+  const scrollRight = (type) => {
+    if (type === "Dasar" && scrollRefDasar.current) {
+      const newIndex = Math.min(activeIndexDasar + 1, dasarCards.length - 1);
+      setActiveIndexDasar(newIndex);
+      scrollRefDasar.current.scrollTo({
+        left: newIndex * 390,
+        behavior: "smooth",
+      });
+    } else if (type === "Lanjutan" && scrollRefLanjutan.current) {
+      const newIndex = Math.min(
+        activeIndexLanjutan + 1,
+        lanjutanCards.length - 1
+      );
+      setActiveIndexLanjutan(newIndex);
+      scrollRefLanjutan.current.scrollTo({
+        left: newIndex * 390,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleCardClick = (card) => {
+    // Navigasi ke halaman detail materi
+    navigate(`/detailMateri/${card.id}`);
+  };
+  const dasarCards = [
+    {
+      id: 1,
+      title: "HTML Dasar",
+      followers: "400 orang mengikuti",
+      modules: "14 Modul",
+      duration: "1 Jam 2 Menit",
+      category: "Dasar",
+    },
+    {
+      id: 2,
+      title: "HTML Dasar",
+      followers: "400 orang mengikuti",
+      modules: "14 Modul",
+      duration: "1 Jam 2 Menit",
+      category: "Dasar",
+    },
+    {
+      id: 3,
+      title: "HTML Dasar",
+      followers: "400 orang mengikuti",
+      modules: "14 Modul",
+      duration: "1 Jam 2 Menit",
+      category: "Dasar",
+    },
+    {
+      id: 4,
+      title: "HTML Dasar",
+      followers: "400 orang mengikuti",
+      modules: "14 Modul",
+      duration: "1 Jam 2 Menit",
+      category: "Dasar",
+    },
+    {
+      id: 5,
+      title: "HTML Dasar",
+      followers: "400 orang mengikuti",
+      modules: "14 Modul",
+      duration: "1 Jam 2 Menit",
+      category: "Dasar",
+    },
+    {
+      id: 6,
+      title: "HTML Dasar",
+      followers: "400 orang mengikuti",
+      modules: "14 Modul",
+      duration: "1 Jam 2 Menit",
+      category: "Dasar",
+    },
+  ];
+
+  const lanjutanCards = [
+    {
+      id: 1,
+      title: "HTML Lanjutan",
+      followers: "200 orang mengikuti",
+      modules: "10 Modul",
+      duration: "1 Jam 45 Menit",
+      category: "Lanjutan",
+    },
+    {
+      id: 2,
+      title: "HTML Lanjutan",
+      followers: "200 orang mengikuti",
+      modules: "10 Modul",
+      duration: "1 Jam 45 Menit",
+      category: "Lanjutan",
+    },
+    {
+      id: 3,
+      title: "HTML Lanjutan",
+      followers: "200 orang mengikuti",
+      modules: "10 Modul",
+      duration: "1 Jam 45 Menit",
+      category: "Lanjutan",
+    },
+    {
+      id: 4,
+      title: "HTML Lanjutan",
+      followers: "200 orang mengikuti",
+      modules: "10 Modul",
+      duration: "1 Jam 45 Menit",
+      category: "Lanjutan",
+    },
+    {
+      id: 5,
+      title: "HTML Lanjutan",
+      followers: "200 orang mengikuti",
+      modules: "10 Modul",
+      duration: "1 Jam 45 Menit",
+      category: "Lanjutan",
+    },
+    {
+      id: 6,
+      title: "HTML Lanjutan",
+      followers: "200 orang mengikuti",
+      modules: "10 Modul",
+      duration: "1 Jam 45 Menit",
+      category: "Lanjutan",
+    },
+  ];
+
   return (
-    <div className="relative mt-[-100px] z-10 flex justify-around items-center bg-white rounded-3xl shadow-md w-[80%] mx-auto border border-neutral-300 py-5">
-      <div className="flex flex-row justify-center items-center">
-        <button
-          onClick={() => handleNavigate("/materiHTML")}
-          className="flex flex-row justify-center items-center border-2 border-neutral-300 w-[240px] h-[65px] bg-white rounded-xl hover:bg-gray-200 transition shadow-md mx-8"
+    <div className="container mx-auto my-14 w-[80%]">
+      <div className="mb-10">
+        <h2 className="text-2xl font-bold">Materi Dasar</h2>
+      </div>
+      <div className="relative flex items-center">
+        <div
+          ref={scrollRefDasar}
+          className="flex overflow-hidden space-x-4 pr-8 snap-x snap-mandatory scrollbar-hide"
         >
-          <img src="/html.png" alt="Materi HTML" className="w-12 h-12 mr-4" />
-          <p className="text-center">Materi HTML</p>
-        </button>
-
-        <button
-          onClick={() => handleNavigate("/materiCSS")}
-          className="flex flex-row justify-center items-center border-2 border-neutral-300 w-[240px] h-[65px] bg-white rounded-xl hover:bg-gray-200 transition shadow-md mx-8"
+          {dasarCards.map((card) => (
+            <div
+              key={card.id}
+              className="relative min-w-[300px] h-[400px] bg-gray-100 rounded-3xl snap-center shadow-md p-4 flex flex-col items-start cursor-pointer"
+              onClick={() => handleCardClick(card)}
+            >
+              <img
+                src="/materi.png"
+                alt="Thumbnail"
+                className="w-full h-[200px] object-cover rounded-md mb-4"
+              />
+              <h3 className="text-lg font-bold mb-2">{card.title}</h3>
+              <div className="flex items-center text-sm text-gray-500 mb-2">
+                <FaUserFriends className="mr-2" />
+                <span>{card.followers}</span>
+              </div>
+              <div className="flex items-center text-sm text-gray-500 mb-2">
+                <FaListAlt className="mr-2" />
+                <span>{card.modules}</span>
+              </div>
+              <div className="flex items-center text-sm text-gray-500">
+                <FaRegClock className="mr-2" />
+                <span>{card.duration}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-10 mb-10">
+        <h2 className="text-2xl font-bold">Materi Lanjutan</h2>
+      </div>
+      <div className="relative flex items-center">
+        <div
+          ref={scrollRefLanjutan}
+          className="flex overflow-hidden space-x-4 pr-8 snap-x snap-mandatory scrollbar-hide"
         >
-          <img src="/css.png" alt="Materi CSS" className="w-12 h-12 mr-4" />
-          <p className="text-center">Materi CSS</p>
-        </button>
-
-        <button
-          onClick={() => handleNavigate("/materiJS")}
-          className="flex flex-row justify-center items-center border-2 border-neutral-300 w-[240px] h-[65px] bg-white rounded-xl hover:bg-gray-200 transition shadow-md mx-8"
-        >
-          <img
-            src="/js.png"
-            alt="Materi JavaScript"
-            className="w-12 h-12 mr-2"
-          />
-          <p className="text-center">Materi Javascript</p>
-        </button>
-
-        <button
-          onClick={() => handleNavigate("/AllMateri")}
-          className="flex flex-row justify-center items-center border-2 border-neutral-300 w-[240px] h-[65px] bg-white rounded-xl hover:bg-gray-200 transition shadow-md mx-8"
-        >
-          <CgMenuGridR className="text-4xl mr-4" />
-          <p className="text-center">Semua Materi</p>
-        </button>
+          {lanjutanCards.map((card) => (
+            <div
+              key={card.id}
+              className="relative min-w-[300px] h-[400px] bg-gray-100 rounded-3xl snap-center shadow-md p-4 flex flex-col items-start"
+              onClick={() => handleCardClick(card)}
+            >
+              <img
+                src="/materi.png"
+                alt="Thumbnail"
+                className="w-full h-[200px] object-cover rounded-md mb-4"
+              />
+              <h3 className="text-lg font-bold mb-2">{card.title}</h3>
+              <div className="flex items-center text-sm text-gray-500 mb-2">
+                <FaUserFriends className="mr-2" />
+                <span>{card.followers}</span>
+              </div>
+              <div className="flex items-center text-sm text-gray-500 mb-2">
+                <FaListAlt className="mr-2" />
+                <span>{card.modules}</span>
+              </div>
+              <div className="flex items-center text-sm text-gray-500">
+                <FaRegClock className="mr-2" />
+                <span>{card.duration}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex justify-between items-center mt-4">
+        <div className="flex space-x-2">
+          {lanjutanCards.map((_, index) => (
+            <span
+              key={index}
+              className={`w-3 h-3 ${
+                index === activeIndexLanjutan ? "bg-blue-500" : "bg-gray-300"
+              } rounded-full`}
+            ></span>
+          ))}
+        </div>
+        <div className="flex space-x-2">
+          <button
+            onClick={() => scrollLeft("Lanjutan")}
+            className="p-2 rounded-full bg-blue-500 text-white shadow-lg focus:outline-none"
+          >
+            <FaChevronLeft />
+          </button>
+          <button
+            onClick={() => scrollRight("Lanjutan")}
+            className="p-2 rounded-full bg-blue-500 text-white shadow-lg focus:outline-none"
+          >
+            <FaChevronRight />
+          </button>
+        </div>
       </div>
     </div>
   );

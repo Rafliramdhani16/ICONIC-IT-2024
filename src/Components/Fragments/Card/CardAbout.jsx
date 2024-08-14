@@ -59,6 +59,12 @@ const CardAbout = () => {
       testimonial:
         "Belajar di GYANAKAYA sangat menyenangkan! Materi yang disajikan mudah dipahami dan langsung bisa diaplikasikan ke proyek nyata. Sangat cocok untuk pemula!",
     },
+    {
+      id: 6,
+      name: "Aulia",
+      testimonial:
+        "Belajar di GYANAKAYA sangat menyenangkan! Materi yang disajikan mudah dipahami dan langsung bisa diaplikasikan ke proyek nyata. Sangat cocok untuk pemula!",
+    },
   ];
 
   return (
@@ -67,19 +73,21 @@ const CardAbout = () => {
       <div className="relative flex items-center">
         <div
           ref={scrollRef}
-          className="flex overflow-hidden space-x-4 pr-8 snap-x snap-mandatory scrollbar-hide"
+          className="flex overflow-hidden space-x-4 pr-8 snap-x snap-mandatory scrollbar-hide space-y-10 -mt-11"
         >
           {cards.map((card) => (
             <div
               key={card.id}
-              className="relative min-w-[390px] h-[250px] bg-gray-300 rounded-lg snap-center flex flex-col items-center justify-center p-4"
+              className="relative min-w-[270px] h-[250px] bg-gray-300 rounded-[25px] snap-center flex flex-col items-center justify-center p-4 mt-10"
             >
               <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
                 <FaUser className="relative w-16 h-16 rounded-full bg-white p-2 shadow-lg border border-gray-300" />
               </div>
-              <div className="mt-10 text-center">
-                <h3 className="font-bold">{card.name}</h3>
-                <p className="text-center text-sm">{card.testimonial}</p>
+              <div className="text-center h-full mt-8">
+                <h3 className="text-lg font-bold ">{card.name}</h3>
+                <p className="text-center text-sm leading-relaxed mt-3">
+                  {card.testimonial}
+                </p>
               </div>
             </div>
           ))}
