@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import Button from "../Elements/Button/Button";
@@ -33,20 +33,14 @@ const Navbar = () => {
 
   return (
     <nav className="flex flex-wrap items-center justify-between p-4 bg-white shadow-md rounded-b-[30px] fixed top-0 left-0 right-0 w-full z-50">
-      {/* Logo */}
       <div className="flex flex-col items-start space-y-1 mx-3 md:mx-6">
-        {/* <div className="font-bold text-xl tracking-[3px]">Gyana</div>
-        <div className="flex items-center">
-          <div className="font-bold text-xl tracking-[3px]">Kaya</div>
-          <div className="bg-blue-500 w-2 h-2 rounded-full ml-1"></div>
-        </div> */}
-        <img src="/logo.png" alt="logo-gyanakaya" className="w-20 " />
+        <Link to="/">
+          <img src="/logo.png" alt="logo-gyanakaya" className="w-20" />
+        </Link>
       </div>
 
-      {/* Jelajahi */}
       <div className="ml-4 md:ml-10">Jelajahi</div>
 
-      {/* Search Bar */}
       <div className="w-full mt-4 md:mt-0 md:w-auto md:mx-8 flex-grow">
         <div className="relative flex items-center max-w-full md:max-w-[750px]">
           <AiOutlineSearch className="absolute left-3 text-neutral-500" />
@@ -58,7 +52,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Buttons */}
       <div className="flex space-x-4 mt-5 md:mt-0 mx-5 md:mx-21 items-center">
         {username ? (
           <div className="relative">

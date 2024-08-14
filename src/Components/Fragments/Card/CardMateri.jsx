@@ -55,7 +55,6 @@ const CardMateri = () => {
   };
 
   const handleCardClick = (card) => {
-    // Navigasi ke halaman detail materi
     navigate(`/detailMateri/${card.id}`);
   };
   const dasarCards = [
@@ -196,6 +195,32 @@ const CardMateri = () => {
               </div>
             </div>
           ))}
+        </div>
+      </div>{" "}
+      <div className="flex justify-between items-center mt-4">
+        <div className="flex space-x-2">
+          {dasarCards.map((_, index) => (
+            <span
+              key={index}
+              className={`w-3 h-3 ${
+                index === activeIndexDasar ? "bg-blue-500" : "bg-gray-300"
+              } rounded-full`}
+            ></span>
+          ))}
+        </div>
+        <div className="flex space-x-2">
+          <button
+            onClick={() => scrollLeft("Dasar")}
+            className="p-2 rounded-full bg-blue-500 text-white shadow-lg focus:outline-none"
+          >
+            <FaChevronLeft />
+          </button>
+          <button
+            onClick={() => scrollRight("Dasar")}
+            className="p-2 rounded-full bg-blue-500 text-white shadow-lg focus:outline-none"
+          >
+            <FaChevronRight />
+          </button>
         </div>
       </div>
       <div className="mt-10 mb-10">

@@ -69,11 +69,9 @@ export const logoutUser = async () => {
   }
 };
 
-// mawa username tina token
 export const getCurrentUserFromToken = () => {
   return sessionStorage.getItem("username");
 };
-
 export const resetPassword = async (data) => {
   try {
     const response = await axios.post(
