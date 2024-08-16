@@ -10,6 +10,7 @@ import Kategori from "./Pages/kategoriHTML";
 import MateriHTML from "./Pages/materiHTML";
 import ResetPassword from "./Pages/resetPassword";
 import RequestReset from "./Pages/reqPassword";
+import DetailPembelajaran from "./Pages/DetailPembelajaran";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,11 @@ const router = createBrowserRouter([
   {
     path: "/detailMateri/:id",
     element: <MateriHTML />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/pembelajaran/:id",
+    element: <DetailPembelajaran />,
     errorElement: <ErrorPage />,
   },
   {
