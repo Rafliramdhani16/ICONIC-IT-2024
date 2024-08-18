@@ -53,6 +53,11 @@ const router = createBrowserRouter([
     element: <RequestReset />,
     errorElement: <ErrorPage />,
   },
+  {
+    path: "/profile",
+    element: <Profile />,
+    errorElement: <ErrorPage />,
+  },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
