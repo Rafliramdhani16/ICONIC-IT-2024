@@ -11,6 +11,8 @@ import MateriHTML from "./Pages/materiHTML";
 import ResetPassword from "./Pages/resetPassword";
 import RequestReset from "./Pages/reqPassword";
 import DetailPembelajaran from "./Pages/DetailPembelajaran";
+import Profile from "./Pages/profile";
+import EditProfile from "./Pages/editProfile";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +58,11 @@ const router = createBrowserRouter([
   {
     path: "/profile",
     element: <Profile />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/profile/edit",
+    element: <EditProfile />,
     errorElement: <ErrorPage />,
   },
 ]);

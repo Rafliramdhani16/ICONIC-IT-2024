@@ -52,7 +52,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex space-x-4 mt-5 md:mt-0 mx-5 md:mx-21 items-center">
+      <div className="flex space-x-4 mt-5 md:mt-0 mr-10 md:mx-21 items-center">
         {username ? (
           <div className="relative">
             <button
@@ -63,10 +63,16 @@ const Navbar = () => {
               <span className="text-lg ">{username}</span>
             </button>
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-md z-10">
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-md z-10 border border-neutral-300">
+                <button
+                  onClick={() => navigate("/profile")}
+                  className="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-200 rounded-t-lg"
+                >
+                  Profile
+                </button>
                 <button
                   onClick={handleLogout}
-                  className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  className="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-200 rounded-b-lg"
                 >
                   Keluar
                 </button>
