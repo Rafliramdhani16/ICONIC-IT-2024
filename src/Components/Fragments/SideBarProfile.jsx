@@ -36,7 +36,7 @@ const SidebarProfile = () => {
           <span>Edit Profile</span>
         </NavLink>
         <NavLink
-          to="/changePassword"
+          to="/profile/ganti/password"
           className={({ isActive }) =>
             isActive
               ? "text-white flex items-center gap-2 font-semibold bg-white bg-opacity-20 p-2 rounded-lg"

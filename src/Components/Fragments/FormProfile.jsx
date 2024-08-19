@@ -43,7 +43,7 @@ const FormProfile = () => {
         <img
           src={formData.image || "./materi.png"}
           alt="User"
-          className="w-52 h-52 rounded-full border border-neutral-500 mx-auto"
+          className="w-52 h-52 rounded-2xl border border-neutral-500 mx-auto"
         />
       </div>
       <div className="mb-4 w-[50%] mx-auto">
@@ -78,14 +78,7 @@ const FormProfile = () => {
           className="w-full p-2 pl-3 border rounded-lg bg-gray-100"
         />
       </div>
-      <div className="flex justify-end">
-        <button
-          onClick={() => navigate("/profile/edit")}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-        >
-          Edit Profile
-        </button>
-      </div>
+      <div className="flex justify-end"></div>
     </div>
   );
 };

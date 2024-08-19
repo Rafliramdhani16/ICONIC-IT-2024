@@ -10,9 +10,10 @@ import Kategori from "./Pages/kategoriHTML";
 import MateriHTML from "./Pages/materiHTML";
 import ResetPassword from "./Pages/resetPassword";
 import RequestReset from "./Pages/reqPassword";
-import DetailPembelajaran from "./Pages/DetailPembelajaran";
+import DetailPembelajaran from "./Pages/detailPembelajaran";
 import Profile from "./Pages/profile";
 import EditProfile from "./Pages/editProfile";
+import ChangePassword from "./Pages/changepw";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,11 @@ const router = createBrowserRouter([
   {
     path: "/profile/edit",
     element: <EditProfile />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/profile/ganti/password",
+    element: <ChangePassword />,
     errorElement: <ErrorPage />,
   },
 ]);
