@@ -15,7 +15,8 @@ const useEditProfileForm = (initialValues, redirectPath) => {
         if (response.success === 200) {
           setFormData({
             username: response.data.username,
-            fullname: `${response.data.firstname} ${response.data.lastname}`,
+            firstname: response.data.firstname,
+            lastname: response.data.lastname,
             email: response.data.email,
             image: response.data.image,
           });
@@ -29,9 +30,11 @@ const useEditProfileForm = (initialValues, redirectPath) => {
   }, []);
 
   const handleChange = (e) => {
+    const { name, value, files } = e.target;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: files ? files[0] : value, // Jika input berupa file, ambil file pertama
     });
   };
 

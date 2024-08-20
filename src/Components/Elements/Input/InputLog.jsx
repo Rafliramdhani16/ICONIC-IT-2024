@@ -13,9 +13,9 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
 
   return (
     <div>
-      {fields.includes("fullname") && (
-        <div className="flex justify-between">
-          <div className="w-1/2 pr-2">
+      <div className="flex justify-between">
+        <div className="w-1/2 pr-2">
+          {fields.includes("firstname") && (
             <LabelInput
               type="text"
               id="firstname"
@@ -28,8 +28,10 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
               autoComplete="off"
               required
             />
-          </div>
-          <div className="w-1/2 pl-2">
+          )}
+        </div>
+        <div className="w-1/2 pl-2">
+          {fields.includes("lastname") && (
             <LabelInput
               type="text"
               id="lastname"
@@ -40,12 +42,10 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
               error={errors.lastname}
               value={formData.lastname}
               autoComplete="off"
-              required
             />
-          </div>
+          )}
         </div>
-      )}
-
+      </div>
       {fields.includes("username") && (
         <LabelInput
           type="text"
@@ -60,7 +60,6 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
           required
         />
       )}
-
       {fields.includes("email") && (
         <LabelInput
           type="email"

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://backend-gyanakaya.bhadrikais.my.id/api";
+const API_URL = "http://127.0.0.1:8000/api";
 export const registerUser = async (data) => {
   try {
     const response = await axios.post(`${API_URL}/user/signup`, data, {
@@ -142,12 +142,21 @@ export const getUserData = async () => {
 // API edit user
 export const updateUserData = async (userData) => {
   try {
-    const response = await axios.put(`${API_URL}/user/edit`, userData, {
+    // Membuat instance FormData
+    const formData = new FormData();
+
+    // Menambahkan setiap property userData ke dalam formData
+    for (const key in userData) {
+      formData.append(key, userData[key]);
+    }
+
+    const response = await axios.put(`${API_URL}/user/edit`, formData, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data", // Mengatur header untuk pengiriman file
       },
     });
+
     return response.data;
   } catch (error) {
     console.error("Error updating user data:", error);

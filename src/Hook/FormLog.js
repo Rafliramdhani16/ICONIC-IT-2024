@@ -22,7 +22,6 @@ const useForm = (initialValues, onSubmit, redirectPath) => {
     try {
       const combinedFormData = {
         ...formData,
-        fullname: `${formData.firstname} ${formData.lastname}`,
       };
 
       const response = await onSubmit(combinedFormData);

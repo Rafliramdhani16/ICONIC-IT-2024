@@ -39,7 +39,7 @@ const FormProfile = () => {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md mt-24 h-[75dvh] w-[80%] border border-neutral-300 mx-auto">
-      <div className="flex flex-col items-center mb-6">
+      <div className="flex flex-col items-center mb-6 mt-20">
         <img
           src={formData.image || "./materi.png"}
           alt="User"
@@ -47,7 +47,9 @@ const FormProfile = () => {
         />
       </div>
       <div className="mb-4 w-[50%] mx-auto">
-        <label className="block mb-2 text-sm font-medium pl-1">Username:</label>
+        <label className="block mb-2 text-sm font-medium pl-1">
+          Username :
+        </label>
         <input
           type="text"
           name="username"
@@ -58,7 +60,7 @@ const FormProfile = () => {
       </div>
       <div className="mb-4 w-[50%] mx-auto">
         <label className="block mb-2 text-sm font-medium pl-1">
-          Full Name:
+          Nama Lengkap :
         </label>
         <input
           type="text"
@@ -69,7 +71,7 @@ const FormProfile = () => {
         />
       </div>
       <div className="mb-4 w-[50%] mx-auto">
-        <label className="block mb-2 text-sm font-medium pl-1">Email:</label>
+        <label className="block mb-2 text-sm font-medium pl-1">Email :</label>
         <input
           type="email"
           name="email"

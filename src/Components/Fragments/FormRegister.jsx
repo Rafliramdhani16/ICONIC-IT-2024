@@ -42,7 +42,14 @@ const FormRegister = () => {
       )}
       <form onSubmit={handleSubmit}>
         <InputLog
-          fields={["fullname", "username", "email", "password", "password2"]}
+          fields={[
+            "firstname",
+            "lastname",
+            "username",
+            "email",
+            "password",
+            "password2",
+          ]}
           formData={formData}
           handleChange={handleChange}
           errors={errors}
