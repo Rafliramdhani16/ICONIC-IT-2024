@@ -28,7 +28,7 @@ const CardModul = () => {
             open ? "lg:pr-[400px]" : "lg:pr-20"
           }`}
         >
-          <div className="bg-white p-6 rounded-xl border-2 border-neutral-100 mx-8 h-[67dvh]">
+          <div className="bg-white p-6 rounded-xl border-2 border-neutral-100 mx-8 h-[75dvh]">
             <div className="flex">
               <img
                 src="/materi.png"

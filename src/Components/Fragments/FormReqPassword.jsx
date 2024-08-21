@@ -1,5 +1,5 @@
 import React from "react";
-import useForm from "../../Hook/FormLog";
+import useForm from "../../Hook/HookFormLog";
 import { requestResetPassword } from "../../Services/AuthLog";
 import InputLog from "../Elements/Input/InputLog";
 import { useNavigate } from "react-router-dom";

@@ -12,6 +12,7 @@ const EditProfileForm = () => {
       lastname: "",
       email: "",
       image: "",
+      imagePreview: "",
     },
     "/profile"
   );
@@ -19,19 +20,19 @@ const EditProfileForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 bg-white rounded-lg shadow-md mt-24 h-[77dvh] w-[80%] border border-neutral-300 mx-auto"
+      className="p-6 bg-white rounded-lg shadow-md mt-24 h-[78dvh] w-[80%] border border-neutral-300 mx-auto flex flex-col justify-center"
     >
-      <div className="relative my-4 overflow-hidden mx-auto mt-20">
+      <div className="relative my-4 overflow-hidden mx-auto">
         <img
-          src={formData.image}
-          className=" rounded-3xl justify-center items-center m-auto aspect-square object-cover border border-neutral-500 w-52 h-52"
+          src={formData.imagePreview || formData.image}
+          className="rounded-3xl aspect-square object-cover border border-neutral-500 w-52 h-52"
           alt="User"
         />
         <label
           htmlFor="imageUpload"
-          className="absolute bottom-0 left-0 right-0 w-52 mx-auto"
+          className="absolute -bottom-0 left-0 right-0 w-52 mx-auto"
         >
-          <TbUpload className="h-12 p-2 text-neutral-800 cursor-pointer bg-neutral-200 rounded-b-3xl hover:bg-neutral-300 opacity-70 w-full" />
+          <TbUpload className="h-12 p-2 text-neutral-800 cursor-pointer bg-neutral-200 rounded-b-3xl hover:bg-neutral-300 opacity-50 w-full" />
           <input
             id="imageUpload"
             type="file"
@@ -55,7 +56,6 @@ const EditProfileForm = () => {
         />
       </div>
       <div className="flex flex-row w-1/2 mx-auto space-x-4">
-        {" "}
         <div className="mb-4 w-[50%] ">
           <label className="block mb-2 text-sm font-medium pl-1">
             Nama Depan :

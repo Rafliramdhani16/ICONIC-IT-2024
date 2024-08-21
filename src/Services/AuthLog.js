@@ -147,10 +147,22 @@ export const updateUserData = async (userData) => {
 
     // Menambahkan setiap property userData ke dalam formData
     for (const key in userData) {
-      formData.append(key, userData[key]);
+      // Periksa jika key adalah "image" dan nilainya bukan file (yaitu, URL)
+      if (
+        key === "image" &&
+        typeof userData[key] === "object" &&
+        userData[key] instanceof File
+      ) {
+        // Jika image adalah file, tambahkan ke formData
+        formData.append(key, userData[key]);
+      } else if (key !== "image") {
+        // Jika bukan image, tambahkan value seperti biasa
+        formData.append(key, userData[key]);
+      }
     }
+    formData.append("_method", "put");
 
-    const response = await axios.put(`${API_URL}/user/edit`, formData, {
+    const response = await axios.post(`${API_URL}/user/edit`, formData, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         "Content-Type": "multipart/form-data", // Mengatur header untuk pengiriman file

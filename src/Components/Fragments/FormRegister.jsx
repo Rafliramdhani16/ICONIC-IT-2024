@@ -1,7 +1,7 @@
 import React from "react";
 import InputLog from "../Elements/Input/InputLog";
 import { registerUser } from "../../Services/AuthLog";
-import useForm from "../../Hook/FormLog";
+import useForm from "../../Hook/HookFormLog";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 

@@ -32,7 +32,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/kategoriHTML",
+    path: "/materi/:id",
     element: <Kategori />,
     errorElement: <ErrorPage />,
   },

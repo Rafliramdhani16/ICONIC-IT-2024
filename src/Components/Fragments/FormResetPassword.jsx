@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import useForm from "../../Hook/FormLog";
+import useForm from "../../Hook/HookFormLog";
 import { resetPassword } from "../../Services/AuthLog";
 import InputLog from "../Elements/Input/InputLog";
 import { BiArrowBack } from "react-icons/bi";

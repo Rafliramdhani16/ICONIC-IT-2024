@@ -25,7 +25,6 @@ const useForm = (
     setErrors({});
     setMessage("");
 
-    // Example for password confirmation validation
     if (
       formData.newPassword &&
       formData.confirmPassword &&

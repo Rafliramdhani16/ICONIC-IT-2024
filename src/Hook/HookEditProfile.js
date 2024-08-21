@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { getUserData, updateUserData } from "../Services/AuthLog";
 
 const useEditProfileForm = (initialValues, redirectPath) => {
-  const [formData, setFormData] = useState(initialValues);
+  const [formData, setFormData] = useState({
+    ...initialValues,
+    imagePreview: "",
+  });
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -14,6 +17,7 @@ const useEditProfileForm = (initialValues, redirectPath) => {
         const response = await getUserData();
         if (response.success === 200) {
           setFormData({
+            ...formData,
             username: response.data.username,
             firstname: response.data.firstname,
             lastname: response.data.lastname,
@@ -31,11 +35,19 @@ const useEditProfileForm = (initialValues, redirectPath) => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-
-    setFormData({
-      ...formData,
-      [name]: files ? files[0] : value, // Jika input berupa file, ambil file pertama
-    });
+    if (name === "image" && files.length > 0) {
+      const file = files[0];
+      setFormData({
+        ...formData,
+        image: file,
+        imagePreview: URL.createObjectURL(file),
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
