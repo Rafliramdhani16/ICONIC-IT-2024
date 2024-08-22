@@ -22,7 +22,7 @@ const FormRegister = () => {
     redirectPath
   );
   const handleBack = () => {
-    navigate("/");
+    navigate("/masuk");
   };
   return (
     <div className="w-full max-w-md bg-white rounded-3xl shadow-md p-6">

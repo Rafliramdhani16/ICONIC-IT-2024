@@ -1,7 +1,10 @@
 import React, { useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import useLastestMateri from "../../../Hook/HookNews";
+import SkeletonCardNews from "../../Elements/Skeleton/SkeCardNews";
 
 const CardNews = () => {
+  const { materi, loading, error } = useLastestMateri();
   const scrollRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -10,7 +13,6 @@ const CardNews = () => {
       const newIndex = Math.max(activeIndex - 1, 0);
       setActiveIndex(newIndex);
       scrollRef.current.scrollTo({
-        // kalo mau ngatur scrollnya berapa disini
         left: newIndex * 300,
         behavior: "smooth",
       });
@@ -19,7 +21,7 @@ const CardNews = () => {
 
   const scrollRight = () => {
     if (scrollRef.current) {
-      const newIndex = Math.min(activeIndex + 1, cards.length - 1);
+      const newIndex = Math.min(activeIndex + 1, materi.length - 1);
       setActiveIndex(newIndex);
       scrollRef.current.scrollTo({
         left: newIndex * 300,
@@ -27,8 +29,19 @@ const CardNews = () => {
       });
     }
   };
-  // data dummy cug
-  const cards = new Array(10).fill(0);
+
+  if (loading)
+    return (
+      <div>
+        <SkeletonCardNews />
+      </div>
+    );
+  if (error)
+    return (
+      <div>
+        <SkeletonCardNews />
+      </div>
+    );
 
   return (
     <div className="relative w-[80%] mx-auto mt-14">
@@ -38,18 +51,27 @@ const CardNews = () => {
           ref={scrollRef}
           className="flex overflow-hidden space-x-4 pr-8 snap-x snap-mandatory scrollbar-hide"
         >
-          {cards.map((_, index) => (
+          {materi.map((item, index) => (
             <div
-              key={index}
-              className="min-w-[300px] h-[150px] bg-gray-300 rounded-lg snap-center"
-            ></div>
+              key={item.uuid}
+              className="min-w-[300px] h-[150px] bg-gray-300 rounded-lg snap-center relative group cursor-pointer overflow-hidden"
+            >
+              <img
+                src={item.cover}
+                alt={item.materi}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-white text-lg">{item.materi}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
       <div className="flex justify-between mt-4">
         <div className="flex space-x-2">
-          {cards.map((_, index) => (
+          {materi.map((_, index) => (
             <span
               key={index}
               className={`w-3 h-3 ${
