@@ -81,47 +81,49 @@ const Navbar = () => {
       )}
 
       <nav className="flex items-center justify-between p-4 bg-white shadow-md xl:rounded-b-[30px] md:rounded-b-[30px] fixed top-0 left-0 right-0 w-full z-50">
-        <div className="flex items-center ml-5">
+        <div className="flex items-center md:ml-5">
           <Link to="/">
             <img src="/logo.png" alt="logo-gyanakaya" className="w-20" />
           </Link>
+
+          <div className="hidden md:flex items-center gap-5">
+            <div className="ml-4 md:ml-10">Jelajahi</div>
+
+            <div className="relative flex items-center max-w-full w-[600px]">
+              <AiOutlineSearch className="absolute left-3 text-neutral-500" />
+              <input
+                type="text"
+                placeholder="Temukan materi"
+                className="w-full max-w-[600px] p-2 pl-10 rounded-lg bg-neutral-200 focus:outline-none transition-all duration-300 ease-in-out focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="flex md:hidden items-center">
           <button
             onClick={toggleMenu}
-            className="flex justify-end items-end relative w-6 h-6 transition-all duration-500 ease-in-out"
+            className="flex justify-end  items-end relative w-6 h-6 transition-all duration-500 ease-in-out "
           >
             <span
-              className={`absolute w-5 h-[3px] bg-black transition-all duration-500 ease-in-out rounded-lg ${
+              className={`absolute w-6 h-[3px] bg-black transition-all duration-500 ease-in-out rounded-lg ${
                 menuOpen ? "rotate-45 top-3" : "top-0"
               }`}
             ></span>
             <span
-              className={`absolute w-5 h-[3px] bg-black transition-all duration-500 ease-in-out rounded-lg ${
-                menuOpen ? "opacity-0" : "opacity-100 top-3"
+              className={`absolute w-6 h-[3px] bg-black transition-all duration-500 ease-in-out rounded-lg ${
+                menuOpen ? "opacity-0" : "opacity-100 top-2"
               }`}
             ></span>
             <span
-              className={`absolute w-5 h-[3px] bg-black transition-all duration-500 ease-in-out rounded-lg ${
-                menuOpen ? "-rotate-45 top-3" : "top-6"
+              className={`absolute w-6 h-[3px] bg-black transition-all duration-500 ease-in-out rounded-lg ${
+                menuOpen ? "-rotate-45 top-3" : "top-4"
               }`}
             ></span>
           </button>
         </div>
 
         <div className="hidden md:flex space-x-4 items-center mr-5">
-          <div className="ml-4 md:ml-10">Jelajahi</div>
-
-          <div className="relative flex items-center max-w-full w-[265px]">
-            <AiOutlineSearch className="absolute left-3 text-neutral-500" />
-            <input
-              type="text"
-              placeholder="Temukan materi"
-              className="w-full max-w-[256px] p-2 pl-10 rounded-lg bg-neutral-200 focus:outline-none transition-all duration-300 ease-in-out focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
           {username ? (
             <div className="relative">
               <button
@@ -182,7 +184,7 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder="Temukan materi"
-                className="w-[80%] p-2 rounded-lg bg-neutral-200 focus:outline-none transition-all duration-300 ease-in-out focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 rounded-lg bg-neutral-200 focus:outline-none transition-all duration-300 ease-in-out focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -216,7 +218,7 @@ const Navbar = () => {
                     handleMasuk();
                     toggleMenu();
                   }}
-                  className="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-200 rounded-lg transition-all duration-500 ease-in-out transform origin-top hover:scale-105"
+                  className="mb-3  block w-full text-center px-4 py-2 text-blue-600 border border-blue-600 hover:bg-blue-700 hover:text-white rounded-lg transition-all duration-500 ease-in-out transform origin-top hover:scale-105"
                   style={{ transitionDelay: "200ms" }}
                 >
                   Masuk
@@ -226,7 +228,7 @@ const Navbar = () => {
                     handleDaftar();
                     toggleMenu();
                   }}
-                  className="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-200 rounded-lg transition-all duration-500 ease-in-out transform origin-top hover:scale-105"
+                  className="block w-full text-center px-4 py-2 bg-blue-600 text-white hover:bg-white hover:text-blue-600 rounded-lg transition-all duration-500 ease-in-out transform origin-top hover:scale-105"
                   style={{ transitionDelay: "250ms" }}
                 >
                   Daftar

@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const API_URL = "http://127.0.0.1:8000/api";
+const API_URL = "https://backend-gyanakaya.bhadrikais.my.id/api";
 export const registerUser = async (data) => {
   try {
     const response = await axios.post(`${API_URL}/user/signup`, data, {
@@ -28,10 +27,14 @@ export const loginUser = async (data) => {
       },
     });
 
-    const { token, data: userData } = response.data;
-    sessionStorage.setItem("token", token);
-    sessionStorage.setItem("username", userData.username);
-    return response.data;
+    if (response.data.success == 200) {
+      const { token, data: userData } = response.data;
+      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("username", userData.username);
+      return response.data;
+    } else {
+      return response.data;
+    }
   } catch (error) {
     if (error.response) {
       return error.response.data;
@@ -79,39 +82,32 @@ export const getCurrentUserFromToken = () => {
   return sessionStorage.getItem("username");
 };
 export const resetPassword = async (data) => {
+  const token = data.token;
+  const bearerToken = `Bearer ${token}`;
+
   try {
-    const response = await axios.post(
-      "ganti bang sama api buat email reset password",
-      data,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await axios.post(`${API_URL}/user/${token}`, data, {
+      headers: {
+        Authorization: bearerToken,
+      },
+    });
     return response.data;
   } catch (error) {
-    if (error.response) {
-      return error.response.data;
-    } else if (error.request) {
-      return { success: false, message: "No response from server." };
-    } else {
-      return { success: false, message: error.message };
-    }
+    return {
+      success: 422,
+      message: error.response?.data?.message || "Something went wrong!",
+      data: error.response?.data?.data || {},
+    };
   }
 };
 
 export const requestResetPassword = async (data) => {
   try {
-    const response = await axios.post(
-      "ganti api ini bang sama yang reset password ",
-      data,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await axios.post(`${API_URL}/user/reset`, data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
     if (error.response) {

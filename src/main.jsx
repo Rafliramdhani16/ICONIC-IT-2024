@@ -10,7 +10,7 @@ import Kategori from "./Pages/kategoriHTML";
 import MateriHTML from "./Pages/materiHTML";
 import ResetPassword from "./Pages/resetPassword";
 import RequestReset from "./Pages/reqPassword";
-import DetailPembelajaran from "./Pages/detailPembelajaran";
+import DetailPembelajaran from "./Pages/DetailPembelajaran";
 import Profile from "./Pages/profile";
 import EditProfile from "./Pages/editProfile";
 import ChangePassword from "./Pages/changepw";
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/gantiSandi",
+    path: "/resetPassword",
     element: <ResetPassword />,
     errorElement: <ErrorPage />,
   },

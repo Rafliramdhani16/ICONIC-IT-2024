@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import InputLog from "../Elements/Input/InputLog";
 import { registerUser } from "../../Services/AuthLog";
 import useForm from "../../Hook/HookFormLog";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
+import Modal from "../Elements/Modal/ModalResponse";
 
 const FormRegister = () => {
   const initialValues = {
@@ -16,9 +17,31 @@ const FormRegister = () => {
   };
   const redirectPath = "/masuk";
   const navigate = useNavigate();
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState("info");
+
+  const showModal = useCallback((message, type) => {
+    setModalMessage(message);
+    setModalType(type);
+    setModalVisible(true);
+  }, []);
   const { formData, errors, message, handleChange, handleSubmit } = useForm(
     initialValues,
-    registerUser,
+    async (data) => {
+      showModal("Sedang memproses login...", "info");
+      const response = await registerUser(data);
+      if (response.success === 200) {
+        showModal("Pendaftaran berhasil, Silahkan Login", "success");
+        setTimeout(() => {
+          setModalVisible(false);
+          navigate(redirectPath);
+        }, 3000);
+      } else {
+        showModal("Pendaftaran gagal. Silakan coba lagi.", "error");
+      }
+      return response;
+    },
     redirectPath
   );
   const handleBack = () => {
@@ -35,11 +58,11 @@ const FormRegister = () => {
         <span className="ml-2">Kembali</span>
       </button>
       <h2 className="text-3xl font-semibold text-neutral-800 my-6">Daftar</h2>
-      {message && (
+      {/* {message && (
         <div className="bg-red-100 text-red-700 p-2 rounded my-2">
           {message}
         </div>
-      )}
+      )} */}
       <form onSubmit={handleSubmit}>
         <InputLog
           fields={[
@@ -61,6 +84,12 @@ const FormRegister = () => {
           Daftar
         </button>
       </form>
+      <Modal
+        isVisible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        message={modalMessage}
+        type={modalType}
+      />
     </div>
   );
 };

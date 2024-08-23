@@ -24,28 +24,28 @@ const CardKategori = () => {
     );
 
   return (
-    <div className="relative mt-[-100px] z-10 flex justify-center items-center bg-white rounded-3xl shadow-md w-[80%] mx-auto border border-neutral-300 py-5">
+    <div className="relative mt-[-100px] z-10 flex justify-center items-center bg-white rounded-3xl shadow-md w-[90%] mx-auto border border-neutral-300 p-5">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 w-[96%]">
         {materi.map((item) => (
           <button
             key={item.uuid}
             onClick={() => handleNavigate(`/materi/${item.uuid}`)}
-            className="flex flex-row justify-center items-center border-2 border-neutral-300 w-full h-[65px] bg-white rounded-xl hover:bg-gray-200 transition shadow-md"
+            className="block md:flex flex-row justify-center items-center border-2 border-neutral-300 w-full h-[65px] bg-white rounded-xl hover:bg-gray-200 transition shadow-md"
           >
             <img
               src={item.cover}
               alt={`Materi ${item.kategori}`}
-              className="w-12 h-12 mr-4"
+              className="w-6 h-6 md:w-12 md:h-12 m-auto mb-2 md:m-0 md:mr-4"
             />
-            <p className="text-center">{item.kategori}</p>
+            <p className="text-center text-sm md:text-base">{item.kategori}</p>
           </button>
         ))}
         <button
           onClick={() => handleNavigate("/AllMateri")}
-          className="flex flex-row justify-center items-center border-2 border-neutral-300 w-full h-[65px] bg-white rounded-xl hover:bg-gray-200 transition shadow-md"
+          className="block md:flex flex-row justify-center items-center border-2 border-neutral-300 w-full h-[65px] bg-white rounded-xl hover:bg-gray-200 transition shadow-md"
         >
-          <CgMenuGridR className="text-4xl mr-4" />
-          <p className="text-center">Semua Materi</p>
+          <CgMenuGridR className="text-3xl md:text-4xl m-auto md:m-0 md:mr-4 " />
+          <p className="text-center md:text-base text-sm">Semua Materi</p>
         </button>
       </div>
     </div>

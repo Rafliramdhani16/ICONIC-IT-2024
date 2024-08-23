@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-const useForm = (initialValues, onSubmit, redirectPath) => {
+const useForm = (initialValues, onSubmit) => {
   const [formData, setFormData] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -30,7 +28,6 @@ const useForm = (initialValues, onSubmit, redirectPath) => {
         setErrors(response.data || {});
       } else {
         setMessage("Action successful!");
-        navigate(redirectPath);
       }
     } catch (error) {
       setMessage("An unexpected error occurred.");

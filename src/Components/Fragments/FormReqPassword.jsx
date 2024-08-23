@@ -1,6 +1,5 @@
 import React from "react";
-import useForm from "../../Hook/HookFormLog";
-import { requestResetPassword } from "../../Services/AuthLog";
+import useFormRequestResetPassword from "../../Hook/HookReqPw";
 import InputLog from "../Elements/Input/InputLog";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
@@ -10,20 +9,13 @@ const RequestResetPassword = () => {
   const initialValues = { email: "" };
   const redirectPath = "/resetPassword";
 
-  const { formData, errors, message, handleChange, handleSubmit } = useForm(
-    initialValues,
-    async (data) => {
-      const response = await requestResetPassword(data);
+  const { formData, errors, message, handleChange, handleSubmit } =
+    useFormRequestResetPassword(initialValues, (response) => {
       if (response.success === 200) {
         navigate(`${redirectPath}?token=${response.token}`);
       }
-      return response;
-    },
-    redirectPath
-  );
-  const handleBack = () => {
-    navigate("/masuk");
-  };
+    });
+
   return (
     <div className="w-full max-w-md bg-white rounded-3xl shadow-md p-6">
       <h2 className="text-3xl font-semibold text-neutral-800 mt-6">

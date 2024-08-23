@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import InputLog from "../Elements/Input/InputLog";
 import { loginUser } from "../../Services/AuthLog";
 import useForm from "../../Hook/HookFormLog";
+import Modal from "../Elements/Modal/ModalResponse";
 import { Link, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 
@@ -9,16 +10,42 @@ const FormLog = () => {
   const navigate = useNavigate();
   const initialValues = { username: "", password: "" };
   const redirectPath = "/";
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState("info");
+
+  const showModal = useCallback((message, type) => {
+    setModalMessage(message);
+    setModalType(type);
+    setModalVisible(true);
+  }, []);
 
   const { formData, errors, message, handleChange, handleSubmit } = useForm(
     initialValues,
-    loginUser,
+    async (data) => {
+      showModal("Sedang memproses login...", "info");
+      const response = await loginUser(data);
+      if (response.success === 200) {
+        showModal(
+          "Login berhasil! Anda akan dialihkan ke halaman utama.",
+          "success"
+        );
+        setTimeout(() => {
+          setModalVisible(false);
+          navigate(redirectPath);
+        }, 3000);
+      } else {
+        showModal("Login gagal. Silakan coba lagi.", "error");
+      }
+      return response;
+    },
     redirectPath
   );
 
   const handleBack = () => {
     navigate("/");
   };
+
   return (
     <div className="w-full max-w-md bg-white rounded-3xl shadow-md p-6">
       <button onClick={handleBack} type="button" className="flex items-center">
@@ -26,11 +53,6 @@ const FormLog = () => {
         <span className="ml-2">Kembali</span>
       </button>
       <h2 className="text-3xl font-semibold text-neutral-800 my-6">Masuk</h2>
-      {message && (
-        <div className="bg-red-100 text-red-700 p-2 rounded my-2">
-          {message}
-        </div>
-      )}
       <form onSubmit={handleSubmit}>
         <InputLog
           fields={["username", "password"]}
@@ -53,12 +75,19 @@ const FormLog = () => {
         </button>
         <p className="text-center mt-4">atau</p>
         <button
+          type="button"
           onClick={() => navigate("/daftar")}
           className="w-full font-semibold text-blue-600 bg-white py-2 border border-blue-600 rounded-full mt-4 hover:bg-blue-600 hover:text-white hover:border-blue-600 mb-4"
         >
           Daftar
         </button>
       </form>
+      <Modal
+        isVisible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        message={modalMessage}
+        type={modalType}
+      />
     </div>
   );
 };

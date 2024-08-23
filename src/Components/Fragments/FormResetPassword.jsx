@@ -1,7 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import useForm from "../../Hook/HookFormLog";
-import { resetPassword } from "../../Services/AuthLog";
+import useFormResetPassword from "../../Hook/HookResetPw";
 import InputLog from "../Elements/Input/InputLog";
 import { BiArrowBack } from "react-icons/bi";
 
@@ -11,23 +10,21 @@ const ResetPassword = () => {
   const query = new URLSearchParams(location.search);
   const token = query.get("token");
 
-  const initialValues = { password: "", password2: "" };
+  const initialValues = { password: "", password2: "", token };
   const redirectPath = "/masuk";
 
-  const { formData, errors, message, handleChange, handleSubmit } = useForm(
-    initialValues,
-    async (data) => {
-      const response = await resetPassword({ ...data, token });
-      return response;
-    },
-    redirectPath
-  );
-  const handleBack = () => {
-    navigate("/masuk");
-  };
+  const { formData, errors, message, handleChange, handleSubmit } =
+    useFormResetPassword(initialValues, () => {
+      navigate(redirectPath);
+    });
+
   return (
     <div className="w-full max-w-md bg-white rounded-3xl shadow-md p-6">
-      <button onClick={handleBack} type="button" className="flex items-center">
+      <button
+        onClick={() => navigate("/masuk")}
+        type="button"
+        className="flex items-center"
+      >
         <BiArrowBack className="text-neutral-800 w-5 h-5" />
         <span className="ml-2">Kembali</span>
       </button>

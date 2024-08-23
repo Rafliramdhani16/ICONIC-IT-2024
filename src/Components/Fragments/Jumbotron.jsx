@@ -19,13 +19,13 @@ const Jumbotron = ({
           <h1 className="text-balance text-3xl leading-loose md:text-5xl md:leading-loose font-bold w-full mb-3 ">
             {heading}
           </h1>
-          <p className="text-justify text-lg leading-loose md:text-xl md:leading-loose mb-3 w-[80%] xl:w-full">
+          <p className="text-justify text-md leading-loose md:text-xl md:leading-loose mb-3 w-[90%] xl:w-full">
             {description}
           </p>
           {buttonText && onButtonClick && (
             <button
               onClick={onButtonClick}
-              className="text-lg bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-20 rounded-lg shadow-custom mt-4 xl:w-full md:w-[80%]"
+              className="text-sm md:text-lg bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-10 md:px-20 rounded-lg shadow-custom mt-4 xl:w-full w-[90%]"
             >
               {buttonText}
             </button>
