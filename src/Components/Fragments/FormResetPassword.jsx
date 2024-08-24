@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useFormResetPassword from "../../Hook/HookResetPw";
 import InputLog from "../Elements/Input/InputLog";
@@ -17,11 +17,6 @@ const ResetPassword = () => {
     message: "",
     type: "info",
   });
-
-  useEffect(() => {
-    console.log("Token from URL:", tokenFromUrl);
-    console.log("Email from URL:", emailFromUrl);
-  }, [tokenFromUrl, emailFromUrl]);
 
   const initialValues = {
     password1: "",
@@ -45,7 +40,6 @@ const ResetPassword = () => {
     errors,
     message,
     isTokenValid,
-    isLoading,
     handleChange,
     handleSubmit,
   } = useFormResetPassword(initialValues, onSuccess, onError);
@@ -54,14 +48,8 @@ const ResetPassword = () => {
     setShowModal(false);
     if (modalContent.type === "success") {
       navigate("/masuk");
-    } else if (modalContent.type === "error") {
-      navigate("/lupasandi");
     }
   };
-
-  if (isLoading) {
-    return <div className="text-center py-10">Memuat...</div>;
-  }
 
   if (!isTokenValid) {
     return (

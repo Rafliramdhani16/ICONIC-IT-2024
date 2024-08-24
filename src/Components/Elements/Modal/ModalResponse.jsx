@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle, FaTimesCircle, FaSpinner } from "react-icons/fa";
 
-const Modal = ({ isVisible, onClose, message, type = "info" }) => {
+const Modal = ({
+  isVisible,
+  onClose,
+  onCloseAndRedirect,
+  message,
+  type = "info",
+}) => {
   const [isRendered, setIsRendered] = useState(false);
 
   useEffect(() => {
@@ -44,7 +50,7 @@ const Modal = ({ isVisible, onClose, message, type = "info" }) => {
     }
   };
 
-  const getColors = () => {
+  const getBorderColor = () => {
     switch (type) {
       case "success":
         return "border-green-600";
@@ -58,14 +64,14 @@ const Modal = ({ isVisible, onClose, message, type = "info" }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center transition-all duration-300 ease-in-out  ${
+      className={`fixed inset-0 z-50 flex items-center justify-center transition-all duration-300 ease-in-out ${
         isRendered ? "bg-black bg-opacity-50 backdrop-blur-sm" : "bg-opacity-0"
       }`}
     >
       <div
-        className={`bg-white rounded-lg shadow-xl p-6 m-4 max-w-sm w-full transform transition-all duration-300  ${
+        className={`bg-white rounded-lg shadow-xl p-6 m-4 max-w-sm w-full transform transition-all duration-300 ${
           isRendered ? "scale-100 opacity-100" : "scale-95 opacity-0"
-        }`}
+        } ${getBorderColor()} border-2`}
       >
         <div className="flex items-center justify-center mb-4">{getIcon()}</div>
         <h3 className={`text-lg font-bold text-center mb-2 ${getColor()}`}>
@@ -79,8 +85,8 @@ const Modal = ({ isVisible, onClose, message, type = "info" }) => {
         {type !== "info" && (
           <div className="flex justify-center">
             <button
-              onClick={onClose}
-              className={`px-4 py-2 rounded-lg text-white  ${
+              onClick={type === "success" ? onCloseAndRedirect : onClose}
+              className={`px-4 py-2 rounded-lg text-white ${
                 type === "success"
                   ? "bg-green-500 hover:bg-green-600"
                   : "bg-red-500 hover:bg-red-600"

@@ -6,24 +6,20 @@ const useFormResetPassword = (initialValues, onSuccess, onError) => {
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [isTokenValid, setIsTokenValid] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const validateToken = async () => {
       if (!initialValues.token || !initialValues.email) {
-        setIsLoading(false);
         setIsTokenValid(false);
         onError("Token atau email tidak tersedia");
         return;
       }
 
       try {
-        console.log("Validating token:", initialValues.token);
         const response = await cekToken({
           token: initialValues.token,
           email: initialValues.email,
         });
-        console.log("Token validation response:", response);
 
         if (response.success) {
           setIsTokenValid(true);
@@ -37,8 +33,6 @@ const useFormResetPassword = (initialValues, onSuccess, onError) => {
         console.error("Token validation error:", error);
         setIsTokenValid(false);
         onError("Terjadi kesalahan saat memvalidasi token");
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -51,12 +45,18 @@ const useFormResetPassword = (initialValues, onSuccess, onError) => {
       ...prev,
       [name]: value,
     }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
     setErrors({});
+
+    if (formData.password1 !== formData.password2) {
+      setErrors({ password2: "Password tidak cocok" });
+      return;
+    }
 
     if (!isTokenValid) {
       setMessage("Token tidak valid atau telah kadaluarsa");
@@ -86,7 +86,6 @@ const useFormResetPassword = (initialValues, onSuccess, onError) => {
     errors,
     message,
     isTokenValid,
-    isLoading,
     handleChange,
     handleSubmit,
   };

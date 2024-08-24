@@ -1,13 +1,17 @@
 import React from "react";
+import { FaTimesCircle } from "react-icons/fa";
 
 const ModalSession = ({ message, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
-        <p className="text-center text-lg mb-4">{message}</p>
+        <div className="flex flex-col items-center mb-4">
+          <FaTimesCircle className="text-red-500 w-16 h-16 mb-4" />
+          <p className="text-center text-lg font-semibold">{message}</p>
+        </div>
         <button
           onClick={onClose}
-          className="bg-blue-600 text-white px-4 py-2 rounded-full w-full"
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full w-full transition duration-300"
         >
           OK
         </button>

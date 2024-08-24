@@ -20,6 +20,11 @@ const FormLog = () => {
     setModalVisible(true);
   }, []);
 
+  const handleCloseAndRedirect = useCallback(() => {
+    setModalVisible(false);
+    navigate(redirectPath);
+  }, [navigate]);
+
   const { formData, errors, message, handleChange, handleSubmit } = useForm(
     initialValues,
     async (data) => {
@@ -30,10 +35,6 @@ const FormLog = () => {
           "Login berhasil! Anda akan dialihkan ke halaman utama.",
           "success"
         );
-        setTimeout(() => {
-          setModalVisible(false);
-          navigate(redirectPath);
-        }, 3000);
       } else {
         showModal("Login gagal. Silakan coba lagi.", "error");
       }
@@ -85,6 +86,7 @@ const FormLog = () => {
       <Modal
         isVisible={isModalVisible}
         onClose={() => setModalVisible(false)}
+        onCloseAndRedirect={handleCloseAndRedirect}
         message={modalMessage}
         type={modalType}
       />
