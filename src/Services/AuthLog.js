@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "https://backend-gyanakaya.bhadrikais.my.id/api";
+const API_URL = "http://localhost:8000/api";
 export const registerUser = async (data) => {
   try {
     const response = await axios.post(`${API_URL}/user/signup`, data, {
@@ -49,28 +49,31 @@ export const loginUser = async (data) => {
 export const logoutUser = async () => {
   try {
     const token = sessionStorage.getItem("token");
-
-    // Cek apakah token telah diubah-ubah (misalnya, bukan format JWT token yang valid)
     if (!token || token.split(".").length !== 3) {
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("username");
-      return {
-        success: false,
-        message: "Token tidak valid atau telah diubah.",
-      };
     }
-
-    // Jika format token benar, lanjutkan dengan permintaan API
-    await axios.post(`${API_URL}/user/signout`, null, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("username");
-    return { success: true };
+    axios
+      .post(`${API_URL}/user/signout`, null, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("username");
+        if (response.status === 200) {
+          return { success: true };
+        } else {
+          return { success: false, message: "Terjadi kesalahan jaringan" };
+        }
+      })
+      .catch((error) => {
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("username");
+        return { success: false, message: "Terjadi kesalahan jaringan" };
+      });
   } catch (error) {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("username");
@@ -80,25 +83,6 @@ export const logoutUser = async () => {
 
 export const getCurrentUserFromToken = () => {
   return sessionStorage.getItem("username");
-};
-export const resetPassword = async (data) => {
-  const token = data.token;
-  const bearerToken = `Bearer ${token}`;
-
-  try {
-    const response = await axios.post(`${API_URL}/user/${token}`, data, {
-      headers: {
-        Authorization: bearerToken,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return {
-      success: 422,
-      message: error.response?.data?.message || "Something went wrong!",
-      data: error.response?.data?.data || {},
-    };
-  }
 };
 
 export const requestResetPassword = async (data) => {
@@ -120,6 +104,40 @@ export const requestResetPassword = async (data) => {
   }
 };
 
+export const cekToken = async (data) => {
+  try {
+    const response = await axios.post(`${API_URL}/user/cektoken`, data);
+    return response.data;
+  } catch (error) {
+    console.error("cekToken error:", error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Terjadi kesalahan saat memeriksa token",
+      data: error.response?.data?.data || {},
+    };
+  }
+};
+
+export const resetPassword = async (data) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/user/reset/${data.token}`,
+      data
+    );
+    return response.data;
+  } catch (error) {
+    console.error("resetPassword error:", error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Terjadi kesalahan saat mengatur ulang kata sandi",
+      data: error.response?.data?.data || {},
+    };
+  }
+};
 // API lihat profile
 export const getUserData = async () => {
   try {

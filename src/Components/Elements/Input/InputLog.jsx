@@ -91,7 +91,22 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
           autoComplete="off"
         />
       )}
-
+      {fields.includes("password1") && (
+        <LabelInput
+          type="password"
+          id="password1"
+          name="password1"
+          placeholder="Masukan Password baru"
+          icon={MdLockOutline}
+          onChange={handleChange}
+          error={errors.password1}
+          showPassword={showPassword}
+          togglePasswordVisibility={togglePasswordVisibility}
+          value={formData.password1}
+          required
+          autoComplete="off"
+        />
+      )}
       {fields.includes("password2") && (
         <LabelInput
           type="password"

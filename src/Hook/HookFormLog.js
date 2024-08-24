@@ -23,6 +23,7 @@ const useForm = (initialValues, onSubmit) => {
       };
 
       const response = await onSubmit(combinedFormData);
+      console.log(response);
       if (response.success !== 200) {
         setMessage(response.message || "An unexpected error occurred.");
         setErrors(response.data || {});

@@ -47,12 +47,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/resetPassword",
+    path: "/gantisandi",
     element: <ResetPassword />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/lupaSandi",
+    path: "/lupasandi",
     element: <RequestReset />,
     errorElement: <ErrorPage />,
   },

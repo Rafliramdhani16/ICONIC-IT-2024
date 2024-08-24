@@ -1,17 +1,56 @@
-import { useState } from "react";
-import { resetPassword } from "../Services/AuthLog";
+import { useState, useEffect } from "react";
+import { resetPassword, cekToken } from "../Services/AuthLog";
 
-const useFormResetPassword = (initialValues, onSuccess) => {
+const useFormResetPassword = (initialValues, onSuccess, onError) => {
   const [formData, setFormData] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
+  const [isTokenValid, setIsTokenValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const validateToken = async () => {
+      if (!initialValues.token || !initialValues.email) {
+        setIsLoading(false);
+        setIsTokenValid(false);
+        onError("Token atau email tidak tersedia");
+        return;
+      }
+
+      try {
+        console.log("Validating token:", initialValues.token);
+        const response = await cekToken({
+          token: initialValues.token,
+          email: initialValues.email,
+        });
+        console.log("Token validation response:", response);
+
+        if (response.success) {
+          setIsTokenValid(true);
+        } else {
+          setIsTokenValid(false);
+          onError(
+            response.message || "Token tidak valid atau telah kadaluarsa"
+          );
+        }
+      } catch (error) {
+        console.error("Token validation error:", error);
+        setIsTokenValid(false);
+        onError("Terjadi kesalahan saat memvalidasi token");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    validateToken();
+  }, [initialValues.token, initialValues.email, onError]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -19,20 +58,38 @@ const useFormResetPassword = (initialValues, onSuccess) => {
     setMessage("");
     setErrors({});
 
-    const response = await resetPassword(formData);
+    if (!isTokenValid) {
+      setMessage("Token tidak valid atau telah kadaluarsa");
+      onError("Token tidak valid atau telah kadaluarsa");
+      return;
+    }
 
-    if (response.success === 200) {
-      setMessage(response.message);
-      onSuccess(response);
-    } else if (response.success === 422) {
-      setErrors(response.data);
-      setMessage(response.message);
-    } else {
-      setMessage("Something went wrong, please try again.");
+    try {
+      const response = await resetPassword(formData);
+      if (response.success) {
+        setMessage(response.message);
+        onSuccess(response);
+      } else {
+        setErrors(response.data);
+        setMessage(response.message);
+        onError(response.message);
+      }
+    } catch (error) {
+      console.error("Reset password error:", error);
+      setMessage("Terjadi kesalahan saat mengatur ulang kata sandi");
+      onError("Terjadi kesalahan saat mengatur ulang kata sandi");
     }
   };
 
-  return { formData, errors, message, handleChange, handleSubmit };
+  return {
+    formData,
+    errors,
+    message,
+    isTokenValid,
+    isLoading,
+    handleChange,
+    handleSubmit,
+  };
 };
 
 export default useFormResetPassword;
