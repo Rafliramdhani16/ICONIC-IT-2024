@@ -1,93 +1,111 @@
 import { useState, useEffect } from "react";
 import { resetPassword, cekToken } from "../Services/AuthLog";
 
-const useFormResetPassword = (initialValues, onSuccess, onError) => {
+const useFormResetPassword = (initialValues) => {
   const [formData, setFormData] = useState(initialValues);
   const [errors, setErrors] = useState({});
-  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [isTokenValid, setIsTokenValid] = useState(false);
+  const [modalContent, setModalContent] = useState({
+    message: "",
+    type: "info",
+  });
 
   useEffect(() => {
     const validateToken = async () => {
-      if (!initialValues.token || !initialValues.email) {
+      if (!formData.token || !formData.email) {
+        setModalContent({
+          message: "Token atau email tidak tersedia",
+          type: "error",
+        });
         setIsTokenValid(false);
-        onError("Token atau email tidak tersedia");
         return;
       }
 
+      setIsLoading(true);
       try {
         const response = await cekToken({
-          token: initialValues.token,
-          email: initialValues.email,
+          token: formData.token,
+          email: formData.email,
         });
 
-        if (response.success) {
+        if (response.success === 200) {
           setIsTokenValid(true);
         } else {
           setIsTokenValid(false);
-          onError(
-            response.message || "Token tidak valid atau telah kadaluarsa"
-          );
+          setModalContent({
+            message:
+              response.message || "Token tidak valid atau telah kadaluarsa",
+            type: "error",
+          });
         }
       } catch (error) {
         console.error("Token validation error:", error);
         setIsTokenValid(false);
-        onError("Terjadi kesalahan saat memvalidasi token");
+        setModalContent({
+          message: "Terjadi kesalahan saat memvalidasi token",
+          type: "error",
+        });
+      } finally {
+        setIsLoading(false);
       }
     };
 
     validateToken();
-  }, [initialValues.token, initialValues.email, onError]);
+  }, [formData.token, formData.email]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.password1) newErrors.password1 = "Password baru harus diisi";
+    if (!formData.password2)
+      newErrors.password2 = "Konfirmasi password harus diisi";
+    if (formData.password1 !== formData.password2)
+      newErrors.password2 = "Password tidak cocok";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
-    setErrors({});
+    if (!validateForm()) return;
 
-    if (formData.password1 !== formData.password2) {
-      setErrors({ password2: "Password tidak cocok" });
-      return;
-    }
-
-    if (!isTokenValid) {
-      setMessage("Token tidak valid atau telah kadaluarsa");
-      onError("Token tidak valid atau telah kadaluarsa");
-      return;
-    }
-
+    setIsLoading(true);
     try {
       const response = await resetPassword(formData);
       if (response.success) {
-        setMessage(response.message);
-        onSuccess(response);
+        setModalContent({ message: response.message, type: "success" });
       } else {
-        setErrors(response.data);
-        setMessage(response.message);
-        onError(response.message);
+        setModalContent({
+          message: response.message || "Gagal mengatur ulang kata sandi",
+          type: "error",
+        });
       }
     } catch (error) {
       console.error("Reset password error:", error);
-      setMessage("Terjadi kesalahan saat mengatur ulang kata sandi");
-      onError("Terjadi kesalahan saat mengatur ulang kata sandi");
+      setModalContent({
+        message: "Terjadi kesalahan saat mengatur ulang kata sandi",
+        type: "error",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return {
     formData,
     errors,
-    message,
+    isLoading,
     isTokenValid,
+    modalContent,
     handleChange,
     handleSubmit,
+    setFormData,
   };
 };
 

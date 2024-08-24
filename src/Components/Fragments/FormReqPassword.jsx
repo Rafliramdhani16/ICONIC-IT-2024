@@ -1,20 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import useFormRequestResetPassword from "../../Hook/HookReqPw";
 import InputLog from "../Elements/Input/InputLog";
 import { useNavigate } from "react-router-dom";
-import { BiArrowBack } from "react-icons/bi";
+import Modal from "../Elements/Modal/ModalResponse";
 
 const RequestResetPassword = () => {
   const navigate = useNavigate();
   const initialValues = { email: "" };
-  const redirectPath = "/resetPassword";
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState("info");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { formData, errors, message, handleChange, handleSubmit } =
-    useFormRequestResetPassword(initialValues, (response) => {
-      if (response.success === 200) {
-        navigate(`${redirectPath}?token=${response.token}`);
+  const showModal = (message, type) => {
+    setModalMessage(message);
+    setModalType(type);
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  const { formData, errors, handleChange, handleSubmit } =
+    useFormRequestResetPassword(initialValues, async (response) => {
+      setIsLoading(true);
+      try {
+        if (response.success === 200) {
+          showModal(response.message, "success");
+        } else {
+          showModal(response.message || "Terjadi kesalahan", "error");
+        }
+      } finally {
+        setIsLoading(false);
       }
     });
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    await handleSubmit(e);
+  };
 
   return (
     <div className="w-full max-w-md bg-white rounded-3xl shadow-md p-6">
@@ -24,12 +50,7 @@ const RequestResetPassword = () => {
       <p className="text-sm mb-6 mt-1">
         Link reset password akan dikirimkan ke email anda
       </p>
-      {message && (
-        <div className="bg-red-100 text-red-700 p-2 rounded my-2">
-          {message}
-        </div>
-      )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmit}>
         <InputLog
           fields={["email"]}
           formData={formData}
@@ -39,8 +60,9 @@ const RequestResetPassword = () => {
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded-full mt-4 font-semibold"
+          disabled={isLoading}
         >
-          Kirim Email
+          {isLoading ? "Mengirim..." : "Kirim Email"}
         </button>
       </form>
       <p className="text-center mt-4">atau</p>
@@ -50,6 +72,13 @@ const RequestResetPassword = () => {
       >
         Kembali ke Login
       </button>
+      <Modal
+        isVisible={isModalVisible}
+        onClose={handleCloseModal}
+        onCloseAndRedirect={handleCloseModal}
+        message={modalMessage}
+        type={modalType}
+      />
     </div>
   );
 };

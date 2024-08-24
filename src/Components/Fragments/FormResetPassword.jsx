@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import useFormResetPassword from "../../Hook/HookResetPw";
 import InputLog from "../Elements/Input/InputLog";
 import { BiArrowBack } from "react-icons/bi";
 import Modal from "../Elements/Modal/ModalResponse";
+import useFormResetPassword from "../../Hook/HookResetPw";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -12,11 +12,7 @@ const ResetPassword = () => {
   const tokenFromUrl = query.get("token");
   const emailFromUrl = query.get("email");
 
-  const [showModal, setShowModal] = useState(false);
-  const [modalContent, setModalContent] = useState({
-    message: "",
-    type: "info",
-  });
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const initialValues = {
     password1: "",
@@ -25,37 +21,42 @@ const ResetPassword = () => {
     email: emailFromUrl,
   };
 
-  const onSuccess = (response) => {
-    setModalContent({ message: response.message, type: "success" });
-    setShowModal(true);
-  };
-
-  const onError = (message) => {
-    setModalContent({ message, type: "error" });
-    setShowModal(true);
-  };
-
   const {
     formData,
     errors,
-    message,
+    isLoading,
     isTokenValid,
+    modalContent,
     handleChange,
     handleSubmit,
-  } = useFormResetPassword(initialValues, onSuccess, onError);
+    setFormData,
+  } = useFormResetPassword(initialValues);
 
-  const handleModalClose = () => {
-    setShowModal(false);
+  useEffect(() => {
+    if (tokenFromUrl !== formData.token || emailFromUrl !== formData.email) {
+      setFormData({ ...formData, token: tokenFromUrl, email: emailFromUrl });
+    }
+  }, [tokenFromUrl, emailFromUrl]);
+
+  const showModal = () => {
+    setModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
     if (modalContent.type === "success") {
       navigate("/masuk");
+    } else if (modalContent.type === "error" && !isTokenValid) {
+      navigate("/lupasandi");
     }
   };
 
-  if (!isTokenValid) {
+  if (!isTokenValid && !isLoading) {
     return (
       <Modal
         isVisible={true}
         onClose={() => navigate("/lupasandi")}
+        onCloseAndRedirect={() => navigate("/lupasandi")}
         message="Token tidak valid atau telah kadaluarsa. Silakan minta token baru."
         type="error"
       />
@@ -75,12 +76,14 @@ const ResetPassword = () => {
       <h2 className="text-3xl font-semibold text-neutral-800 mb-6">
         Masukan Sandi Baru
       </h2>
-      {message && (
-        <div className="bg-red-100 text-red-700 p-2 rounded mb-4">
-          {message}
-        </div>
-      )}
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(e) => {
+          handleSubmit(e);
+          showModal();
+        }}
+      >
+        <input type="hidden" name="token" value={formData.token} />
+        <input type="hidden" name="email" value={formData.email} />
         <InputLog
           fields={["password1", "password2"]}
           formData={formData}
@@ -90,13 +93,15 @@ const ResetPassword = () => {
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded-full mt-6 font-semibold hover:bg-blue-700 transition duration-300"
+          disabled={isLoading}
         >
-          Ganti Sandi
+          {isLoading ? "Memproses..." : "Ganti Sandi"}
         </button>
       </form>
       <Modal
-        isVisible={showModal}
-        onClose={handleModalClose}
+        isVisible={isModalVisible}
+        onClose={handleCloseModal}
+        onCloseAndRedirect={handleCloseModal}
         message={modalContent.message}
         type={modalContent.type}
       />

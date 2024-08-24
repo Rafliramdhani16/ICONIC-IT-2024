@@ -11,9 +11,15 @@ const Modal = ({
   const [isRendered, setIsRendered] = useState(false);
 
   useEffect(() => {
+    let timeoutId;
     if (isVisible) {
       document.body.style.overflow = "hidden";
       setTimeout(() => setIsRendered(true), 10);
+
+      // Otomatis redirect setelah 3 detik
+      timeoutId = setTimeout(() => {
+        onCloseAndRedirect();
+      }, 3000);
     } else {
       document.body.style.overflow = "unset";
       setIsRendered(false);
@@ -21,8 +27,9 @@ const Modal = ({
 
     return () => {
       document.body.style.overflow = "unset";
+      if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [isVisible]);
+  }, [isVisible, onCloseAndRedirect]);
 
   if (!isVisible) return null;
 
@@ -85,7 +92,7 @@ const Modal = ({
         {type !== "info" && (
           <div className="flex justify-center">
             <button
-              onClick={type === "success" ? onCloseAndRedirect : onClose}
+              onClick={onCloseAndRedirect}
               className={`px-4 py-2 rounded-lg text-white ${
                 type === "success"
                   ? "bg-green-500 hover:bg-green-600"

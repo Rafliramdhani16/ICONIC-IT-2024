@@ -20,7 +20,7 @@ const LayoutReset = ({ isRequest }) => {
                 : "Reset Kata Sandi dan Mulai Lagi"}
             </h1>
             <h1 className="text-4xl font-bold text-white mb-4">
-              {isRequest ? "Developermu" : "Developermu"}
+              {isRequest ? "Developermu" : "Karir Developermu"}
             </h1>
             <p className="text-white text-lg mb-10">
               {isRequest
