@@ -4,7 +4,7 @@ import EditFormProfile from "../Components/Fragments/EditFormProfile";
 const EditProfile = () => {
   return (
     <>
-      <LayoutProfile>
+      <LayoutProfile pageTitle="Edit Profile">
         <EditFormProfile />
       </LayoutProfile>
     </>

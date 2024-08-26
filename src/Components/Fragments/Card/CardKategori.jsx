@@ -29,7 +29,7 @@ const CardKategori = () => {
         {materi.map((item) => (
           <button
             key={item.uuid}
-            onClick={() => handleNavigate(`/materi/${item.uuid}`)}
+            onClick={() => handleNavigate(`/kategori/${item.uuid}`)}
             className="block md:flex flex-row justify-center items-center border-2 border-neutral-300 w-full h-[65px] bg-white rounded-xl hover:bg-gray-200 transition shadow-md"
           >
             <img

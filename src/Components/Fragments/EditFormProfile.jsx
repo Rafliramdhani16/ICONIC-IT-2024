@@ -1,113 +1,110 @@
-import React from "react";
-import { TbUpload } from "react-icons/tb"; // Menggunakan TbUpload dari react-icons
+import React, { useState } from "react";
+import { TbUpload } from "react-icons/tb";
 import useEditProfileForm from "../../Hook/HookEditProfile";
 import { useNavigate } from "react-router-dom";
+import InputLog from "../Elements/Input/InputLog";
+import Modal from "../Elements/Modal/ModalResponse";
 
 const EditProfileForm = () => {
   const navigate = useNavigate();
-  const { formData, handleChange, handleSubmit, message } = useEditProfileForm(
-    {
-      username: "",
-      firstname: "",
-      lastname: "",
-      email: "",
-      image: "",
-      imagePreview: "",
-    },
-    "/profile"
-  );
+  const { formData, handleChange, handleSubmit, errors, message } =
+    useEditProfileForm(
+      {
+        username: "",
+        firstname: "",
+        lastname: "",
+        email: "",
+        image: "",
+        imagePreview: "",
+      },
+      "/profile"
+    );
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState("info");
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const result = await handleSubmit();
+
+    if (result.success) {
+      setModalMessage("Profile updated successfully!");
+      setModalType("success");
+      setModalVisible(true);
+      setTimeout(() => {
+        navigate("/profile");
+      }, 3000);
+    } else {
+      setModalMessage(
+        result.message || "Failed to update profile. Please try again."
+      );
+      setModalType("error");
+      setModalVisible(true);
+    }
+  };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="p-6 bg-white rounded-lg shadow-md mt-24 h-[78dvh] w-[80%] border border-neutral-300 mx-auto flex flex-col justify-center"
-    >
-      <div className="relative my-4 overflow-hidden mx-auto">
-        <img
-          src={formData.imagePreview || formData.image}
-          className="rounded-3xl aspect-square object-cover border border-neutral-500 w-52 h-52"
-          alt="User"
-        />
-        <label
-          htmlFor="imageUpload"
-          className="absolute -bottom-0 left-0 right-0 w-52 mx-auto"
-        >
-          <TbUpload className="h-12 p-2 text-neutral-800 cursor-pointer bg-neutral-200 rounded-b-3xl hover:bg-neutral-300 opacity-50 w-full" />
-          <input
-            id="imageUpload"
-            type="file"
-            className="hidden"
-            onChange={handleChange}
-            name="image"
-            accept="image/png, image/jpg, image/jpeg"
+    <>
+      <form
+        onSubmit={handleFormSubmit}
+        className="flex flex-col justify-between h-full w-full rounded-lg p-6"
+      >
+        <div className="relative  mx-auto flex flex-col items-center ">
+          <img
+            src={formData.imagePreview || formData.image}
+            className="rounded-3xl aspect-square object-cover w-56 h-56 md:w-96 md:h-96"
+            alt="User"
           />
-        </label>
-      </div>
-      <div className="mb-4 w-[50%] mx-auto">
-        <label className="block mb-2 text-sm font-medium pl-1">
-          Username :
-        </label>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          className="w-full p-2 pl-3 border rounded-lg bg-neutral-100"
-        />
-      </div>
-      <div className="flex flex-row w-1/2 mx-auto space-x-4">
-        <div className="mb-4 w-[50%] ">
-          <label className="block mb-2 text-sm font-medium pl-1">
-            Nama Depan :
+          <label
+            htmlFor="imageUpload"
+            className="absolute -bottom-0 left-0 right-0 mx-auto"
+          >
+            <TbUpload className="h-12 p-2 text-neutral-800 cursor-pointer bg-neutral-200 rounded-b-3xl hover:bg-neutral-300 opacity-50 w-full" />
+            <input
+              id="imageUpload"
+              type="file"
+              className="hidden"
+              onChange={handleChange}
+              name="image"
+              accept="image/png, image/jpg, image/jpeg"
+            />
           </label>
-          <input
-            type="text"
-            name="firstname"
-            value={formData.firstname}
-            onChange={handleChange}
-            className="w-full p-2 pl-3 border rounded-lg bg-neutral-100"
-          />
         </div>
-        <div className="mb-4 w-[50%] mx-auto">
-          <label className="block mb-2 text-sm font-medium pl-1">
-            Nama Belakang :
-          </label>
-          <input
-            type="text"
-            name="lastname"
-            value={formData.lastname}
-            onChange={handleChange}
-            className="w-full p-2 pl-3 border rounded-lg bg-neutral-100"
+
+        <div className="mt-5">
+          <InputLog
+            fields={["firstname", "lastname", "username", "email"]}
+            handleChange={handleChange}
+            errors={errors}
+            formData={formData}
           />
+          <div className="block md:flex justify-end gap-3 mt-4">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-600 w-full mb-3"
+            >
+              Simpan Perubahan
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/profile")}
+              className="px-4 py-2 bg-white border border-blue-600 text-blue-600  hover:text-white rounded-lg hover:bg-blue-600 w-full mb-3"
+            >
+              Batal
+            </button>
+          </div>
         </div>
-      </div>
-      <div className="mb-4 w-[50%] mx-auto">
-        <label className="block mb-2 text-sm font-medium pl-1">Email :</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full p-2 pl-3 border rounded-lg bg-neutral-100"
-        />
-      </div>
-      {message && <div className="text-red-500 text-sm">{message}</div>}
-      <div className="flex justify-end mr-20">
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 mt-4"
-        >
-          Save Changes
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate("/profile")}
-          className="px-4 py-2 ml-4 bg-white border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-700 hover:text-white mt-4"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+      </form>
+
+      <Modal
+        isVisible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onCloseAndRedirect={() => navigate("/profile")}
+        message={modalMessage}
+        type={modalType}
+      />
+    </>
   );
 };
 

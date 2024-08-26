@@ -3,11 +3,10 @@ import FormProfile from "../Components/Fragments/FormProfile";
 
 const profile = () => {
   return (
-    <>
-      <LayoutProfile>
-        <FormProfile />
-      </LayoutProfile>
-    </>
+    <LayoutProfile pageTitle="Profil Saya">
+      <FormProfile />
+    </LayoutProfile>
   );
 };
+
 export default profile;

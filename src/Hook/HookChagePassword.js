@@ -1,63 +1,73 @@
 import { useState } from "react";
-import axios from "axios";
+import { changePassword } from "../Services/AuthLog";
 import { useNavigate } from "react-router-dom";
 
-const useForm = (
-  initialValues,
-  onSubmitCallback,
-  apiEndpoint,
-  redirectPath
-) => {
+const useChangePassword = (initialValues) => {
   const [formData, setFormData] = useState(initialValues);
   const [errors, setErrors] = useState({});
-  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [modalContent, setModalContent] = useState({
+    message: "",
+    type: "info",
+  });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.prev_password)
+      newErrors.prev_password = "Password lama harus diisi";
+    if (!formData.password1) newErrors.password1 = "Password baru harus diisi";
+    if (!formData.password2)
+      newErrors.password2 = "Konfirmasi password harus diisi";
+    if (formData.password1 !== formData.password2)
+      newErrors.password2 = "Password tidak cocok";
+    if (formData.password1.length < 8)
+      newErrors.password1 = "Password harus minimal 8 karakter";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({});
-    setMessage("");
+    if (!validateForm()) return;
 
-    if (
-      formData.newPassword &&
-      formData.confirmPassword &&
-      formData.newPassword !== formData.confirmPassword
-    ) {
-      setErrors({
-        confirmPassword: "New Password and Confirm Password do not match.",
-      });
-      return;
-    }
-
+    setIsLoading(true);
     try {
-      const response = await axios.post(apiEndpoint, formData, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-      });
-
-      if (response.status === 200) {
-        setMessage("Operation successful!");
-        if (redirectPath) {
-          navigate(redirectPath);
-        }
-        if (onSubmitCallback) {
-          onSubmitCallback();
-        }
+      const response = await changePassword(formData);
+      if (response.success === 200) {
+        setModalContent({ message: response.message, type: "success" });
+        setTimeout(() => navigate("/profile"), 3000);
+      } else {
+        setModalContent({
+          message: response.message || "Gagal mengganti kata sandi",
+          type: "error",
+        });
       }
     } catch (error) {
-      setMessage("Operation failed. Please try again.");
+      setModalContent({
+        message: "Terjadi kesalahan saat mengganti kata sandi",
+        type: "error",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return { formData, handleChange, handleSubmit, errors, message, setFormData };
+  return {
+    formData,
+    errors,
+    isLoading,
+    modalContent,
+    handleChange,
+    handleSubmit,
+    setModalContent,
+  };
 };
 
-export default useForm;
+export default useChangePassword;

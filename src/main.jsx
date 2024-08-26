@@ -6,8 +6,8 @@ import ReactDOM from "react-dom/client";
 import ErrorPage from "./Pages/404";
 import Login from "./Pages/login";
 import Register from "./Pages/register";
-import Kategori from "./Pages/kategoriHTML";
-import MateriHTML from "./Pages/materiHTML";
+import KategoriId from "./Pages/kategoriId";
+import MateriId from "./Pages/materiId";
 import ResetPassword from "./Pages/resetPassword";
 import RequestReset from "./Pages/reqPassword";
 import DetailPembelajaran from "./Pages/DetailPembelajaran";
@@ -29,21 +29,6 @@ const router = createBrowserRouter([
   {
     path: "/daftar",
     element: <Register />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/materi/:id",
-    element: <Kategori />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/detailMateri/:id",
-    element: <MateriHTML />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/pembelajaran/:id",
-    element: <DetailPembelajaran />,
     errorElement: <ErrorPage />,
   },
   {
@@ -69,6 +54,21 @@ const router = createBrowserRouter([
   {
     path: "/profile/ganti/password",
     element: <ChangePassword />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/kategori/:id",
+    element: <KategoriId />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/materi/:materiId",
+    element: <MateriId />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/materi/:materiId/:modulId",
+    element: <DetailPembelajaran />,
     errorElement: <ErrorPage />,
   },
 ]);

@@ -16,7 +16,6 @@ const Modal = ({
       document.body.style.overflow = "hidden";
       setTimeout(() => setIsRendered(true), 10);
 
-      // Otomatis redirect setelah 3 detik
       timeoutId = setTimeout(() => {
         onCloseAndRedirect();
       }, 3000);

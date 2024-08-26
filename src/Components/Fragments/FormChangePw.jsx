@@ -1,83 +1,95 @@
-import React from "react";
-import useForm from "../../Hook/HookChagePassword";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useChangePassword from "../../Hook/HookChagePassword";
+import useEditProfileForm from "../../Hook/HookEditProfile";
+import Modal from "../Elements/Modal/ModalResponse";
+import InputLog from "../Elements/Input/InputLog";
 
 const ChangePasswordForm = () => {
   const navigate = useNavigate();
-  const { formData, handleChange, handleSubmit, errors, message } = useForm(
-    {
-      oldPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    },
-    null,
-    // asusmsi API endpoint
-    "/user/lupa",
-    // jika sudah beres maka akan dialihkan
-    "/profile"
-  );
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const profile = useEditProfileForm();
+
+  const {
+    formData,
+    errors,
+    isLoading,
+    modalContent,
+    handleChange,
+    handleSubmit,
+    setModalContent,
+  } = useChangePassword({
+    prev_password: "",
+    password1: "",
+    password2: "",
+  });
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+    if (modalContent.type === "success") {
+      navigate("/profile");
+    }
+  };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="p-6 bg-white rounded-lg shadow-md mt-24 h-[70dvh] w-[80%] border border-neutral-300 mx-auto"
-    >
-      <div className="mb-4 w-[50%] mx-auto mt-20">
-        <label className="block mb-2 text-sm font-medium pl-1">
-          Old Password:
-        </label>
-        <input
-          type="password"
-          name="oldPassword"
-          value={formData.oldPassword}
-          onChange={handleChange}
-          className="w-full p-2 pl-3 border rounded-lg bg-neutral-100"
-        />
-      </div>
-      <div className="mb-4 w-[50%] mx-auto">
-        <label className="block mb-2 text-sm font-medium pl-1">
-          New Password:
-        </label>
-        <input
-          type="password"
-          name="newPassword"
-          value={formData.newPassword}
-          onChange={handleChange}
-          className="w-full p-2 pl-3 border rounded-lg bg-neutral-100"
-        />
-      </div>
-      <div className="mb-4 w-[50%] mx-auto">
-        <label className="block mb-2 text-sm font-medium pl-1">
-          Confirm Password:
-        </label>
-        <input
-          type="password"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          className="w-full p-2 pl-3 border rounded-lg bg-neutral-100"
-        />
-        {errors.confirmPassword && (
-          <div className="text-red-500 text-sm">{errors.confirmPassword}</div>
-        )}
-      </div>
-      {message && <div className="text-red-500 text-sm">{message}</div>}
-      <div className="flex justify-end mr-20">
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 mt-4"
-        >
-          Save Changes
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate("/profile")}
-          className="px-4 py-2 ml-4 bg-white border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-700 hover:text-white mt-4"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+    <>
+      <form
+        onSubmit={(e) => {
+          handleSubmit(e);
+          showModal();
+        }}
+        className="flex flex-col justify-between h-full w-full rounded-lg p-6"
+      >
+        <div className="w-full flex justify-center ">
+          <img
+            src={profile.formData.image}
+            alt="User"
+            className="w-56 h-56 md:w-96 md:h-96 rounded-3xl object-cover"
+          />
+        </div>
+        <div className=" mt-5">
+          <InputLog
+            fields={["prev_password", "password1", "password2"]}
+            formData={formData}
+            handleChange={handleChange}
+            errors={errors}
+          />
+          <div className="block md:flex justify-end gap-3 mt-4">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-600 w-full mb-3"
+            >
+              Simpan Perubahan
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/profile")}
+              className="px-4 py-2 bg-white border border-blue-600 text-blue-600  hover:text-white rounded-lg hover:bg-blue-600 w-full mb-3"
+            >
+              Batal
+            </button>
+          </div>
+        </div>
+      </form>
+      <Modal
+        isVisible={isModalVisible}
+        onClose={handleCloseModal}
+        onCloseAndRedirect={handleCloseModal}
+        message={modalContent.message}
+        type={modalContent.type}
+      />
+    </>
   );
 };
 

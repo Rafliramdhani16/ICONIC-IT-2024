@@ -3,17 +3,12 @@ import { IoPlayCircleOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import useModulByMateri from "../../Hook/HookModul";
 import { useParams } from "react-router-dom";
-import SkeModul from "../Elements/Skeleton/SkeModul";
+
 const Pembelajaran = () => {
   const { materiId } = useParams();
   const { data, loading, error } = useModulByMateri(materiId);
 
-  if (loading)
-    return (
-      <div>
-        <SkeModul />
-      </div>
-    );
+  if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   if (!data || !data.modul) return <div>Tidak ada data tersedia</div>;
 

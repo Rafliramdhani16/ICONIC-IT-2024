@@ -13,18 +13,19 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #ffd700;
+  background-color: #3b82f6;
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #ffa500;
+  background-color: #2563eb;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: #f0f0f0;
   border-radius: 10px;
 }
+
 @keyframes pulse {
   0% {
     opacity: 0.7;
@@ -38,9 +39,18 @@ body {
 }
 
 .skeleton {
-  background: linear-gradient(120deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background: linear-gradient(120deg, #e0e0e0 25%, #d0d0d0 50%, #e0e0e0 75%);
   background-size: 200% 200%;
   animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0 0;
+  }
 }
 
 @keyframes pulse {

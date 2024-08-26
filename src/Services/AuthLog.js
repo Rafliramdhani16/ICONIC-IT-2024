@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "http://localhost:8000/api";
+const API_URL = "https://backend-gyanakaya.bhadrikais.my.id/api";
 export const registerUser = async (data) => {
   try {
     const response = await axios.post(`${API_URL}/user/signup`, data, {
@@ -187,5 +187,31 @@ export const updateUserData = async (userData) => {
   } catch (error) {
     console.error("Error updating user data:", error);
     throw error;
+  }
+};
+
+const getAuthHeader = () => {
+  const token = sessionStorage.getItem("token");
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
+export const changePassword = async (data) => {
+  try {
+    const response = await axios.post(`${API_URL}/user/reset-password`, data, {
+      headers: {
+        ...getAuthHeader(),
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Change password error:", error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Terjadi kesalahan saat mengganti kata sandi",
+      data: error.response?.data?.data || {},
+    };
   }
 };

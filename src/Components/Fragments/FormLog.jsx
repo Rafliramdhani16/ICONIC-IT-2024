@@ -25,7 +25,7 @@ const FormLog = () => {
     navigate(redirectPath);
   }, [navigate]);
 
-  const { formData, errors, message, handleChange, handleSubmit } = useForm(
+  const { formData, errors, handleChange, handleSubmit } = useForm(
     initialValues,
     async (data) => {
       showModal("Sedang memproses login...", "info");
@@ -35,10 +35,11 @@ const FormLog = () => {
           "Login berhasil! Anda akan dialihkan ke halaman utama.",
           "success"
         );
+        return response;
       } else {
         showModal("Login gagal. Silakan coba lagi.", "error");
+        return response;
       }
-      return response;
     },
     redirectPath
   );
@@ -86,7 +87,11 @@ const FormLog = () => {
       <Modal
         isVisible={isModalVisible}
         onClose={() => setModalVisible(false)}
-        onCloseAndRedirect={handleCloseAndRedirect}
+        onCloseAndRedirect={
+          modalType === "success"
+            ? handleCloseAndRedirect
+            : () => setModalVisible(false)
+        }
         message={modalMessage}
         type={modalType}
       />

@@ -4,7 +4,7 @@ import FormChangePw from "../Components/Fragments/FormChangePw";
 const ChangePassword = () => {
   return (
     <>
-      <LayoutProfile>
+      <LayoutProfile pageTitle="Ganti Password">
         <FormChangePw />
       </LayoutProfile>
     </>

@@ -20,23 +20,28 @@ const FormRegister = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalType, setModalType] = useState("info");
+  const [isLoading, setIsLoading] = useState(false);
 
   const showModal = useCallback((message, type) => {
     setModalMessage(message);
     setModalType(type);
     setModalVisible(true);
   }, []);
-  const { formData, errors, message, handleChange, handleSubmit } = useForm(
+
+  const handleCloseAndRedirect = useCallback(() => {
+    setModalVisible(false);
+    navigate(redirectPath);
+  }, [navigate]);
+
+  const { formData, errors, handleChange, handleSubmit } = useForm(
     initialValues,
     async (data) => {
-      showModal("Sedang memproses login...", "info");
+      setIsLoading(true);
+      showModal("Sedang memproses pendaftaran...", "info");
       const response = await registerUser(data);
+      setIsLoading(false);
       if (response.success === 200) {
         showModal("Pendaftaran berhasil, Silahkan Login", "success");
-        setTimeout(() => {
-          setModalVisible(false);
-          navigate(redirectPath);
-        }, 3000);
       } else {
         showModal("Pendaftaran gagal. Silakan coba lagi.", "error");
       }
@@ -44,9 +49,11 @@ const FormRegister = () => {
     },
     redirectPath
   );
+
   const handleBack = () => {
     navigate("/masuk");
   };
+
   return (
     <div className="w-full max-w-md bg-white rounded-3xl shadow-md p-6">
       <button
@@ -58,11 +65,6 @@ const FormRegister = () => {
         <span className="ml-2">Kembali</span>
       </button>
       <h2 className="text-3xl font-semibold text-neutral-800 my-6">Daftar</h2>
-      {/* {message && (
-        <div className="bg-red-100 text-red-700 p-2 rounded my-2">
-          {message}
-        </div>
-      )} */}
       <form onSubmit={handleSubmit}>
         <InputLog
           fields={[
@@ -79,14 +81,22 @@ const FormRegister = () => {
         />
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-full mt-4 font-semibold"
+          className={`w-full py-2 rounded-full mt-4 font-semibold ${
+            isLoading ? "bg-blue-600 text-white" : "bg-blue-600 text-white"
+          }`}
+          disabled={isLoading}
         >
-          Daftar
+          {isLoading ? "Memproses..." : "Daftar"}
         </button>
       </form>
       <Modal
         isVisible={isModalVisible}
         onClose={() => setModalVisible(false)}
+        onCloseAndRedirect={
+          modalType === "success"
+            ? handleCloseAndRedirect
+            : () => setModalVisible(false)
+        }
         message={modalMessage}
         type={modalType}
       />

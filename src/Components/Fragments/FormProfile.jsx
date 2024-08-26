@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { getUserData } from "../../Services/AuthLog";
 import useForm from "../../Hook/HookProfile";
-import { useNavigate } from "react-router-dom";
 
 const FormProfile = () => {
-  const navigate = useNavigate();
   const { formData, setFormData } = useForm(
     {
       username: "",
@@ -38,50 +36,34 @@ const FormProfile = () => {
   }, [setFormData]);
 
   return (
-    <div className="flex justify-center items-center h-[78dvh] mt-20">
-      <div className="p-6 bg-white rounded-lg shadow-md w-[80%] border border-neutral-300 mx-auto my-auto">
-        <div className="flex flex-col items-center mb-6">
-          <img
-            src={formData.image || "./materi.png"}
-            alt="User"
-            className="w-52 h-52 rounded-2xl border border-neutral-500 mx-auto"
-          />
+    <div className="h-full w-full">
+      <div className="p-6 bg-white w-full h-full flex justify-center items-center ">
+        {" "}
+        {/* Removed border and shadow */}
+        <div className="block md:flex justify-between items-center w-full ">
+          <div className="w-full flex justify-center h-full ">
+            <img
+              src={formData.image}
+              alt="User"
+              className="w-56 h-56 md:w-96 md:h-96 rounded-3xl object-cover"
+            />
+          </div>
+          <div className="w-full space-y-4 justify-center text-center md:text-start mt-4 h-full ">
+            <h1 className="text-lg  md:text-2xl font-semibold tracking-widest">
+              Selamat datang,
+            </h1>
+            <h2 className="text-2xl md:text-3xl text-black uppercase font-bold tracking-widest">
+              {formData.fullname}{" "}
+              <span className="text-base md:text-lg font-normal lowercase">
+                ({formData.username})
+              </span>
+            </h2>
+
+            <h2 className="text-md md:text-xl text-black lowercase tracking-widest">
+              {formData.email}{" "}
+            </h2>
+          </div>
         </div>
-        <div className="mb-4 w-[50%] mx-auto">
-          <label className="block mb-2 text-sm font-medium pl-1">
-            Username :
-          </label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            readOnly
-            className="w-full p-2 pl-3 border rounded-lg bg-gray-100"
-          />
-        </div>
-        <div className="mb-4 w-[50%] mx-auto">
-          <label className="block mb-2 text-sm font-medium pl-1">
-            Nama Lengkap :
-          </label>
-          <input
-            type="text"
-            name="fullname"
-            value={formData.fullname}
-            readOnly
-            className="w-full p-2 pl-3 border rounded-lg bg-gray-100"
-          />
-        </div>
-        <div className="mb-4 w-[50%] mx-auto">
-          <label className="block mb-2 text-sm font-medium pl-1">Email :</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            readOnly
-            className="w-full p-2 pl-3 border rounded-lg bg-gray-100"
-          />
-        </div>
-        <div className="flex justify-end"></div>
       </div>
     </div>
   );
