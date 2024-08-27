@@ -1,6 +1,6 @@
 import DetailMateri from "../Components/Fragments/DetailMateri";
 import LayoutHome from "../Components/Layouts/LayoutHome";
-import Pembelajaran from "../Components/Fragments/Pembelajaran";
+import CardModul from "../Components/Fragments/Card/CardModul";
 
 const MateriHTML = () => {
   return (
@@ -9,7 +9,7 @@ const MateriHTML = () => {
         <div className="mt-24">
           <DetailMateri />
         </div>
-        <Pembelajaran />
+        <CardModul />
       </LayoutHome>
     </>
   );

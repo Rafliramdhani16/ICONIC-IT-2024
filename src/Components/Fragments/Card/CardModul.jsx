@@ -1,77 +1,46 @@
-import { useState } from "react";
-import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
-import { BiArrowBack } from "react-icons/bi";
-import Sidebar from "../SideBar";
-import { useNavigate } from "react-router-dom";
-
+import React from "react";
+import { IoPlayCircleOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import useModulByMateri from "../../../Hook/HookModul";
+import { useParams } from "react-router-dom";
+import SkeModul from "../../Elements/Skeleton/SkeModul";
 const CardModul = () => {
-  const [open, setOpen] = useState(true);
-  const toggleSidebar = () => {
-    setOpen(!open);
-  };
-  const navigate = useNavigate();
-  return (
-    <>
-      <nav className="flex items-center p-5 border-b border-neutral-300 shadow-sm rounded-b-3xl">
-        <button
-          className="flex items-center"
-          onClick={() => navigate("/detailMateri/:id")}
-        >
-          <BiArrowBack className="text-2xl text-neutral-800" />
-          <p className="text-xl font-semibold ml-2">Daftar Modul</p>
-        </button>
-      </nav>
+  const { materiId } = useParams();
+  const { data, loading, error } = useModulByMateri(materiId);
 
-      <div className="flex flex-col lg:flex-row h-full">
-        <div
-          className={`flex-1 p-6 transition-all duration-300 ${
-            open ? "lg:pr-[400px]" : "lg:pr-20"
-          }`}
-        >
-          <div className="bg-white p-6 rounded-xl border-2 border-neutral-100 mx-8 h-[75dvh]">
-            <div className="flex">
-              <img
-                src="/materi.png"
-                alt="materi"
-                className="max-w-2xl max-h-96 rounded-lg"
-              />
-              <div className="ml-8 mt-4 w-full">
-                <p>
-                  Pernah penasaran bagaimana website itu dibuat? Nah, di balik
-                  setiap halaman web, ada HTML yang menjadi tulang punggungnya.
-                  HTML (HyperText Markup Language) adalah bahasa dasar yang
-                  dipakai untuk menampilkan teks, gambar, dan berbagai konten
-                  lainnya di internet.
-                </p>
-                <p className="mt-10">
-                  Di artikel ini, kita bakal jalan bareng-bareng belajar HTML
-                  dari nol. Tenang, nggak perlu jadi jago coding dulu buat
-                  ngerti, karena HTML itu simpel dan asyik dipelajari!
-                </p>
-                <p className="mt-10">
-                  Di artikel ini, kita bakal jalan bareng-bareng belajar HTML
-                  dari nol. Tenang, nggak perlu jadi jago coding dulu buat
-                  ngerti, karena HTML itu simpel dan asyik dipelajari!
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-between items-center mt-16 p-2 rounded-3xl border border-neutral-200 mx-8 px-4">
-            <button className="p-2 rounded-md flex items-center">
-              <AiFillCaretLeft className="mr-2 w-5 h-5" /> Sebelumnya
-            </button>
-            <div className="text-lg font-semibold mx-auto">
-              HTML : Pengenalan HTML
-            </div>
-            <button className="p-2 rounded-md flex items-center">
-              Selanjutnya <AiFillCaretRight className="ml-2 w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        <Sidebar open={open} toggleSidebar={toggleSidebar} />
+  if (loading)
+    return (
+      <div>
+        <SkeModul />
       </div>
-    </>
+    );
+  if (error) return <div>Error: {error.message}</div>;
+  if (!data || !data.modul) return <div>Tidak ada data tersedia</div>;
+
+  return (
+    <div className="w-[75%] mx-auto my-10 p-6">
+      <h2 className="text-2xl font-semibold mb-4">Pembelajaran</h2>
+      <div className="overflow-y-auto h-[450px] custom-scrollbar border rounded-xl shadow-md px-4 py-6">
+        {data.modul.map((item, index) => (
+          <Link to={`/materi/${materiId}/${item.uuid}`} key={item.uuid}>
+            <div className="flex items-center p-4 bg-white rounded-lg shadow mb-3 hover:shadow-md transition-shadow duration-300 hover:border-2 border-neutral-200">
+              <div className="flex-shrink-0 border rounded-lg w-10 h-10 flex items-center justify-center text-lg font-bold text-black mr-4">
+                {String(index + 1).padStart(2, "0")}
+              </div>
+              <img
+                src={item.cover}
+                alt={item.modul}
+                className="w-8 h-8 object-cover rounded-lg mr-4"
+              />
+              <div className="flex-grow ml-4">
+                <h3 className="text-lg font-medium">{item.modul}</h3>
+              </div>
+              <IoPlayCircleOutline className="text-blue-500 w-8 h-8 hover:text-blue-600" />
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 };
 

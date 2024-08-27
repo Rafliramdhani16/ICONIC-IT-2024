@@ -13,7 +13,7 @@ const CardSection = ({
 }) => {
   return (
     <>
-      <div className="mb-6">
+      <div>
         <h2 className="text-2xl font-bold">{title}</h2>
       </div>
       <div className="relative flex items-center">

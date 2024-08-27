@@ -23,7 +23,7 @@ const CardMateri = ({ kategoriId }) => {
       const newIndex = Math.max(currentIndex - 1, 0);
       setIndex(newIndex);
       ref.current.scrollTo({
-        left: newIndex * 320,
+        left: newIndex * 300,
         behavior: "smooth",
       });
     }
@@ -41,7 +41,7 @@ const CardMateri = ({ kategoriId }) => {
       const newIndex = Math.min(currentIndex + 1, cards.length - 1);
       setIndex(newIndex);
       ref.current.scrollTo({
-        left: newIndex * 320,
+        left: newIndex * 300,
         behavior: "smooth",
       });
     }

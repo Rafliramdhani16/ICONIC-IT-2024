@@ -10,10 +10,10 @@ import KategoriId from "./Pages/kategoriId";
 import MateriId from "./Pages/materiId";
 import ResetPassword from "./Pages/resetPassword";
 import RequestReset from "./Pages/reqPassword";
-import DetailPembelajaran from "./Pages/DetailPembelajaran";
 import Profile from "./Pages/profile";
 import EditProfile from "./Pages/editProfile";
 import ChangePassword from "./Pages/changepw";
+import CardModulDetail from "./Components/Fragments/Card/CardModulDetail";
 
 const router = createBrowserRouter([
   {
@@ -68,7 +68,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/materi/:materiId/:modulId",
-    element: <DetailPembelajaran />,
+    element: <CardModulDetail />,
     errorElement: <ErrorPage />,
   },
 ]);

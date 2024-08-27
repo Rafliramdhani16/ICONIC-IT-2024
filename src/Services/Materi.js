@@ -58,3 +58,21 @@ export const getModulByMateri = async (materiId) => {
     throw error;
   }
 };
+
+// detail modul
+export const getModulDetail = async (materiId, modulId) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/materi/${materiId}/${modulId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error mengambil detail modul:", error);
+    throw error;
+  }
+};

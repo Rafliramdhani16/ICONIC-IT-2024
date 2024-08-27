@@ -80,7 +80,7 @@ const Navbar = () => {
         />
       )}
 
-      <nav className="flex items-center justify-between p-4 bg-white xl:rounded-b-[30px] md:rounded-b-[30px] fixed top-0 left-0 right-0 w-full z-50">
+      <nav className="flex items-center justify-between p-4 bg-white xl:rounded-b-[30px] md:rounded-b-[30px] fixed top-0 left-0 right-0 w-full z-50 shadow-md">
         <div className="flex items-center md:ml-5">
           <Link to="/">
             <img src="/logo.png" alt="logo-gyanakaya" className="w-20" />
