@@ -1,25 +1,7 @@
 import React from "react";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
-import { useModulDetail } from "../../Hook/HookModulD";
-import { useParams } from "react-router-dom";
-import SkeSideBar from "../Elements/Skeleton/SkeSideBar";
 
-const Sidebar = ({ open, toggleSidebar }) => {
-  const { materiId, modulId } = useParams();
-  const { modulDetail, loading, error } = useModulDetail(materiId, modulId);
-
-  if (loading) {
-    return (
-      <div>
-        <SkeSideBar />
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
+const Sidebar = ({ open, toggleSidebar, modulDetail }) => {
   return (
     <div
       className={`fixed top-[80px] right-0 h-[calc(100%-100px)] bg-white shadow-lg z-40 transition-transform duration-300 ease-in-out rounded-l-3xl ${

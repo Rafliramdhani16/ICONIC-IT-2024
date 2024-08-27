@@ -14,6 +14,7 @@ import Profile from "./Pages/profile";
 import EditProfile from "./Pages/editProfile";
 import ChangePassword from "./Pages/changepw";
 import CardModulDetail from "./Components/Fragments/Card/CardModulDetail";
+import ModulDetail from "./Pages/modulDetail";
 
 const router = createBrowserRouter([
   {
@@ -68,7 +69,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/materi/:materiId/:modulId",
-    element: <CardModulDetail />,
+    element: <ModulDetail />,
     errorElement: <ErrorPage />,
   },
 ]);

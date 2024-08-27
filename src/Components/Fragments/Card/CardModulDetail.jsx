@@ -1,44 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
-import Sidebar from "../SideBar";
-import { useNavigate, useParams } from "react-router-dom";
-import { useModulDetail } from "../../../Hook/HookModulD";
-import SkeModulDetail from "../../Elements/Skeleton/SkeModulD";
+import { useNavigate } from "react-router-dom";
 
-const CardModul = () => {
-  const [open, setOpen] = useState(true);
-  const toggleSidebar = () => {
-    setOpen(!open);
-  };
+const CardModul = ({ modulDetail, children }) => {
   const navigate = useNavigate();
-  const { materiId, modulId } = useParams();
-  const { modulDetail, loading, error } = useModulDetail(materiId, modulId);
-
-  if (loading) {
-    return (
-      <div>
-        <SkeModulDetail />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-red-500 text-center">Terjadi kesalahan: {error}</div>
-    );
-  }
-
-  if (!modulDetail) {
-    return <div className="text-center">Data tidak tersedia</div>;
-  }
 
   return (
     <>
       <nav className="flex items-center p-5 border-b border-neutral-300 shadow-sm rounded-b-3xl">
         <button
           className="flex items-center"
-          onClick={() => navigate(`/detailMateri/${materiId}`)}
+          onClick={() => navigate(`/detailMateri/${modulDetail.id_materi}`)}
         >
           <BiArrowBack className="text-2xl text-neutral-800" />
           <p className="text-xl font-semibold ml-2">{modulDetail.modul}</p>
@@ -46,11 +19,7 @@ const CardModul = () => {
       </nav>
 
       <div className="flex flex-col lg:flex-row h-full">
-        <div
-          className={`flex-1 p-6 transition-all duration-300 ${
-            open ? "lg:pr-[400px]" : "lg:pr-20"
-          }`}
-        >
+        <div className="flex-1 p-6 lg:pr-[400px]">
           <div className="bg-white p-6 rounded-xl border-2 border-neutral-100 mx-8 h-[75dvh]">
             <div className="flex">
               <img
@@ -76,7 +45,7 @@ const CardModul = () => {
           </div>
         </div>
 
-        <Sidebar open={open} toggleSidebar={toggleSidebar} />
+        {children}
       </div>
     </>
   );
