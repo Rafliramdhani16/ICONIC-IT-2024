@@ -8,11 +8,11 @@ const LayoutReset = ({ isRequest }) => {
       className="min-h-screen flex items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: 'url("/bg-log.svg")' }}
     >
-      <div className="flex w-full">
-        <div className="flex flex-1 justify-center items-center p-8">
+      <div className="flex w-full flex-col md:flex-row">
+        <div className="flex flex-1 justify-center items-center p-4 md:p-8">
           {isRequest ? <RequestReset /> : <ResetPassword />}
         </div>
-        <div className="flex flex-1 flex-col items-start justify-start p-8">
+        <div className="hidden md:flex flex-1 flex-col items-start justify-start p-8">
           <div className="text-left">
             <h1 className="text-4xl font-bold text-white mb-4">
               {isRequest

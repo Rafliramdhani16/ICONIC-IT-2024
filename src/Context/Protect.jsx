@@ -1,21 +1,17 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Navigate } from "react-router-dom";
 import { useAuth } from "./AuthLogContext";
-import ModalLogin from "../Components/Elements/Modal/ModalLogin";
+import LoginModal from "../Components/Elements/Modal/ModalLogin";
 
 const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const location = useLocation();
   const [showModal, setShowModal] = useState(true);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   if (!user) {
     return (
       <>
-        <ModalLogin
+        <LoginModal
           isVisible={showModal}
           onClose={() => setShowModal(false)}
           onLogin={() => {
@@ -25,7 +21,7 @@ const ProtectedRoute = ({ children }) => {
           }}
           message="Anda harus login terlebih dahulu untuk mengakses materi ini."
         />
-        {!showModal && <div>Konten yang tidak dapat diakses</div>}
+        {!showModal && <Navigate to="/" replace />}
       </>
     );
   }

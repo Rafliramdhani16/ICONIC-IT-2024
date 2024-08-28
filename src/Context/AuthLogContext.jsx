@@ -1,4 +1,10 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+} from "react";
 import { loginUser, logoutUser, getUserData } from "../Services/AuthLog";
 
 const AuthContext = createContext(null);
@@ -8,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       const token = sessionStorage.getItem("token");
       if (token) {
@@ -25,11 +31,11 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchUserData();
-  }, []);
+  }, [fetchUserData]);
 
   const login = async (credentials) => {
     try {
@@ -52,20 +58,21 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       await logoutUser();
       setUser(null);
       setError(null);
       sessionStorage.removeItem("token");
+      sessionStorage.removeItem("username");
     } catch (err) {
       setError("Terjadi kesalahan saat logout");
     }
-  };
+  }, []);
 
-  const clearError = () => {
+  const clearError = useCallback(() => {
     setError(null);
-  };
+  }, []);
 
   const value = {
     user,

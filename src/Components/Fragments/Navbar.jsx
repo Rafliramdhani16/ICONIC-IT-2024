@@ -1,8 +1,7 @@
 import { useNavigate, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import Button from "../Elements/Button/Button";
-import ModalSession from "../Elements/Modal/ModalSession";
 import { useAuth } from "../../Context/AuthLogContext";
 
 const Navbar = () => {
@@ -10,27 +9,6 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [sessionExpired, setSessionExpired] = useState(false);
-  const [showModalBeforeLogout, setShowModalBeforeLogout] = useState(false);
-
-  useEffect(() => {
-    const handleStorageChange = async (e) => {
-      if (
-        e.key === "token" ||
-        e.key === "username" ||
-        sessionStorage.getItem("token") === null ||
-        sessionStorage.getItem("username") === null
-      ) {
-        setShowModalBeforeLogout(true);
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
 
   const handleMasuk = () => {
     navigate("/masuk");
@@ -45,33 +23,12 @@ const Navbar = () => {
     navigate("/");
   };
 
-  const handleConfirmLogout = async () => {
-    setShowModalBeforeLogout(false);
-    await logout();
-    setSessionExpired(true);
-    navigate("/masuk");
-  };
-
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
   return (
     <>
-      {sessionExpired && (
-        <ModalSession
-          message="Sesi Anda telah berakhir. Silakan login kembali."
-          onClose={() => setSessionExpired(false)}
-        />
-      )}
-
-      {showModalBeforeLogout && (
-        <ModalSession
-          message="Token Anda telah diubah atau dihapus. Anda akan dialihkan ke halaman login."
-          onClose={handleConfirmLogout}
-        />
-      )}
-
       <nav className="flex items-center justify-between p-4 bg-white xl:rounded-b-[30px] md:rounded-b-[30px] fixed top-0 left-0 right-0 w-full z-50 shadow-md">
         <div className="flex items-center md:ml-5">
           <Link to="/">

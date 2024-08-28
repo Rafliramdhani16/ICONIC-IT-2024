@@ -16,6 +16,7 @@ import ChangePassword from "./Pages/changepw";
 import ModulDetail from "./Pages/modulDetail";
 import { AuthProvider } from "./Context/AuthLogContext";
 import ProtectedRoute from "./Context/Protect";
+import { SessionProvider } from "./Context/SessionProvider";
 
 const router = createBrowserRouter([
   {
@@ -85,7 +86,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <SessionProvider>
+        <RouterProvider router={router} />
+      </SessionProvider>
     </AuthProvider>
   </StrictMode>
 );
