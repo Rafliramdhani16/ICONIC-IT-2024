@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../Elements/Modal/ModalCheck";
-import { FaBookOpen, FaLock, FaArrowLeft } from "react-icons/fa"; // Importing icons from react-icons
+import { FaBookOpen, FaLock, FaArrowLeft } from "react-icons/fa";
 
 const DetailMateri = ({ data, joined, onUnlock }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

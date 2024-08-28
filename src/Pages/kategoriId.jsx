@@ -1,4 +1,3 @@
-// src/pages/KategoriHTML.jsx
 import React from "react";
 import { useParams } from "react-router-dom";
 import LayoutHome from "../Components/Layouts/LayoutHome";

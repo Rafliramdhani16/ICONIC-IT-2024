@@ -13,7 +13,7 @@ const CardModul = ({ data }) => {
               to={item.unlock ? `/materi/${data.uuid}/${item.uuid}` : "#"}
               onClick={(e) => {
                 if (!item.unlock) {
-                  e.preventDefault(); // Mencegah navigasi jika modul terkunci
+                  e.preventDefault();
                 }
               }}
             >

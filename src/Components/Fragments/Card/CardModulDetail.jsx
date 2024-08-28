@@ -9,10 +9,7 @@ const ModulDetail = ({ modulDetail, children, open }) => {
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center p-5 bg-white border-b border-neutral-300 shadow-sm">
-        <button
-          className="flex items-center"
-          onClick={() => navigate(`/materi/${modulDetail.id_materi}`)}
-        >
+        <button className="flex items-center" onClick={() => navigate(-1)}>
           <BiArrowBack className="text-2xl text-neutral-800" />
           <p className="text-xl font-semibold ml-2">{modulDetail.modul}</p>
         </button>
