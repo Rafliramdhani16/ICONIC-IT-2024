@@ -59,6 +59,37 @@ export const getModulByMateri = async (materiId) => {
   }
 };
 
+export const checkMateriStatus = async (materiId) => {
+  try {
+    const response = await axios.get(`${API_URL}/user/materi/${materiId}`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error checking materi status:", error);
+    throw error;
+  }
+};
+
+export const unlockMateri = async (materiId) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/user/materi/${materiId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error unlocking materi:", error);
+    throw error;
+  }
+};
 // detail modul
 export const getModulDetail = async (materiId, modulId) => {
   try {

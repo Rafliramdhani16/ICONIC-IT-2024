@@ -13,7 +13,7 @@ import RequestReset from "./Pages/reqPassword";
 import Profile from "./Pages/profile";
 import EditProfile from "./Pages/editProfile";
 import ChangePassword from "./Pages/changepw";
-import ModulDetail from "./Pages/modulDetail";
+import PageModulDetail from "./Pages/modulDetail";
 import { AuthProvider } from "./Context/AuthLogContext";
 import ProtectedRoute from "./Context/Protect";
 import { SessionProvider } from "./Context/SessionProvider";
@@ -77,7 +77,7 @@ const router = createBrowserRouter([
     path: "/materi/:materiId/:modulId",
     element: (
       <ProtectedRoute>
-        <ModulDetail />
+        <PageModulDetail />
       </ProtectedRoute>
     ),
     errorElement: <ErrorPage />,

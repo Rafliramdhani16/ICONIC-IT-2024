@@ -1,51 +1,84 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ConfirmModal from "../Elements/Modal/ModalCheck";
+import { FaBookOpen, FaLock, FaArrowLeft } from "react-icons/fa"; // Importing icons from react-icons
 
-const DetailMateri = () => {
-  const { id } = useParams();
+const DetailMateri = ({ data, joined, onUnlock }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
-  // data sementara
-  const materiDetails = {
-    1: {
-      title: "HTML Dasar #1",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam odit eveniet sint? Facilis cumque natus suscipit. Neque, harum nam et quaerat rerum laborum temporibus pariatur? Reprehenderit beatae ipsa impedit adipisci quia placeat ipsam eius quisquam doloremque numquam nostrum architecto non illum asperiores corporis, inventore porro expedita, tenetur saepe laborum laudantium fugiat.",
-      imagePath: "/materi.png",
-    },
-    2: {
-      title: "Materi HTML Dasar #2",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam odit eveniet sint? Facilis cumque natus suscipit. Neque, harum nam et quaerat rerum laborum temporibus pariatur? Reprehenderit beatae ipsa impedit adipisci quia placeat ipsam eius quisquam doloremque numquam nostrum architecto non illum asperiores corporis, inventore porro expedita, tenetur saepe laborum laudantium fugiat.",
-      imagePath: "/materi.png",
-    },
+  const handleStartLearning = () => {
+    setIsModalOpen(true);
   };
 
-  const detail = materiDetails[id];
+  const handleConfirm = async () => {
+    try {
+      await onUnlock();
+      setIsModalOpen(false);
+      if (data.modul && data.modul.length > 0) {
+        navigate(`/materi/${data.uuid}/${data.modul[0].uuid}`);
+      }
+    } catch (error) {
+      console.error("Materi Terkunci", error);
+    }
+  };
 
-  if (!detail) {
-    // Jika materi tidak ditemukan
-    return <div>Materi tidak ditemukan.</div>;
-  }
+  const renderButton = () => {
+    if (!joined) {
+      return (
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg mt-4 transition duration-300 flex items-center transform hover:scale-105"
+          onClick={handleStartLearning}
+        >
+          <FaLock className="mr-2" /> Belajar Sekarang
+        </button>
+      );
+    } else if (data.modul && data.modul.length > 0) {
+      const firstModule = data.modul[0];
+      return (
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4 transition duration-300 flex items-center transform hover:scale-105"
+          onClick={() => navigate(`/materi/${data.uuid}/${firstModule.uuid}`)}
+        >
+          <FaBookOpen className="mr-2" /> Mulai Belajar
+        </button>
+      );
+    }
+    return null;
+  };
 
   return (
-    <>
-      {" "}
-      <h1 className="text-2xl font-bold mb-4 ml-60">{detail.title}</h1>
-      <div className="flex flex-col justify-center items-center mx-auto">
-        <div className="flex items-start gap-4">
-          <div className="w-60 h-60">
-            <img
-              src={detail.imagePath}
-              alt={detail.title}
-              className="w-full h-full object-cover rounded-lg shadow-md"
-            />
-          </div>
-          <div className="bg-orange-500 rounded-lg shadow-md text-white w-[800px] p-8 ml-4">
-            <p className="text-justify text-lg">{detail.description}</p>
-          </div>
+    <div className="w-[80%] mx-auto px-8 bg-white rounded-lg relative">
+      <div className="flex justify-between mt-4">
+        <button
+          className=" font-bold transition duration-300 flex items-center transform hover:scale-105 mb-4"
+          onClick={() => navigate(-1)}
+        >
+          <FaArrowLeft className="mr-2" /> Kembali
+        </button>
+      </div>
+      <h1 className="text-3xl font-bold mb-4 text-start">{data.materi}</h1>
+      <div className="flex flex-col md:flex-row items-start gap-4">
+        <div className="w-full md:w-1/3 h-60">
+          <img
+            src={data.cover}
+            alt={data.materi}
+            className="w-full h-full object-cover rounded-lg shadow-md"
+          />
+        </div>
+        <div className="bg-blue-500 rounded-lg shadow-md text-white flex-1 p-6">
+          <p className="text-justify text-lg">{data.deskripsi}</p>
+          {data.lanjutan && <p className="mt-4 font-bold">Materi Lanjutan</p>}
+          {!data.lanjutan && <p className="mt-4 font-bold">Materi Dasar</p>}
         </div>
       </div>
-    </>
+      <div className="flex justify-between mt-4">{renderButton()}</div>
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleConfirm}
+      />
+    </div>
   );
 };
 

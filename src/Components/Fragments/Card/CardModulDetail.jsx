@@ -3,7 +3,7 @@ import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
-const CardModul = ({ modulDetail, children, open }) => {
+const ModulDetail = ({ modulDetail, children, open }) => {
   const navigate = useNavigate();
 
   return (
@@ -11,7 +11,7 @@ const CardModul = ({ modulDetail, children, open }) => {
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center p-5 bg-white border-b border-neutral-300 shadow-sm">
         <button
           className="flex items-center"
-          onClick={() => navigate(`/detailMateri/${modulDetail.id_materi}`)}
+          onClick={() => navigate(`/materi/${modulDetail.id_materi}`)}
         >
           <BiArrowBack className="text-2xl text-neutral-800" />
           <p className="text-xl font-semibold ml-2">{modulDetail.modul}</p>
@@ -58,4 +58,4 @@ const CardModul = ({ modulDetail, children, open }) => {
   );
 };
 
-export default CardModul;
+export default ModulDetail;

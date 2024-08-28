@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useModulDetail } from "../Hook/HookModulD";
-import CardModul from "../Components/Fragments/Card/CardModulDetail";
+import ModulDetail from "../Components/Fragments/Card/CardModulDetail";
 import Sidebar from "../Components/Fragments/Sidebar";
 import CardModulSkeleton from "../Components/Elements/Skeleton/SkeModulD";
 
-const ModulDetail = () => {
+const PageModulDetail = () => {
   const [open, setOpen] = useState(true);
   const toggleSidebar = () => {
     setOpen(!open);
@@ -33,14 +33,14 @@ const ModulDetail = () => {
   }
 
   return (
-    <CardModul modulDetail={modulDetail} open={open}>
+    <ModulDetail modulDetail={modulDetail} open={open}>
       <Sidebar
         open={open}
         toggleSidebar={toggleSidebar}
         modulDetail={modulDetail}
       />
-    </CardModul>
+    </ModulDetail>
   );
 };
 
-export default ModulDetail;
+export default PageModulDetail;
