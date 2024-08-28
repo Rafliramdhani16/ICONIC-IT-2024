@@ -30,7 +30,7 @@ const Card = ({ card, onClick }) => {
   return (
     <div
       ref={cardRef}
-      className={`flex-shrink-0 w-[270px] h-[335px] mx-4 my-10 bg-gray-100 rounded-3xl snap-center shadow-md p-4 flex flex-col items-start cursor-pointer transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:bg-gray-50 ${
+      className={`flex-shrink-0 w-[270px] h-[335px] mx-4 my-8 bg-gray-100 rounded-3xl snap-center shadow-md p-4 flex flex-col items-start cursor-pointer transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:bg-gray-50 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
       }`}
       onClick={() => onClick(card)}

@@ -13,8 +13,9 @@ import RequestReset from "./Pages/reqPassword";
 import Profile from "./Pages/profile";
 import EditProfile from "./Pages/editProfile";
 import ChangePassword from "./Pages/changepw";
-import CardModulDetail from "./Components/Fragments/Card/CardModulDetail";
 import ModulDetail from "./Pages/modulDetail";
+import { AuthProvider } from "./Context/AuthLogContext";
+import ProtectedRoute from "./Context/Protect";
 
 const router = createBrowserRouter([
   {
@@ -64,17 +65,27 @@ const router = createBrowserRouter([
   },
   {
     path: "/materi/:materiId",
-    element: <MateriId />,
+    element: (
+      <ProtectedRoute>
+        <MateriId />
+      </ProtectedRoute>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/materi/:materiId/:modulId",
-    element: <ModulDetail />,
+    element: (
+      <ProtectedRoute>
+        <ModulDetail />
+      </ProtectedRoute>
+    ),
     errorElement: <ErrorPage />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>
 );

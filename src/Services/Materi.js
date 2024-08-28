@@ -19,7 +19,7 @@ export const getAllMateri = async () => {
 };
 
 // materi news
-export const getLastestMateri = async () => {
+export const getLastestMateri = async (materiId) => {
   try {
     const response = await axios.get(`${API_URL}/materi/lastest`);
     return response.data.data;

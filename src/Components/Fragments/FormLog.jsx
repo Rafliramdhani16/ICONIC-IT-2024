@@ -1,15 +1,16 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import InputLog from "../Elements/Input/InputLog";
-import { loginUser } from "../../Services/AuthLog";
-import useForm from "../../Hook/HookFormLog";
 import Modal from "../Elements/Modal/ModalResponse";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
+import { useAuth } from "../../Context/AuthLogContext";
 
 const FormLog = () => {
   const navigate = useNavigate();
-  const initialValues = { username: "", password: "" };
-  const redirectPath = "/";
+  const location = useLocation();
+  const { login, error: authError, clearError } = useAuth();
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [errors, setErrors] = useState({});
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [modalType, setModalType] = useState("info");
@@ -22,31 +23,44 @@ const FormLog = () => {
 
   const handleCloseAndRedirect = useCallback(() => {
     setModalVisible(false);
-    navigate(redirectPath);
-  }, [navigate]);
+    const searchParams = new URLSearchParams(location.search);
+    const redirectTo = searchParams.get("redirect") || "/";
+    navigate(redirectTo);
+  }, [navigate, location.search]);
 
-  const { formData, errors, handleChange, handleSubmit } = useForm(
-    initialValues,
-    async (data) => {
-      showModal("Sedang memproses login...", "info");
-      const response = await loginUser(data);
-      if (response.success === 200) {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    clearError();
+    setErrors({});
+    showModal("Sedang memproses login...", "info");
+
+    try {
+      const response = await login(formData);
+      if (response.success) {
         showModal(
-          "Login berhasil! Anda akan dialihkan ke halaman utama.",
+          "Login berhasil! Anda akan dialihkan ke halaman yang dituju.",
           "success"
         );
-        return response;
       } else {
-        showModal("Login gagal. Silakan coba lagi.", "error");
-        return response;
+        showModal(authError || "Login gagal. Silakan coba lagi.", "error");
+        setErrors(response.errors || {});
       }
-    },
-    redirectPath
-  );
+    } catch (error) {
+      showModal("Terjadi kesalahan saat login", "error");
+    }
+  };
 
   const handleBack = () => {
     navigate("/");
   };
+
+  useEffect(() => {
+    return () => clearError();
+  }, [clearError]);
 
   return (
     <div className="w-full max-w-md bg-white rounded-3xl shadow-md p-6">
@@ -60,8 +74,9 @@ const FormLog = () => {
           fields={["username", "password"]}
           formData={formData}
           handleChange={handleChange}
-          errors={errors}
+          errors={{ ...errors, ...(authError ? { general: authError } : {}) }}
         />
+        {authError && <p className="text-red-500 text-sm mt-2">{authError}</p>}
         <p className="text-sm my-2 ml-1">
           Lupa kata sandi?
           <Link to="/lupaSandi" className="text-blue-600">

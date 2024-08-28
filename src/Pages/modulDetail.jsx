@@ -33,7 +33,7 @@ const ModulDetail = () => {
   }
 
   return (
-    <CardModul modulDetail={modulDetail}>
+    <CardModul modulDetail={modulDetail} open={open}>
       <Sidebar
         open={open}
         toggleSidebar={toggleSidebar}

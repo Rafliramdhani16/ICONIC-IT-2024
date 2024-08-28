@@ -24,7 +24,7 @@ const CardKategori = () => {
     );
 
   return (
-    <div className="relative mt-[-100px] z-10 flex justify-center items-center bg-white rounded-3xl shadow-md w-[90%] mx-auto border border-neutral-300 p-5">
+    <div className="relative mt-[-100px] z-10 flex justify-center items-center bg-white rounded-3xl shadow-md w-[80%] mx-auto border border-neutral-300 p-5">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 w-[96%]">
         {materi.map((item) => (
           <button

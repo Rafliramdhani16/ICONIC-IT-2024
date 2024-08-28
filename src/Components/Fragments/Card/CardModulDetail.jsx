@@ -3,12 +3,12 @@ import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
-const CardModul = ({ modulDetail, children }) => {
+const CardModul = ({ modulDetail, children, open }) => {
   const navigate = useNavigate();
 
   return (
     <>
-      <nav className="flex items-center p-5 border-b border-neutral-300 shadow-sm rounded-b-3xl">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center p-5 bg-white border-b border-neutral-300 shadow-sm">
         <button
           className="flex items-center"
           onClick={() => navigate(`/detailMateri/${modulDetail.id_materi}`)}
@@ -18,30 +18,37 @@ const CardModul = ({ modulDetail, children }) => {
         </button>
       </nav>
 
-      <div className="flex flex-col lg:flex-row h-full">
-        <div className="flex-1 p-6 lg:pr-[400px]">
-          <div className="bg-white p-6 rounded-xl border-2 border-neutral-100 mx-8 h-[75dvh]">
-            <div className="flex">
-              <img
-                src={modulDetail.cover}
-                alt={modulDetail.modul}
-                className="max-w-2xl max-h-96 rounded-lg"
-              />
-              <div className="ml-8 mt-4 w-full">
-                <p>{modulDetail.detail}</p>
+      <div className="pt-20 px-8 flex">
+        <div
+          className={`bg-white p-6 rounded-xl border-2 border-neutral-100 h-[calc(100vh-5rem)] transition-all duration-300 ${
+            open ? "w-[calc(100%-390px)]" : "w-[98%]"
+          }`}
+        >
+          <div className="flex flex-col h-full">
+            <div className="flex-grow overflow-y-auto custom-scrollbar">
+              <div className="flex mb-4">
+                <div className="ml-8 mt-4 w-full">
+                  <div className="prose prose-img:rounded-xl prose-headings:underline prose-a:text-blue-600">
+                    <article
+                      className="w-full"
+                      dangerouslySetInnerHTML={{ __html: modulDetail.detail }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex justify-between items-center mt-16 p-2 rounded-3xl border border-neutral-200 mx-8 px-4">
-            <button className="p-2 rounded-md flex items-center">
-              <AiFillCaretLeft className="mr-2 w-5 h-5" /> Sebelumnya
-            </button>
-            <div className="text-lg font-semibold mx-auto">
-              {modulDetail.modul}
+
+            <div className="flex justify-between items-center p-2 rounded-3xl border border-neutral-200 mt-4">
+              <button className="p-2 rounded-md flex items-center">
+                <AiFillCaretLeft className="mr-2 w-5 h-5" /> Sebelumnya
+              </button>
+              <div className="text-lg font-semibold mx-auto">
+                {modulDetail.modul}
+              </div>
+              <button className="p-2 rounded-md flex items-center">
+                Selanjutnya <AiFillCaretRight className="ml-2 w-5 h-5" />
+              </button>
             </div>
-            <button className="p-2 rounded-md flex items-center">
-              Selanjutnya <AiFillCaretRight className="ml-2 w-5 h-5" />
-            </button>
           </div>
         </div>
 

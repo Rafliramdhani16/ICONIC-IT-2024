@@ -2,9 +2,11 @@ import React, { useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import useLastestMateri from "../../../Hook/HookNews";
 import SkeletonCardNews from "../../Elements/Skeleton/SkeCardNews";
+import { Link, useParams } from "react-router-dom";
 
 const CardNews = () => {
-  const { materi, loading, error } = useLastestMateri();
+  const { materiId } = useParams();
+  const { materi, loading, error } = useLastestMateri(materiId);
   const scrollRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -52,19 +54,18 @@ const CardNews = () => {
           className="flex overflow-hidden space-x-4 pr-8 snap-x snap-mandatory scrollbar-hide"
         >
           {materi.map((item, index) => (
-            <div
-              key={item.uuid}
-              className="min-w-[300px] h-[150px] bg-gray-300 rounded-lg snap-center relative group cursor-pointer overflow-hidden"
-            >
-              <img
-                src={item.cover}
-                alt={item.materi}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <p className="text-white text-lg">{item.materi}</p>
+            <Link key={item.uuid} to={`/materi/${item.uuid}`}>
+              <div className="min-w-[300px] h-[150px] bg-gray-300 rounded-lg snap-center relative group cursor-pointer overflow-hidden">
+                <img
+                  src={item.cover}
+                  alt={item.materi}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-white text-lg">{item.materi}</p>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

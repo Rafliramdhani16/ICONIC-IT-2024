@@ -1,4 +1,3 @@
-import React from "react";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 
 const Sidebar = ({ open, toggleSidebar, modulDetail }) => {
@@ -14,9 +13,9 @@ const Sidebar = ({ open, toggleSidebar, modulDetail }) => {
         <div className="flex items-center text-black mb-4">
           <button onClick={toggleSidebar} className="mr-4">
             {open ? (
-              <AiFillRightCircle className="h-7 w-7" />
+              <AiFillRightCircle className="h-7 w-7 text-blue-500 hover:text-blue-600" />
             ) : (
-              <AiFillLeftCircle className="h-7 w-7" />
+              <AiFillLeftCircle className="h-7 w-7 text-blue-500 hover:text-blue-600" />
             )}
           </button>
           {open && modulDetail && (

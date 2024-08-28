@@ -1,34 +1,34 @@
+import React from "react";
+
 const SkeletonModulDetail = () => {
   return (
-    <>
-      <nav className="flex items-center p-5 border-b border-neutral-300 shadow-sm rounded-b-3xl">
+    <div className="bg-white p-6 rounded-xl border-2 border-neutral-100 mx-8 h-[95dvh] relative">
+      <nav className="flex items-center p-5 border-b border-neutral-300 shadow-sm rounded-b-3xl mb-6">
         <div className="flex items-center">
           <div className="skeleton w-8 h-8 rounded-full"></div>
           <div className="skeleton w-40 h-6 ml-2"></div>
         </div>
       </nav>
 
-      <div className="flex flex-col lg:flex-row h-full">
-        <div className="flex-1 p-6 lg:pr-[400px]">
-          <div className="bg-white p-6 rounded-xl border-2 border-neutral-100 mx-8 h-[75dvh]">
-            <div className="flex">
-              <div className="skeleton w-96 h-64 rounded-lg"></div>
-              <div className="ml-8 mt-4 w-full">
-                <div className="skeleton w-full h-4 mb-2"></div>
-                <div className="skeleton w-full h-4 mb-2"></div>
-                <div className="skeleton w-3/4 h-4"></div>
-              </div>
+      <div className="flex">
+        <div className="flex-1 pr-[400px]">
+          <div className="flex">
+            <div className="skeleton w-96 h-64 rounded-lg"></div>
+            <div className="ml-8 mt-4 w-full">
+              <div className="skeleton w-full h-4 mb-2"></div>
+              <div className="skeleton w-full h-4 mb-2"></div>
+              <div className="skeleton w-3/4 h-4"></div>
             </div>
           </div>
-          <div className="flex justify-between items-center mt-16 p-2 rounded-3xl border border-neutral-200 mx-8 px-4">
+
+          <div className="flex justify-between items-center mt-[470px] mb-10 p-2  rounded-3xl border border-neutral-200 mx-8 px-4">
             <div className="skeleton w-32 h-8 rounded-md"></div>
             <div className="skeleton w-40 h-6 mx-auto"></div>
             <div className="skeleton w-32 h-8 rounded-md"></div>
           </div>
         </div>
 
-        {/* Sidebar Skeleton */}
-        <div className="fixed top-[80px] right-0 h-[calc(100%-100px)] bg-white shadow-lg z-40 transition-transform duration-300 ease-in-out rounded-l-3xl lg:w-[390px]">
+        <div className="fixed top-[80px] right-8 h-[calc(100%-100px)] bg-white shadow-lg z-40 transition-transform duration-300 ease-in-out rounded-l-3xl w-[390px]">
           <div className="flex flex-col p-4 bg-white rounded-tl-3xl">
             <div className="flex items-center mb-4">
               <div className="skeleton w-7 h-7 rounded-full"></div>
@@ -52,7 +52,7 @@ const SkeletonModulDetail = () => {
           </ul>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

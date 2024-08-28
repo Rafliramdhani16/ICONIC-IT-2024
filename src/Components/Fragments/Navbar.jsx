@@ -1,25 +1,19 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { FaUserCircle } from "react-icons/fa";
-import { AiOutlineSearch, AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { AiOutlineSearch } from "react-icons/ai";
 import Button from "../Elements/Button/Button";
-import { getCurrentUserFromToken, logoutUser } from "../../Services/AuthLog";
 import ModalSession from "../Elements/Modal/ModalSession";
+import { useAuth } from "../../Context/AuthLogContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState(null);
+  const { user, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [sessionExpired, setSessionExpired] = useState(false);
   const [showModalBeforeLogout, setShowModalBeforeLogout] = useState(false);
 
   useEffect(() => {
-    const currentUsername = getCurrentUserFromToken();
-    if (currentUsername) {
-      setUsername(currentUsername);
-    }
-
     const handleStorageChange = async (e) => {
       if (
         e.key === "token" ||
@@ -36,7 +30,7 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, [navigate]);
+  }, []);
 
   const handleMasuk = () => {
     navigate("/masuk");
@@ -47,15 +41,13 @@ const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    await logoutUser();
-    setUsername(null);
+    await logout();
     navigate("/");
   };
 
   const handleConfirmLogout = async () => {
     setShowModalBeforeLogout(false);
-    await logoutUser();
-    setUsername(null);
+    await logout();
     setSessionExpired(true);
     navigate("/masuk");
   };
@@ -124,14 +116,18 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex space-x-4 items-center mr-5">
-          {username ? (
+          {user ? (
             <div className="relative">
               <button
                 className="flex items-center space-x-2 focus:outline-none transition-all duration-300 ease-in-out"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                <FaUserCircle className="text-2xl text-neutral-800 transition-all duration-300 ease-in-out hover:text-blue-600" />
-                <span className="text-lg ">{username}</span>
+                <img
+                  src={user.image}
+                  alt="Profile"
+                  className="w-8 h-8 rounded-full"
+                />
+                <span className="text-lg ">{user.username}</span>
               </button>
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-md z-10 border border-neutral-300 transition-all duration-300 ease-in-out transform origin-top-right">
@@ -188,7 +184,7 @@ const Navbar = () => {
               />
             </div>
 
-            {username ? (
+            {user ? (
               <>
                 <button
                   onClick={() => {
