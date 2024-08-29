@@ -16,7 +16,7 @@ const useMateri = () => {
           setError(response.message);
         }
       } catch (error) {
-        setError("Failed to fetch materi.");
+        setError("Gagal mengambil data");
       } finally {
         setLoading(false);
       }

@@ -31,7 +31,7 @@ const CardAbout = () => {
   const cards = [
     {
       id: 1,
-      name: "Aulia",
+      name: "Rafli Ganteng sekali",
       testimonial:
         "Belajar di GYANAKAYA sangat menyenangkan! Materi yang disajikan mudah dipahami dan langsung bisa diaplikasikan ke proyek nyata. Sangat cocok untuk pemula!",
     },

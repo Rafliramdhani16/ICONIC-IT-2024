@@ -76,7 +76,6 @@ const FormLog = () => {
           handleChange={handleChange}
           errors={{ ...errors, ...(authError ? { general: authError } : {}) }}
         />
-        {authError && <p className="text-red-500 text-sm mt-2">{authError}</p>}
         <p className="text-sm my-2 ml-1">
           Lupa kata sandi?
           <Link to="/lupaSandi" className="text-blue-600">

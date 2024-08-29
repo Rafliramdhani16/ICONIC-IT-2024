@@ -14,6 +14,12 @@ const PageModulDetail = () => {
   const { materiId, modulId } = useParams();
   const { modulDetail, loading, error } = useModulDetail(materiId, modulId);
 
+  const handleNextModule = (nextModulId) => {
+    // Implementasi navigasi ke modul berikutnya
+    console.log("Navigating to next module:", nextModulId);
+    // Misalnya, Anda bisa menggunakan useNavigate di sini untuk berpindah ke modul berikutnya
+  };
+
   if (loading) {
     return (
       <div>
@@ -33,12 +39,12 @@ const PageModulDetail = () => {
   }
 
   return (
-    <ModulDetail modulDetail={modulDetail} open={open}>
-      <Sidebar
-        open={open}
-        toggleSidebar={toggleSidebar}
-        modulDetail={modulDetail}
-      />
+    <ModulDetail
+      modulDetail={modulDetail}
+      open={open}
+      onNextModule={handleNextModule}
+    >
+      <Sidebar open={open} toggleSidebar={toggleSidebar} materiId={materiId} />
     </ModulDetail>
   );
 };

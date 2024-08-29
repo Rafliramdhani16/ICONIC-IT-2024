@@ -67,9 +67,9 @@ const DetailMateri = ({ data, joined, onUnlock }) => {
           />
         </div>
         <div className="bg-blue-500 rounded-lg shadow-md text-white flex-1 p-6">
+          {data.lanjutan && <p className="mb-4 font-bold">Materi Lanjutan</p>}
+          {!data.lanjutan && <p className="mb-4 font-bold">Materi Dasar</p>}
           <p className="text-justify text-lg">{data.deskripsi}</p>
-          {data.lanjutan && <p className="mt-4 font-bold">Materi Lanjutan</p>}
-          {!data.lanjutan && <p className="mt-4 font-bold">Materi Dasar</p>}
         </div>
       </div>
       <div className="flex justify-between mt-4">{renderButton()}</div>

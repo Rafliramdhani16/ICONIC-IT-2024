@@ -2,20 +2,20 @@ import React from "react";
 
 const SkeletonModul = () => {
   return (
-    <div className="w-[75%] mx-auto my-10 p-6 animate-pulse">
-      <div className="h-8 skeleton rounded w-1/4 mb-4"></div>
+    <div className="w-[75%] mx-auto my-10 p-6">
+      <h2 className="text-2xl font-semibold mb-4 skeleton rounded-lg h-5 w-64"></h2>
       <div className=" h-[450px] border rounded-xl shadow-md px-4 py-6">
-        {[...Array(5)].map((_, index) => (
+        {Array.from({ length: 5 }).map((_, index) => (
           <div
             key={index}
-            className="flex items-center p-4 bg-white rounded-lg shadow mb-3"
+            className="skeleton mb-3 flex items-center p-4 bg-white rounded-lg shadow"
           >
-            <div className="flex-shrink-0 skeleton rounded-lg w-10 h-10 mr-4"></div>
-            <div className="w-8 h-8 skeleton rounded-full mr-4"></div>
-            <div className="flex-grow">
-              <div className="h-5 skeleton rounded w-3/4 mb-2"></div>
+            <div className="flex-shrink-0 border rounded-lg w-10 h-10 flex items-center justify-center text-lg font-bold text-black mr-4 skeleton"></div>
+            <div className="w-8 h-8 object-cover rounded-lg mr-4 skeleton"></div>
+            <div className="flex-grow ml-4">
+              <h3 className="text-lg font-medium skeleton"></h3>
             </div>
-            <div className="w-8 h-8 skeleton rounded-full"></div>
+            <div className="text-gray-500 w-8 h-8 skeleton"></div>
           </div>
         ))}
       </div>

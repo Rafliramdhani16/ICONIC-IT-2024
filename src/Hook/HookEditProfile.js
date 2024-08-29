@@ -27,7 +27,7 @@ const useEditProfileForm = (initialValues, redirectPath) => {
           }));
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error Mengambil data:", error);
       }
     };
 
@@ -58,16 +58,16 @@ const useEditProfileForm = (initialValues, redirectPath) => {
     try {
       const response = await updateUserData(formData);
       if (response.success !== 200) {
-        setMessage(response.message || "An unexpected error occurred.");
+        setMessage(response.message);
         setErrors(response.data || {});
         return { success: false, message: response.message };
       } else {
-        setMessage("Profile updated successfully!");
-        return { success: true, message: "Profile updated successfully!" };
+        setMessage("Berhasil Mengubah Profil");
+        return { success: true, message: "Berhasil Mengubah Profil" };
       }
     } catch (error) {
-      setMessage("An unexpected error occurred.");
-      return { success: false, message: "An unexpected error occurred." };
+      setMessage("Sepertinya ada yang error, silahkan coba lagi.");
+      return { success: false, message: "Sepertinya ada yang error" };
     }
   };
 

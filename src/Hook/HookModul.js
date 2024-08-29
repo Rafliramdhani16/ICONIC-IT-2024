@@ -49,7 +49,7 @@ const useModulByMateri = (materiId) => {
       }
       return result;
     } catch (err) {
-      console.error("Error unlocking materi:", err);
+      console.error("Error Mengambil data:", err);
       throw err;
     }
   };

@@ -90,6 +90,24 @@ export const unlockMateri = async (materiId) => {
     throw error;
   }
 };
+// Di dalam file Services/Materi.js
+export const checkModul = async (modulId) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/user/modul/${modulId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "An error occurred");
+  }
+};
+
 // detail modul
 export const getModulDetail = async (materiId, modulId) => {
   try {

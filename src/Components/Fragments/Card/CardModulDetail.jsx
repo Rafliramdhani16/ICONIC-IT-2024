@@ -1,10 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { useCheckModul } from "../../../Hook/HookCheckModul";
 
-const ModulDetail = ({ modulDetail, children, open }) => {
+const ModulDetail = ({
+  modulDetail,
+  modules,
+  children,
+  open,
+  onNextModule,
+}) => {
   const navigate = useNavigate();
+  const { handleCheckModul, loading, error } = useCheckModul();
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleNextModule = async () => {
+    const result = await handleCheckModul(modulDetail.id);
+    if (result && result.status === 200) {
+      if (result.message === "Sukses! Sudah membaca modul") {
+        setShowPopup(true);
+      } else if (result.message === "Sukses! Pernah membaca modul") {
+        // Directly move to the next module
+        onNextModule(modulDetail.id);
+      }
+    } else {
+      // Handle error
+      console.error("Error checking modul:", error || "Unknown error");
+    }
+  };
+
+  const handleUnderstandClick = () => {
+    onNextModule(modulDetail.id);
+    setShowPopup(false);
+  };
 
   return (
     <>
@@ -42,8 +71,13 @@ const ModulDetail = ({ modulDetail, children, open }) => {
               <div className="text-lg font-semibold mx-auto">
                 {modulDetail.modul}
               </div>
-              <button className="p-2 rounded-md flex items-center">
-                Selanjutnya <AiFillCaretRight className="ml-2 w-5 h-5" />
+              <button
+                className="p-2 rounded-md flex items-center"
+                onClick={handleNextModule}
+                disabled={loading}
+              >
+                {loading ? "Loading..." : "Selanjutnya"}{" "}
+                <AiFillCaretRight className="ml-2 w-5 h-5" />
               </button>
             </div>
           </div>
@@ -51,6 +85,28 @@ const ModulDetail = ({ modulDetail, children, open }) => {
 
         {children}
       </div>
+
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg">
+            <h2 className="text-xl font-bold mb-4">Apakah Anda sudah paham?</h2>
+            <div className="flex justify-end">
+              <button
+                className="px-4 py-2 bg-green-500 text-white rounded mr-2"
+                onClick={handleUnderstandClick}
+              >
+                Ya
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded"
+                onClick={() => setShowPopup(false)}
+              >
+                Tidak
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
