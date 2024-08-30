@@ -125,3 +125,25 @@ export const getModulDetail = async (materiId, modulId) => {
     throw error;
   }
 };
+
+export const searchMateri = async (query) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/materi`,
+      { query },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
+    if (response.data.success) {
+      return response.data;
+    } else {
+      throw new Error(response.data.message || "Pencarian gagal");
+    }
+  } catch (error) {
+    console.error("Error in searchMateri:", error.response || error);
+    throw new Error(error.response?.data?.message || "Failed to search materi");
+  }
+};

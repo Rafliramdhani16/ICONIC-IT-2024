@@ -10,19 +10,20 @@ const ModulDetail = ({
   children,
   open,
   onNextModule,
+  onPrevModule,
 }) => {
   const navigate = useNavigate();
   const { handleCheckModul, loading, error } = useCheckModul();
   const [showPopup, setShowPopup] = useState(false);
 
   const handleNextModule = async () => {
-    const result = await handleCheckModul(modulDetail.id);
-    if (result && result.status === 200) {
+    const result = await handleCheckModul(modulDetail.uuid);
+    if (result && result.success === 200) {
       if (result.message === "Sukses! Sudah membaca modul") {
         setShowPopup(true);
       } else if (result.message === "Sukses! Pernah membaca modul") {
         // Directly move to the next module
-        onNextModule(modulDetail.id);
+        onNextModule(modulDetail.uuid);
       }
     } else {
       // Handle error
@@ -30,8 +31,19 @@ const ModulDetail = ({
     }
   };
 
+  const handlePrevModule = async () => {
+    const result = await handleCheckModul(modulDetail.uuid);
+    if (result && result.success === 200) {
+      // Directly move to the next module
+      onPrevModule(modulDetail.uuid);
+    } else {
+      // Handle error
+      console.error("Error checking modul:", error || "Unknown error");
+    }
+  };
+
   const handleUnderstandClick = () => {
-    onNextModule(modulDetail.id);
+    onNextModule(modulDetail.uuid);
     setShowPopup(false);
   };
 
@@ -66,7 +78,14 @@ const ModulDetail = ({
 
             <div className="flex justify-between items-center p-2 rounded-3xl border border-neutral-200 mt-4">
               <button className="p-2 rounded-md flex items-center">
-                <AiFillCaretLeft className="mr-2 w-5 h-5" /> Sebelumnya
+                <button
+                  className="p-2 rounded-md flex items-center"
+                  onClick={handlePrevModule}
+                  disabled={loading}
+                >
+                  <AiFillCaretLeft className="ml-2 w-5 h-5" />
+                  {loading ? "Loading..." : "Sebelumnya"}{" "}
+                </button>
               </button>
               <div className="text-lg font-semibold mx-auto">
                 {modulDetail.modul}

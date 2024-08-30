@@ -215,3 +215,17 @@ export const changePassword = async (data) => {
     };
   }
 };
+
+export const fetchReviews = async () => {
+  try {
+    const response = await fetch(`${API_URL}/reviews`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch reviews:", error);
+    throw error;
+  }
+};
