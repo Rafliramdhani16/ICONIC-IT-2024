@@ -64,10 +64,15 @@ const FormLog = () => {
 
   return (
     <div className="w-full max-w-md bg-white rounded-3xl shadow-md p-6">
-      <button onClick={handleBack} type="button" className="flex items-center">
+      <button
+        onClick={handleBack}
+        type="button"
+        className="flex items-center transition-transform duration-300 transform hover:scale-105"
+      >
         <BiArrowBack className="text-neutral-800 w-5 h-5" />
         <span className="ml-2">Kembali</span>
       </button>
+
       <h2 className="text-3xl font-semibold text-neutral-800 my-6">Masuk</h2>
       <form onSubmit={handleSubmit}>
         <InputLog
@@ -85,7 +90,7 @@ const FormLog = () => {
         </p>
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-full mt-4 font-semibold"
+          className="w-full bg-blue-600 text-white py-2 rounded-full mt-4 font-semibold transition-transform duration-300 transform hover:scale-105"
         >
           Masuk
         </button>
@@ -93,7 +98,7 @@ const FormLog = () => {
         <button
           type="button"
           onClick={() => navigate("/daftar")}
-          className="w-full font-semibold text-blue-600 bg-white py-2 border border-blue-600 rounded-full mt-4 hover:bg-blue-600 hover:text-white hover:border-blue-600 mb-4"
+          className="w-full font-semibold text-blue-600 bg-white py-2 border border-blue-600 rounded-full mt-4 transition-transform duration-300 transform hover:scale-105 hover:bg-blue-600 hover:text-white mb-4"
         >
           Daftar
         </button>

@@ -59,7 +59,7 @@ const FormRegister = () => {
       <button
         onClick={handleBack}
         type="button"
-        className="flex items-center mb-6"
+        className="flex items-center transition-transform duration-300 transform hover:scale-105"
       >
         <BiArrowBack className="text-neutral-800 w-5 h-5" />
         <span className="ml-2">Kembali</span>
@@ -81,12 +81,38 @@ const FormRegister = () => {
         />
         <button
           type="submit"
-          className={`w-full py-2 rounded-full mt-4 font-semibold ${
-            isLoading ? "bg-blue-600 text-white" : "bg-blue-600 text-white"
+          className={`w-full py-2 rounded-full mt-4 font-semibold bg-blue-600 text-white flex items-center justify-center transition-transform duration-300 transform hover:scale-105 ${
+            isLoading ? "opacity-75" : ""
           }`}
           disabled={isLoading}
         >
-          {isLoading ? "Memproses..." : "Daftar"}
+          {isLoading ? (
+            <>
+              <svg
+                className="animate-spin h-5 w-5 mr-2"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8H4z"
+                />
+              </svg>
+              Memproses...
+            </>
+          ) : (
+            "Daftar"
+          )}
         </button>
       </form>
       <Modal

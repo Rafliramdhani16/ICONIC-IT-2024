@@ -30,7 +30,9 @@ const SearchBar = ({ isMobile = false }) => {
   return (
     <div className="relative">
       <div
-        className={`flex items-center ${isMobile ? "w-full " : "w-[600px]"}`}
+        className={`flex items-center ${
+          isMobile ? "w-full " : "w-[300px] xl:w-[600px] lg:w-[400px]"
+        }`}
       >
         <AiOutlineSearch className="absolute left-3 text-neutral-500" />
         <input
@@ -48,7 +50,7 @@ const SearchBar = ({ isMobile = false }) => {
         )}
       </div>
 
-      <div className="absolute mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+      <div className="absolute mt-2 w-full bg-white border-gray-200 rounded-lg shadow-lg z-10">
         {isLoading && <p className="mt-2">Memuat...</p>}
         {error && <p className="mt-2 text-red-500">Kesalahan: {error}</p>}
         {searchResults.length > 0 && (

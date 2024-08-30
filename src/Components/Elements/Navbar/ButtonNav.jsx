@@ -1,5 +1,6 @@
 import Button from "../Button/Button";
 import { useState } from "react";
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
 
 const ButtonNav = ({
   user,
@@ -18,6 +19,7 @@ const ButtonNav = ({
     if (isMobile) toggleMenu();
   };
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
   if (user) {
     return (
       <div className={isMobile ? "" : "relative"}>
@@ -34,19 +36,39 @@ const ButtonNav = ({
           />
           <span className="text-lg">{user.username}</span>
         </button>
+        {isMobile && (
+          <button
+            onClick={() => {
+              handleLogout();
+              toggleMenu();
+            }}
+            className="mt-2 w-full text-left px-4 py-2 text-neutral-700 bg-white hover:bg-blue-50 hover:text-red-500 rounded-lg transition-all duration-300 ease-in-out flex items-center group"
+          >
+            <FaSignOutAlt className="mr-2 transform group-hover:scale-110 transition-all duration-300" />
+            <span className="transform group-hover:translate-x-1 transition-all duration-300">
+              Keluar
+            </span>
+          </button>
+        )}
         {!isMobile && dropdownOpen && (
           <div className="absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-md z-10 border border-neutral-300 transition-all duration-300 ease-in-out transform origin-top-right">
             <button
               onClick={() => navigate("/profile")}
-              className="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-200 rounded-t-lg transition-all duration-100 ease-in-out"
+              className=" w-full text-left px-4 py-2 text-neutral-700 hover:bg-blue-50 hover:text-blue-500 rounded-t-lg transition-all duration-300 ease-in-out flex items-center group"
             >
-              Profile
+              <FaUser className="mr-2 transform group-hover:scale-110 transition-all duration-300" />
+              <span className="transform group-hover:translate-x-1 transition-all duration-300">
+                Profile
+              </span>
             </button>
             <button
               onClick={handleLogout}
-              className="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-200 rounded-b-lg transition-all duration-100 ease-in-out"
+              className=" w-full text-left px-4 py-2 text-neutral-700 hover:bg-blue-50 hover:text-red-500 rounded-b-lg transition-all duration-300 ease-in-out flex items-center group"
             >
-              Keluar
+              <FaSignOutAlt className="mr-2 transform group-hover:scale-110 transition-all duration-300" />
+              <span className="transform group-hover:translate-x-1 transition-all duration-300">
+                Keluar
+              </span>
             </button>
           </div>
         )}
@@ -59,7 +81,7 @@ const ButtonNav = ({
       <Button
         className={`${
           isMobile ? "w-full mb-2" : ""
-        } text-blue-600 border border-blue-600 hover:bg-blue-700 hover:text-white transition-all duration-300 ease-in-out`}
+        } text-blue-600 border border-blue-600 hover:bg-blue-700 hover:text-white transition-all duration-300 ease-in-out transform hover:scale-105`}
         onClick={handleMasuk}
         type="button"
       >
@@ -68,7 +90,7 @@ const ButtonNav = ({
       <Button
         className={`${
           isMobile ? "w-full" : ""
-        } bg-blue-600 text-white hover:bg-white hover:text-blue-600 hover:border-blue-600 hover:border transition-all duration-300 ease-in-out`}
+        } bg-blue-600 text-white hover:bg-white hover:text-blue-600 border-blue-600 hover:border transition-all duration-300 ease-in-out transform hover:scale-105`}
         onClick={handleDaftar}
         type="button"
       >

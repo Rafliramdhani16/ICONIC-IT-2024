@@ -2,7 +2,7 @@ import React from "react";
 
 const SkeletonModulDetail = () => {
   return (
-    <div className="bg-white p-6 rounded-xl border-2 border-neutral-100 mx-8 h-[95dvh] relative">
+    <div className="bg-white p-6 rounded-xl border-2 border-neutral-100 mx-8 h-[95dvh] relative overflow-hidden">
       <nav className="flex items-center p-5 border-b border-neutral-300 shadow-sm rounded-b-3xl mb-6">
         <div className="flex items-center">
           <div className="skeleton w-8 h-8 rounded-full"></div>

@@ -35,12 +35,12 @@ const LabelInput = ({
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className="focus:outline-none ml-2"
+            className="focus:outline-none ml-2 transition-transform duration-300 ease-in-out"
           >
             {showPassword ? (
-              <MdVisibility className="text-neutral-800 mr-2" />
+              <MdVisibility className="text-neutral-800 mr-2 transform transition-transform duration-300 ease-in-out scale-110 hover:scale-125" />
             ) : (
-              <MdVisibilityOff className="text-neutral-800 mr-2" />
+              <MdVisibilityOff className="text-neutral-800 mr-2 transform transition-transform duration-300 ease-in-out scale-110 hover:scale-125" />
             )}
           </button>
         )}

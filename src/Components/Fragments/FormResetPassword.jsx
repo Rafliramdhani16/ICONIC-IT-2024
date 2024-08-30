@@ -92,7 +92,7 @@ const ResetPassword = () => {
         />
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-full mt-6 font-semibold hover:bg-blue-700 transition duration-300"
+          className="w-full bg-blue-600 text-white py-2 rounded-full mt-5 font-semibold transition-transform duration-300 transform hover:scale-105 hover:bg-blue-700 mb-4 "
           disabled={isLoading}
         >
           {isLoading ? "Memproses..." : "Ganti Sandi"}

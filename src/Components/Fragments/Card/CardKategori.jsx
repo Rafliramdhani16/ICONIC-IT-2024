@@ -2,26 +2,24 @@ import { useNavigate } from "react-router-dom";
 import useMateri from "../../../Hook/HookMateri";
 import SkeletonKategori from "../../Elements/Skeleton/SkeCardKategori";
 import { CgMenuGridR } from "react-icons/cg";
+import { useState } from "react";
+
 const CardKategori = () => {
   const navigate = useNavigate();
   const { materi, loading, error } = useMateri();
+  const [hoveredButton, setHoveredButton] = useState(null);
 
   const handleNavigate = (path) => {
     navigate(path);
   };
 
-  if (loading)
+  if (loading || error) {
     return (
       <div>
         <SkeletonKategori />
       </div>
     );
-  if (error)
-    return (
-      <div>
-        <SkeletonKategori />
-      </div>
-    );
+  }
 
   return (
     <div className="relative mt-[-100px] z-10 flex justify-center items-center bg-white rounded-3xl shadow-md w-[80%] mx-auto border border-neutral-300 p-5">
@@ -30,7 +28,20 @@ const CardKategori = () => {
           <button
             key={item.uuid}
             onClick={() => handleNavigate(`/kategori/${item.uuid}`)}
-            className="block md:flex flex-row justify-center items-center border-2 border-neutral-300 w-full h-[65px] bg-white rounded-xl hover:bg-gray-200 transition shadow-md"
+            onMouseEnter={() => setHoveredButton(item.uuid)}
+            onMouseLeave={() => setHoveredButton(null)}
+            style={{
+              border:
+                hoveredButton === item.uuid
+                  ? "2px solid blue"
+                  : "2px solid #d1d5db", // Border biru saat hover
+              transition: "all 0.3s ease",
+              transform:
+                hoveredButton === item.uuid ? "scale(1.05)" : "scale(1)",
+              backgroundColor:
+                hoveredButton === item.uuid ? "#e5e7eb" : "#f9fafb", // Latar belakang netral
+            }}
+            className="block md:flex flex-row justify-center items-center w-full h-[65px] rounded-xl"
           >
             <img
               src={item.cover}
@@ -42,7 +53,20 @@ const CardKategori = () => {
         ))}
         <button
           onClick={() => handleNavigate("/AllMateri")}
-          className="block md:flex flex-row justify-center items-center border-2 border-neutral-300 w-full h-[65px] bg-white rounded-xl hover:bg-gray-200 transition shadow-md"
+          onMouseEnter={() => setHoveredButton("allMateri")}
+          onMouseLeave={() => setHoveredButton(null)}
+          style={{
+            border:
+              hoveredButton === "allMateri"
+                ? "2px solid blue"
+                : "2px solid #d1d5db", // Border biru saat hover
+            transition: "all 0.3s ease",
+            transform:
+              hoveredButton === "allMateri" ? "scale(1.05)" : "scale(1)",
+            backgroundColor:
+              hoveredButton === "allMateri" ? "#e5e7eb" : "#f9fafb", // Latar belakang netral
+          }}
+          className="block md:flex flex-row justify-center items-center w-full h-[65px] rounded-xl"
         >
           <CgMenuGridR className="text-3xl md:text-4xl m-auto md:m-0 md:mr-4 " />
           <p className="text-center md:text-base text-sm">Semua Materi</p>

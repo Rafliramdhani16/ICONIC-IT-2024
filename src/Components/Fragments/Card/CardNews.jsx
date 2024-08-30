@@ -55,7 +55,7 @@ const CardNews = () => {
         >
           {materi.map((item, index) => (
             <Link key={item.uuid} to={`/materi/${item.uuid}`}>
-              <div className="min-w-[300px] h-[150px] bg-gray-300 rounded-lg snap-center relative group cursor-pointer overflow-hidden">
+              <div className="min-w-[300px] h-[150px] bg-gray-300 rounded-lg snap-center relative group cursor-pointer overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 my-1 mx-2">
                 <img
                   src={item.cover}
                   alt={item.materi}

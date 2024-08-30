@@ -59,7 +59,7 @@ const RequestResetPassword = () => {
         />
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-full mt-4 font-semibold"
+          className="w-full bg-blue-600 text-white py-2 rounded-full mt-4 font-semibold transition-transform duration-300 transform hover:scale-105 hover:bg-blue-700"
           disabled={isLoading}
         >
           {isLoading ? "Mengirim..." : "Kirim Email"}
@@ -68,7 +68,7 @@ const RequestResetPassword = () => {
       <p className="text-center mt-4">atau</p>
       <button
         onClick={() => navigate("/masuk")}
-        className="w-full font-semibold text-blue-600 bg-white py-2 border border-blue-600 rounded-full mt-4 hover:bg-blue-600 hover:text-white hover:border-blue-600"
+        className="w-full font-semibold text-blue-600 bg-white py-2 border border-blue-500 rounded-full mt-4 transition-transform duration-300 transform hover:scale-105 hover:bg-blue-700 hover:text-white mb-4"
       >
         Kembali ke Login
       </button>
