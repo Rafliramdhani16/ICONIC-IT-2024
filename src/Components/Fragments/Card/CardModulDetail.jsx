@@ -3,10 +3,10 @@ import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useCheckModul } from "../../../Hook/HookCheckModul";
-import ModalNextModul from "../../Elements/Modal/ModalNextModul";
 
 const ModulDetail = ({
   modulDetail,
+  modules,
   children,
   open,
   onNextModule,
@@ -14,17 +14,19 @@ const ModulDetail = ({
 }) => {
   const navigate = useNavigate();
   const { handleCheckModul, loading, error } = useCheckModul();
-  const [showModal, setShowModal] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleNextModule = async () => {
     const result = await handleCheckModul(modulDetail.uuid);
     if (result && result.success === 200) {
       if (result.message === "Sukses! Sudah membaca modul") {
-        setShowModal(true); // Show modal for confirmation
+        setShowPopup(true);
       } else if (result.message === "Sukses! Pernah membaca modul") {
-        onNextModule(modulDetail.uuid); // Proceed to next module directly
+        // Directly move to the next module
+        onNextModule(modulDetail.uuid);
       }
     } else {
+      // Handle error
       console.error("Error checking modul:", error || "Unknown error");
     }
   };
@@ -32,29 +34,24 @@ const ModulDetail = ({
   const handlePrevModule = async () => {
     const result = await handleCheckModul(modulDetail.uuid);
     if (result && result.success === 200) {
-      onPrevModule(modulDetail.uuid); // Go to previous module
+      // Directly move to the next module
+      onPrevModule(modulDetail.uuid);
     } else {
+      // Handle error
       console.error("Error checking modul:", error || "Unknown error");
     }
   };
 
-  const handleConfirm = () => {
-    setShowModal(false); // Close modal
-    onNextModule(modulDetail.uuid); // Proceed to next module
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false); // Close modal without proceeding
+  const handleUnderstandClick = () => {
+    onNextModule(modulDetail.uuid);
+    setShowPopup(false);
   };
 
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center p-5 bg-white border-b border-neutral-300 shadow-sm">
-        <button
-          className="flex items-center transition-transform duration-300 transform hover:scale-105"
-          onClick={() => navigate(-1)}
-        >
-          <BiArrowBack className="text-2xl text-neutral-800 h-6 w-6" />
+        <button className="flex items-center" onClick={() => navigate(-1)}>
+          <BiArrowBack className="text-2xl text-neutral-800" />
           <p className="text-xl font-semibold ml-2">{modulDetail.modul}</p>
         </button>
       </nav>
@@ -66,10 +63,10 @@ const ModulDetail = ({
           }`}
         >
           <div className="flex flex-col h-full">
-            <div className="flex-grow overflow-y-auto custom-scrollbar overflow-x-hidden">
+            <div className="flex-grow overflow-y-auto custom-scrollbar">
               <div className="flex mb-4">
                 <div className="ml-8 mt-4 w-full">
-                  <div className="prose prose-img:rounded-xl prose-headings:underline prose-a:text-blue-600 mr-4">
+                  <div className="prose prose-img:rounded-xl prose-headings:underline prose-a:text-blue-600">
                     <article
                       className="w-full"
                       dangerouslySetInnerHTML={{ __html: modulDetail.detail }}
@@ -80,13 +77,15 @@ const ModulDetail = ({
             </div>
 
             <div className="flex justify-between items-center p-2 rounded-3xl border border-neutral-200 mt-4">
-              <button
-                className="p-2 rounded-md flex items-center"
-                onClick={handlePrevModule}
-                disabled={loading}
-              >
-                <AiFillCaretLeft className="mr-2 w-5 h-5" />
-                {loading ? "Loading..." : "Sebelumnya"}
+              <button className="p-2 rounded-md flex items-center">
+                <button
+                  className="p-2 rounded-md flex items-center"
+                  onClick={handlePrevModule}
+                  disabled={loading}
+                >
+                  <AiFillCaretLeft className="ml-2 w-5 h-5" />
+                  {loading ? "Loading..." : "Sebelumnya"}{" "}
+                </button>
               </button>
               <div className="text-lg font-semibold mx-auto">
                 {modulDetail.modul}
@@ -96,7 +95,7 @@ const ModulDetail = ({
                 onClick={handleNextModule}
                 disabled={loading}
               >
-                {loading ? "Loading..." : "Selanjutnya"}
+                {loading ? "Loading..." : "Selanjutnya"}{" "}
                 <AiFillCaretRight className="ml-2 w-5 h-5" />
               </button>
             </div>
@@ -106,11 +105,27 @@ const ModulDetail = ({
         {children}
       </div>
 
-      <ModalNextModul
-        isOpen={showModal}
-        onClose={handleCloseModal}
-        onConfirm={handleConfirm}
-      />
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg">
+            <h2 className="text-xl font-bold mb-4">Apakah Anda sudah paham?</h2>
+            <div className="flex justify-end">
+              <button
+                className="px-4 py-2 bg-green-500 text-white rounded mr-2"
+                onClick={handleUnderstandClick}
+              >
+                Ya
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded"
+                onClick={() => setShowPopup(false)}
+              >
+                Tidak
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

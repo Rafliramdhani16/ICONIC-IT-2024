@@ -1,4 +1,3 @@
-import React from "react";
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import useModulByMateri from "../../Hook/HookModul";
 
