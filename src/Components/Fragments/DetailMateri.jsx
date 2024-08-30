@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../Elements/Modal/ModalCheck";
 import {
@@ -9,10 +9,20 @@ import {
   FaClock,
 } from "react-icons/fa";
 import { HiOutlineUsers } from "react-icons/hi2";
+import { PiCertificate } from "react-icons/pi";
 
 const DetailMateri = ({ data, joined, onUnlock }) => {
+  const [sessionData, setSessionData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const session = sessionStorage.getItem("oneTimeSession");
+    if (session) {
+      setSessionData(JSON.parse(session));
+      sessionStorage.removeItem("oneTimeSession");
+    }
+  }, []);
 
   const handleStartLearning = () => {
     setIsModalOpen(true);
@@ -31,9 +41,12 @@ const DetailMateri = ({ data, joined, onUnlock }) => {
   };
 
   const renderButton = () => {
+    const buttons = [];
+
     if (!joined) {
-      return (
+      buttons.push(
         <button
+          key="learn"
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4 transition duration-300 flex items-center justify-center w-full sm:w-auto transform hover:scale-105"
           onClick={handleStartLearning}
         >
@@ -42,8 +55,9 @@ const DetailMateri = ({ data, joined, onUnlock }) => {
       );
     } else if (data.modul && data.modul.length > 0) {
       const firstModule = data.modul[0];
-      return (
+      buttons.push(
         <button
+          key="start"
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg mt-4 transition duration-300 flex items-center justify-center w-full sm:w-auto transform hover:scale-105"
           onClick={() => navigate(`/materi/${data.uuid}/${firstModule.uuid}`)}
         >
@@ -51,7 +65,20 @@ const DetailMateri = ({ data, joined, onUnlock }) => {
         </button>
       );
     }
-    return null;
+
+    if (sessionData) {
+      buttons.push(
+        <button
+          key="certificate"
+          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg mt-4 ml-2 transition duration-300 flex items-center justify-center w-full sm:w-auto transform hover:scale-105"
+          onClick={() => window.open(sessionData.sertifikatUrl, "_blank")}
+        >
+          <PiCertificate className="mr-2" /> Download Sertifikat
+        </button>
+      );
+    }
+
+    return buttons;
   };
 
   return (
@@ -63,7 +90,7 @@ const DetailMateri = ({ data, joined, onUnlock }) => {
         backgroundPosition: "center",
       }}
     >
-      <div className="w-[95%] sm:w-[90%] md:w-[80%] mx-auto px-4 sm:px-8 bg-white rounded-xl relative pb-8 pt-2   shadow-md">
+      <div className="w-[95%] sm:w-[90%] md:w-[80%] mx-auto px-4 sm:px-8 bg-white rounded-xl relative pb-8 pt-2 shadow-md">
         <div className="flex justify-between mt-4">
           <button
             className="font-bold transition duration-300 flex items-center transform hover:scale-105 mb-4"
@@ -117,7 +144,7 @@ const DetailMateri = ({ data, joined, onUnlock }) => {
             </p>
           </div>
         </div>
-        <div className="flex justify-center sm:justify-end mt-4">
+        <div className="flex justify-center sm:justify-end mt-4 flex-wrap">
           {renderButton()}
         </div>
         <ConfirmModal

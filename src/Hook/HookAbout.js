@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchReviews } from "../Services/AuthLog"; // pastikan path benar
+import { fetchReviews } from "../Services/AuthLog";
 
 const useFetchReviews = () => {
   const [data, setData] = useState([]);

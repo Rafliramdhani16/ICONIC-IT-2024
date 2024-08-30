@@ -43,15 +43,15 @@ const Card = ({ card, onClick }) => {
       <h3 className="text-lg font-bold mb-2">{card.materi}</h3>
       <div className="flex items-center text-sm text-gray-500 mb-2">
         <FaUserFriends className="mr-2" />
-        <span>{card.followers || "N/A"} pengikut</span>
+        <span>{card.jumlah_siswa || "N/A"} pengikut</span>
       </div>
       <div className="flex items-center text-sm text-gray-500 mb-2">
         <FaListAlt className="mr-2" />
-        <span>{card.modul ? card.modul.length : 0} Modul</span>
+        <span>{card.jumlah_modul} Modul</span>
       </div>
       <div className="flex items-center text-sm text-gray-500">
         <FaRegClock className="mr-2" />
-        <span>{card.duration || "N/A"}</span>
+        <span>{card.waktu || "N/A"} Menit</span>
       </div>
     </div>
   );

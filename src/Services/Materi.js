@@ -147,3 +147,43 @@ export const searchMateri = async (query) => {
     throw new Error(error.response?.data?.message || "Failed to search materi");
   }
 };
+
+// USER KLAIM SERTIFIKAT
+export const getKlaimSertifikat = async (uuid) => {
+  console.log(sessionStorage.getItem("token"));
+  try {
+    const response = await axios.post(
+      `${API_URL}/user/materi/${uuid}/sertifikat`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching materi by kategori:", error);
+    throw error;
+  }
+};
+
+// USER KLAIM SERTIFIKAT
+export const getSertifikat = async () => {
+  console.log(sessionStorage.getItem("token"));
+  try {
+    const response = await axios.get(
+      `${API_URL}/user/sertifikat`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching materi by kategori:", error);
+    throw error;
+  }
+};

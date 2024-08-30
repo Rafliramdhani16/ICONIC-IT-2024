@@ -18,23 +18,33 @@ const PageModulDetail = () => {
   const { handleCheckModul } = useCheckModul();
 
   const handleNextModule = async (nextModulId) => {
-    // Implementasi navigasi ke modul berikutnya
     console.log("Navigating to next module:", nextModulId);
-    // Misalnya, Anda bisa menggunakan useNavigate di sini untuk berpindah ke modul berikutnya
-    const arrayModul =
-      data.modul.findIndex((modul) => modul.uuid === modulId) + 1;
-    navigate(`/materi/${materiId}/${data.modul[arrayModul].uuid}`);
-    const result = await handleCheckModul(data.modul[arrayModul].uuid);
+    const currentIndex = data.modul.findIndex(
+      (modul) => modul.uuid === nextModulId
+    );
+
+    const nextIndex = currentIndex + 1;
+
+    if (nextIndex >= data.modul.length) {
+      return false;
+    }
+
+    const result = await handleCheckModul(data.modul[nextIndex].uuid);
+
+    if (result && result.success === 200) {
+      return `/materi/${materiId}/${data.modul[nextIndex].uuid}`;
+    }
   };
 
   const handlePrevModule = async (prevModulId) => {
-    // Implementasi navigasi ke modul berikutnya
-    console.log("Navigating to next module:", prevModulId);
-    // Misalnya, Anda bisa menggunakan useNavigate di sini untuk berpindah ke modul berikutnya
     const arrayModul =
-      data.modul.findIndex((modul) => modul.uuid === modulId) - 1;
-    navigate(`/materi/${materiId}/${data.modul[arrayModul].uuid}`);
-    const result = await handleCheckModul(data.modul[arrayModul].uuid);
+      data.modul.findIndex((modul) => modul.uuid === prevModulId) - 1;
+    if (arrayModul >= 0 && arrayModul < data.modul.length) {
+      const result = await handleCheckModul(data.modul[arrayModul].uuid);
+      if (result && result.success === 200) {
+        navigate(`/materi/${materiId}/${data.modul[arrayModul].uuid}`);
+      }
+    }
   };
 
   if (loading) {
@@ -57,6 +67,8 @@ const PageModulDetail = () => {
 
   return (
     <ModulDetail
+      data={data}
+      materiId={materiId}
       modulDetail={modulDetail}
       open={open}
       onNextModule={handleNextModule}
