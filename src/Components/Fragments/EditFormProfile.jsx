@@ -48,7 +48,7 @@ const EditProfileForm = () => {
     <div className="flex items-center justify-center w-full h-full">
       <form
         onSubmit={handleFormSubmit}
-        className="flex flex-col lg:flex-row justify-between w-full max-w-4xl mx-auto my-auto p-4"
+        className="flex flex-col lg:flex-row items-center justify-between w-full mx-auto my-auto  md:p-20"
       >
         <div className="relative flex flex-col items-center mb-6 md:mb-0 md:mr-6 xl:mt-4 ">
           <div className="xl:w-80 xl:h-80 md:w-64 md:h-64 relative ">
@@ -85,17 +85,17 @@ const EditProfileForm = () => {
               formData={formData}
             />
           </div>
-          <div className="flex flex-col md:flex-row justify-end gap-3 mt-6">
+          <div className="flex flex-col md:flex-row justify-end gap-3 mt-4">
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 w-full md:w-72 mb-3 md:mb-0 transition duration-300"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 w-full mb-3"
             >
               Simpan Perubahan
             </button>
             <button
               type="button"
               onClick={() => navigate("/profile")}
-              className="px-4 py-2 bg-white border border-blue-600 text-blue-600 hover:text-white rounded-lg hover:bg-blue-600 w-full md:w-72 transition duration-300"
+              className="px-4 py-2 bg-white border border-blue-600 text-blue-600 hover:text-white rounded-lg hover:bg-blue-600 w-full mb-3"
             >
               Batal
             </button>

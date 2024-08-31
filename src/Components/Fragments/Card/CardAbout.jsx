@@ -53,13 +53,13 @@ const CardAbout = () => {
             >
               <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
                 {card.image ? (
-                  <FaUser className="w-16 h-16 rounded-full bg-white p-2 shadow-lg border border-gray-300" />
-                ) : (
                   <img
                     src={card.image}
                     alt={card.nama}
                     className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-lg"
                   />
+                ) : (
+                  <FaUser className="w-16 h-16 rounded-full bg-white p-2 shadow-lg border border-gray-300" />
                 )}
               </div>
               <div className="text-center h-full mt-8">

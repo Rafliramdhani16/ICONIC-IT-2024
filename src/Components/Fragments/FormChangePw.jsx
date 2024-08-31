@@ -42,13 +42,13 @@ const ChangePasswordForm = () => {
           handleSubmit(e);
           showModal();
         }}
-        className="flex flex-col lg:flex-row justify-between w-full max-w-4xl mx-auto my-auto p-4 rounded-lg"
+        className="flex flex-col lg:flex-row items-center justify-between w-full mx-auto my-auto md:p-20"
       >
-        <div className="flex justify-center mb-5 lg:mb-0 mr-5">
+        <div className="flex justify-center mb-5 lg:mb-0 md:mr-5">
           <img
             src={profile.formData.image}
             alt="User"
-            className="md:w-56 md:h-56 xl:w-80 xl:h-80 rounded-3xl object-cover"
+            className="w-full h-full md:w-56 md:h-56 xl:w-80 xl:h-80 rounded-3xl object-cover aspect-square "
           />
         </div>
         <div className="flex-grow">

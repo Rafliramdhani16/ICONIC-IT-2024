@@ -12,9 +12,9 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
     setShowConfirmPassword(!showConfirmPassword);
 
   return (
-    <div className="ml-2">
-      <div className="flex justify-between">
-        <div className="w-1/2 pr-2">
+    <div className="">
+      <div className="block md:flex justify-between">
+        <div className="w-full md:w-1/2 pr-2">
           {fields.includes("firstname") && (
             <LabelInput
               type="text"
@@ -31,7 +31,7 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
             />
           )}
         </div>
-        <div className="w-1/2 pl-2">
+        <div className="w-full md:w-1/2 pr-2">
           {fields.includes("lastname") && (
             <LabelInput
               type="text"

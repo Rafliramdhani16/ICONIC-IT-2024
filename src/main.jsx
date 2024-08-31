@@ -18,6 +18,7 @@ import PageModulDetail from "./Pages/modulDetail";
 import { AuthProvider } from "./Context/AuthLogContext";
 import ProtectedRoute from "./Context/Protect";
 import { SessionProvider } from "./Context/SessionProvider";
+import AllMateri from "./Pages/allMateri";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,15 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <MateriId />
+      </ProtectedRoute>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/semua/materi",
+    element: (
+      <ProtectedRoute>
+        <AllMateri />
       </ProtectedRoute>
     ),
     errorElement: <ErrorPage />,

@@ -1,7 +1,8 @@
 import React from "react";
 import { format } from "date-fns";
 import { useSertifikat } from "../../Hook/HookGetSerti";
-import { FaEye } from "react-icons/fa";
+import { FaDownload } from "react-icons/fa";
+import SkeSerti from "../Elements/Skeleton/SkeSerti";
 
 const SertifikatCard = () => {
   const { sertifikat, loading, error } = useSertifikat();
@@ -11,17 +12,21 @@ const SertifikatCard = () => {
   }
 
   if (loading) {
-    return <p className="text-center">Loading...</p>;
+    return (
+      <div>
+        <SkeSerti />
+      </div>
+    );
   }
 
   if (sertifikat.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full p-8">
-        <div className="rounded-lg p-6 text-center">
+        <div className="rounded-lg text-center">
           <img
             src="/sertifikat.svg"
             alt="Belum ada sertifikat"
-            className="w-96 h-96 mx-auto mb-4"
+            className="w-96 h-96 md:w-80 md:h-80 mx-auto mb-4"
           />
           <h2 className="text-2xl font-bold text-gray-800 mb-2">
             Belum ada sertifikat
@@ -35,34 +40,35 @@ const SertifikatCard = () => {
   }
 
   return (
-    <div className="container px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sertifikat.map((item) => (
-          <div
-            key={item.uuid}
-            className="bg-gray-200 rounded-lg shadow-md overflow-hidden transform transition-transform hover:scale-105"
-          >
-            <img
-              src={item.materi[0].cover}
-              alt={item.materi[0].materi}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold mb-2">
-                {item.materi[0].materi}
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Diterbitkan: {format(new Date(item.created_at), "dd MMMM yyyy")}
-              </p>
+    <div className="w-full md:w-[90%] mx-auto my-5 md:my-10 px-4 md:px-0 mt-14">
+      <div>
+        {sertifikat.map((item, index) => (
+          <div key={item.uuid} className="module-item flex items-center mb-3">
+            <div className="flex items-center p-3 md:p-4 bg-white rounded-lg border border-neutral-200 shadow-sm flex-grow">
+              <div className="hidden md:flex flex-shrink-0 w-12 h-12 items-center justify-center text-lg font-bold text-black mr-4">
+                {String(index + 1).padStart(2, "0")}
+              </div>
+              <img
+                src={item.materi[0].cover}
+                alt={item.materi[0].materi}
+                className="w-8 h-8 md:w-10 md:h-10 object-cover rounded-lg mr-3 md:mr-4"
+              />
+              <div className="flex-grow ml-2 md:ml-4">
+                <h3 className="text-sm md:text-lg font-medium">
+                  {item.materi[0].materi}
+                </h3>
+                <p className="text-xs md:text-sm text-gray-600">
+                  Diterbitkan:{" "}
+                  {format(new Date(item.created_at), "dd MMMM yyyy")}
+                </p>
+              </div>
               <a
                 href={item.sertifikat}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                download
+                className="ml-2 md:ml-4 bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 md:px-3 md:py-2 rounded-lg text-xs md:text-sm flex items-center transition-all duration-300 ease-in-out transform hover:scale-105 group"
               >
-                <span className="flex justify-center items-center gap-1">
-                  <FaEye /> Lihat sertifikat
-                </span>
+                <FaDownload className="mr-1 md:mr-2 group-hover:animate-bounce" />
+                <span className="hidden md:inline">Download</span>
               </a>
             </div>
           </div>

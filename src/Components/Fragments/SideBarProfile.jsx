@@ -87,7 +87,7 @@ const SidebarProfile = () => {
             {expanded ? (
               <span>{item.label}</span>
             ) : (
-              <div className="absolute left-full ml-2 px-2 py-1 bg-neutral-800 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-all duration-300 scale-0 group-hover:scale-100 origin-left whitespace-nowrap">
+              <div className="absolute left-full ml-2 px-2 py-1 bg-blue-600 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-all duration-300 scale-0 group-hover:scale-100 origin-left whitespace-nowrap">
                 {item.label}
               </div>
             )}

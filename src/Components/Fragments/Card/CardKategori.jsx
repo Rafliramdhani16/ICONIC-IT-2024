@@ -22,7 +22,7 @@ const CardKategori = () => {
   }
 
   return (
-    <div className="relative mt-[-100px] z-10 flex justify-center items-center bg-white rounded-3xl shadow-md w-[80%] mx-auto border border-neutral-300 p-5">
+    <div className="relative mt-[-100px] z-10 flex justify-center items-center bg-white rounded-3xl shadow-md w-[95%] md:w-[80%] mx-auto border border-neutral-300 p-5">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 w-[96%]">
         {materi.map((item) => (
           <button
@@ -34,37 +34,37 @@ const CardKategori = () => {
               border:
                 hoveredButton === item.uuid
                   ? "2px solid blue"
-                  : "2px solid #d1d5db", // Border biru saat hover
+                  : "2px solid #d1d5db",
               transition: "all 0.3s ease",
               transform:
                 hoveredButton === item.uuid ? "scale(1.05)" : "scale(1)",
               backgroundColor:
-                hoveredButton === item.uuid ? "#e5e7eb" : "#f9fafb", // Latar belakang netral
+                hoveredButton === item.uuid ? "#e5e7eb" : "#f9fafb",
             }}
             className="block md:flex flex-row justify-center items-center w-full h-[65px] rounded-xl"
           >
             <img
               src={item.cover}
               alt={`Materi ${item.kategori}`}
-              className="w-6 h-6 md:w-12 md:h-12 m-auto mb-2 md:m-0 md:mr-4"
+              className="w-6 h-6 md:w-9 md:h-10 m-auto mb-2 md:m-0 md:mr-4"
             />
             <p className="text-center text-sm md:text-base">{item.kategori}</p>
           </button>
         ))}
         <button
-          onClick={() => handleNavigate("/AllMateri")}
+          onClick={() => handleNavigate("/semua/materi")}
           onMouseEnter={() => setHoveredButton("allMateri")}
           onMouseLeave={() => setHoveredButton(null)}
           style={{
             border:
               hoveredButton === "allMateri"
                 ? "2px solid blue"
-                : "2px solid #d1d5db", // Border biru saat hover
+                : "2px solid #d1d5db",
             transition: "all 0.3s ease",
             transform:
               hoveredButton === "allMateri" ? "scale(1.05)" : "scale(1)",
             backgroundColor:
-              hoveredButton === "allMateri" ? "#e5e7eb" : "#f9fafb", // Latar belakang netral
+              hoveredButton === "allMateri" ? "#e5e7eb" : "#f9fafb",
           }}
           className="block md:flex flex-row justify-center items-center w-full h-[65px] rounded-xl"
         >

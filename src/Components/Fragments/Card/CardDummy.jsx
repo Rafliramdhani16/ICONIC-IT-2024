@@ -36,14 +36,14 @@ const Card = ({ card, onClick }) => {
       onClick={() => onClick(card)}
     >
       <img
-        src={card.cover || "/materi.png"}
+        src="/materi.png"
         alt={`Thumbnail for ${card.materi}`}
         className="w-full h-[170px] object-cover rounded-md mb-4"
       />
       <h3 className="text-lg font-bold mb-2">{card.materi}</h3>
       <div className="flex items-center text-sm text-gray-500 mb-2">
         <FaUserFriends className="mr-2" />
-        <span>{card.jumlah_siswa || "N/A"} pengikut</span>
+        <span>{card.jumlah_siswa} pengikut</span>
       </div>
       <div className="flex items-center text-sm text-gray-500 mb-2">
         <FaListAlt className="mr-2" />
@@ -51,7 +51,7 @@ const Card = ({ card, onClick }) => {
       </div>
       <div className="flex items-center text-sm text-gray-500">
         <FaRegClock className="mr-2" />
-        <span>{card.waktu || "N/A"} Menit</span>
+        <span>{card.waktu} Menit</span>
       </div>
     </div>
   );
