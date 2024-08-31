@@ -15,10 +15,6 @@ const Modal = ({
     if (isVisible) {
       document.body.style.overflow = "hidden";
       setTimeout(() => setIsRendered(true), 10);
-
-      timeoutId = setTimeout(() => {
-        onCloseAndRedirect();
-      }, 3000);
     } else {
       document.body.style.overflow = "unset";
       setIsRendered(false);

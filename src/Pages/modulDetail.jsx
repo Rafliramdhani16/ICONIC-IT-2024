@@ -74,7 +74,12 @@ const PageModulDetail = () => {
       onNextModule={handleNextModule}
       onPrevModule={handlePrevModule}
     >
-      <Sidebar open={open} toggleSidebar={toggleSidebar} materiId={materiId} />
+      <Sidebar
+        open={open}
+        toggleSidebar={toggleSidebar}
+        materiId={materiId}
+        modulId={modulId}
+      />
     </ModulDetail>
   );
 };

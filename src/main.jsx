@@ -13,6 +13,7 @@ import RequestReset from "./Pages/reqPassword";
 import Profile from "./Pages/profile";
 import EditProfile from "./Pages/editProfile";
 import ChangePassword from "./Pages/changepw";
+import Sertifikat from "./Pages/serti";
 import PageModulDetail from "./Pages/modulDetail";
 import { AuthProvider } from "./Context/AuthLogContext";
 import ProtectedRoute from "./Context/Protect";
@@ -57,6 +58,11 @@ const router = createBrowserRouter([
   {
     path: "/profile/ganti/password",
     element: <ChangePassword />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/profile/sertifikat",
+    element: <Sertifikat />,
     errorElement: <ErrorPage />,
   },
   {

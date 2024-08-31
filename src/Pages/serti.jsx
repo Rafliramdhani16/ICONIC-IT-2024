@@ -4,7 +4,7 @@ import FormSerti from "../Components/Fragments/FormSerti";
 const Sertifikat = () => {
   return (
     <>
-      <LayoutProfile pageTitle="Ambil E-Sertifikat">
+      <LayoutProfile pageTitle="Daftar E-Sertifikat">
         <FormSerti />
       </LayoutProfile>
     </>

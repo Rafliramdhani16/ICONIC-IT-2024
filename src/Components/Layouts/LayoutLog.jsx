@@ -28,7 +28,7 @@ const LayoutLog = ({ isLogin }) => {
                 : "Buat akun baru untuk memulai perjalananmu sebagai developer"}
             </p>
             <img
-              src="/log.png"
+              src="/daftar.svg"
               alt="Logo"
               className="w-[70%] items-center justify-center mx-auto ml-4"
             />

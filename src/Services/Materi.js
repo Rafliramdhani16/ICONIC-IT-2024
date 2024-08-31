@@ -168,22 +168,18 @@ export const getKlaimSertifikat = async (uuid) => {
   }
 };
 
-// USER KLAIM SERTIFIKAT
+// CEK ALL SERTIFIKAT
 export const getSertifikat = async () => {
   console.log(sessionStorage.getItem("token"));
   try {
-    const response = await axios.get(
-      `${API_URL}/user/sertifikat`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.get(`${API_URL}/user/sertifikat`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error("Error fetching materi by kategori:", error);
+    console.error("Error fetching sertifikat:", error);
     throw error;
   }
 };

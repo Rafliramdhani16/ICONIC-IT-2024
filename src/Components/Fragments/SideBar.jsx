@@ -1,11 +1,16 @@
 import { AiFillRightCircle, AiFillLeftCircle } from "react-icons/ai";
 import useModulByMateri from "../../Hook/HookModul";
+import { Link } from "react-router-dom";
 
-const Sidebar = ({ open, toggleSidebar, materiId }) => {
+const Sidebar = ({ open, toggleSidebar, materiId, modulId }) => {
   const { data, error, joined, handleUnlock } = useModulByMateri(materiId);
 
   if (error) return <div>Error: {error.message}</div>;
   if (!data) return null;
+
+  const totalModul = data.modul.length;
+  const unlockedModul = data.modul.filter((modul) => modul.unlock).length;
+  const percentage = (unlockedModul / totalModul) * 100;
 
   return (
     <div
@@ -29,13 +34,17 @@ const Sidebar = ({ open, toggleSidebar, materiId }) => {
 
         {open && (
           <>
-            <div className="w-full h-2 bg-gray-200 rounded-full">
-              <div
-                className="h-full bg-blue-500 rounded-full"
-                style={{ width: "50%" }}
-              ></div>
+            <div>
+              <div className="w-full h-2 bg-gray-200 rounded-full">
+                <div
+                  className="h-full bg-blue-500 rounded-full"
+                  style={{ width: `${percentage}%` }}
+                ></div>
+              </div>
+              <p className="text-gray-600 text-xs mt-1">
+                {percentage}% Selesai
+              </p>
             </div>
-            <p className="text-gray-600 text-xs mt-1">50% Selesai</p>
           </>
         )}
       </div>
@@ -47,7 +56,9 @@ const Sidebar = ({ open, toggleSidebar, materiId }) => {
               <div className="flex flex-col items-center">
                 <div
                   className={`w-3 h-3 ${
-                    modul.unlock
+                    modulId === modul.uuid
+                      ? "bg-green-500"
+                      : modul.unlock
                       ? "bg-white border-[3px] border-blue-500"
                       : "bg-gray-300"
                   } rounded-full z-10`}
@@ -60,15 +71,20 @@ const Sidebar = ({ open, toggleSidebar, materiId }) => {
                   ></div>
                 )}
               </div>
-              <div
-                className={`ml-6 px-4 py-2 ${
-                  modul.unlock
-                    ? "bg-blue-500 text-white"
-                    : "text-gray-500 hover:bg-blue-100"
-                } rounded-md w-full cursor-pointer`}
-              >
-                {modul.modul}
-              </div>
+              {modul.unlock ? (
+                <Link
+                  to={`/materi/${data.uuid}/${modul.uuid}`}
+                  className={`ml-6 px-4 py-2 ${
+                    modulId === modul.uuid ? "bg-green-500" : "bg-blue-500"
+                  } text-white rounded-md w-full cursor-pointer`}
+                >
+                  {modul.modul}
+                </Link>
+              ) : (
+                <div className="ml-6 px-4 py-2 text-gray-500 hover:bg-blue-100 rounded-md w-full cursor-not-allowed">
+                  {modul.modul}
+                </div>
+              )}
             </li>
           ))}
         </ul>

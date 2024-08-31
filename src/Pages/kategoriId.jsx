@@ -13,9 +13,9 @@ const KategoriHTML = () => {
         heading="Jalan Pintas Menuju Web Developer Handal, Tanpa Biaya Sepeser Pun."
         description="Pelajari dengan mudah, hasilkan karya profesional. Akses ribuan tutorial dan contoh kode sekarang juga."
         buttonText="Gabung bersama kami"
-        imgSrc="/jum_kategori.png"
-        imgWidth="w-[55%]"
-        imgHeight="h-[400px]"
+        imgSrc="/belajar.svg"
+        imgWidth="w-[100%]"
+        imgHeight="h-[500px]"
       />
       <CardMateri kategoriId={id} />
     </LayoutHome>

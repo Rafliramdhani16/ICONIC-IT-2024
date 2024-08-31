@@ -11,11 +11,13 @@ const LabelInput = ({
   icon: Icon,
   showPassword,
   togglePasswordVisibility,
+  label,
 }) => {
   const isPasswordField = type === "password";
 
   return (
     <div className="mb-4">
+      <p className="text-neutral-800 text-sm mb-2 font-semibold">{label}</p>
       <div className="flex items-center border border-neutral-800 rounded-xl px-2 py-1">
         {Icon && <Icon className="text-neutral-800 mx-1" />}
         <input

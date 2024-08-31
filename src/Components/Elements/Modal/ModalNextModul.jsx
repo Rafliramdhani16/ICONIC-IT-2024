@@ -14,7 +14,7 @@ const ModalNextModul = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[9999]">
       <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm"></div>
-      <div className="bg-white rounded-lg p-8 max-w-md w-full shadow-xl relative z-10 transform transition-all duration-300 ease-in-out">
+      <div className="m-10 md:m-0 bg-white rounded-lg p-8 max-w-md w-full shadow-xl relative z-10 transform transition-all duration-300 ease-in-out">
         <h2 className="text-2xl font-bold mb-4 text-gray-800">{title}</h2>
         <p className="mb-6 text-gray-600">{message}</p>
         <div className="flex justify-end space-x-4">

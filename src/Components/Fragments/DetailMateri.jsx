@@ -70,7 +70,7 @@ const DetailMateri = ({ data, joined, onUnlock }) => {
       buttons.push(
         <button
           key="certificate"
-          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg mt-4 ml-2 transition duration-300 flex items-center justify-center w-full sm:w-auto transform hover:scale-105"
+          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg mt-4  transition duration-300 flex items-center justify-center w-full sm:w-auto transform hover:scale-105"
           onClick={() => window.open(sessionData.sertifikatUrl, "_blank")}
         >
           <PiCertificate className="mr-2" /> Download Sertifikat
@@ -83,14 +83,14 @@ const DetailMateri = ({ data, joined, onUnlock }) => {
 
   return (
     <div
-      className="bg-neutral-200 w-full sm:py-8 min-h-screen -mt-10 flex items-center justify-center"
+      className="bg-neutral-200 w-full sm:py-3 min-h-screen -mt-10 flex items-center justify-center py-20 "
       style={{
         backgroundImage: "url(/topography.svg)",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="w-[95%] sm:w-[90%] md:w-[80%] mx-auto px-4 sm:px-8 bg-white rounded-xl relative pb-8 pt-2 shadow-md">
+      <div className="w-[80%] px-4 sm:px-8 bg-white rounded-xl relative pb-8 pt-2 shadow-md">
         <div className="flex justify-between mt-4">
           <button
             className="font-bold transition duration-300 flex items-center transform hover:scale-105 mb-4"
@@ -142,11 +142,12 @@ const DetailMateri = ({ data, joined, onUnlock }) => {
             <p className="text-justify text-sm sm:text-lg mt-2 sm:mt-4">
               {data.deskripsi}
             </p>
+            <div className="flex gap-1 justify-start  flex-wrap w-full mt-2">
+              {renderButton()}
+            </div>
           </div>
         </div>
-        <div className="flex justify-center sm:justify-end mt-4 flex-wrap">
-          {renderButton()}
-        </div>
+
         <ConfirmModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
