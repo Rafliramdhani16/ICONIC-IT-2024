@@ -1,8 +1,14 @@
 import React from "react";
 import LayoutReset from "../Components/Layouts/LayoutReset";
+import ReportVisitor from "../Context/FetchApi";
 
 const RequestReset = () => {
-  return <LayoutReset isRequest={true} />;
+  return (
+    <>
+      <ReportVisitor />
+      <LayoutReset isRequest={true} />
+    </>
+  );
 };
 
 export default RequestReset;

@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import LayoutHome from "../Components/Layouts/LayoutHome";
 import Jumbotron from "../Components/Fragments/Jumbotron";
 import CardMateri from "../Components/Fragments/Card/CardMateri";
+import ReportVisitor from "../Context/FetchApi";
 
 const KategoriHTML = () => {
   const { id } = useParams();
 
   return (
     <LayoutHome>
+      <ReportVisitor />
       <Jumbotron
         heading="Jalan Pintas Menuju Web Developer Handal, Tanpa Biaya Sepeser Pun."
         description="Pelajari dengan mudah, hasilkan karya profesional. Akses ribuan tutorial dan contoh kode sekarang juga."

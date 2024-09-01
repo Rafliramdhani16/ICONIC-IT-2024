@@ -4,6 +4,7 @@ import CardModul from "../Components/Fragments/Card/CardModul";
 import { useParams } from "react-router-dom";
 import useModulByMateri from "../Hook/HookModul";
 import SkeModul from "../Components/Elements/Skeleton/SkeModul";
+import ReportVisitor from "../Context/FetchApi";
 
 const MateriHTML = () => {
   const { materiId } = useParams();
@@ -21,6 +22,7 @@ const MateriHTML = () => {
 
   return (
     <LayoutHome>
+      <ReportVisitor />
       <div className="mt-24">
         <DetailMateri data={data} joined={joined} onUnlock={handleUnlock} />
         <CardModul data={data} joined={joined} />

@@ -1,9 +1,12 @@
 import CardAllMateri from "../Components/Fragments/Card/CardAllMateri";
 import LayoutHome from "../Components/Layouts/LayoutHome";
 import Jumbotron from "../Components/Fragments/Jumbotron";
+import ReportVisitor from "../Context/FetchApi";
+
 const AllMateri = () => {
   return (
     <>
+      <ReportVisitor />
       <LayoutHome>
         <Jumbotron
           heading="Jalan Pintas Menuju Web Developer Handal, Tanpa Biaya Sepeser Pun."

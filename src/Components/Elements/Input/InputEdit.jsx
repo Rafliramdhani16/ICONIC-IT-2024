@@ -20,8 +20,8 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
               type="text"
               id="firstname"
               name="firstname"
-              placeholder="Nama depan : "
-              label="Nama Depan"
+              placeholder="Nama depan"
+              label="Nama Depan : "
               icon={MdPersonOutline}
               onChange={handleChange}
               error={errors.firstname}
@@ -54,7 +54,7 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
           id="username"
           name="username"
           placeholder="Username"
-          label="Username"
+          label="Username : "
           icon={MdPersonOutline}
           onChange={handleChange}
           error={errors.username}
@@ -69,7 +69,7 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
           id="email"
           name="email"
           placeholder="Email"
-          label="Email"
+          label="Email : "
           icon={FaRegEnvelope}
           onChange={handleChange}
           error={errors.email}
@@ -83,8 +83,8 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
           type="password"
           id="prev_password"
           name="prev_password"
-          placeholder="Password Lama : "
-          label="Password Lama"
+          placeholder="Password Lama"
+          label="Password Lama : "
           icon={MdLockOutline}
           onChange={handleChange}
           error={errors.prev_password}
@@ -101,7 +101,7 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
           id="password"
           name="password"
           placeholder="Password"
-          label="Password"
+          label="Password : "
           icon={MdLockOutline}
           onChange={handleChange}
           error={errors.password}
@@ -117,8 +117,8 @@ const InputLog = ({ fields, handleChange, errors, formData }) => {
           type="password"
           id="password1"
           name="password1"
-          placeholder="Masukan Password baru : "
-          label="Password Baru"
+          placeholder="Masukan Password baru"
+          label="Password Baru : "
           icon={MdLockOutline}
           onChange={handleChange}
           error={errors.password1}

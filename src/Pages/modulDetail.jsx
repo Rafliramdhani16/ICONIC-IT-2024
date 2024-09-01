@@ -6,6 +6,8 @@ import ModulDetail from "../Components/Fragments/Card/CardModulDetail";
 import Sidebar from "../Components/Fragments/SideBar";
 import CardModulSkeleton from "../Components/Elements/Skeleton/SkeModulD";
 import { useCheckModul } from "../Hook/HookCheckModul";
+import ReportVisitor from "../Context/FetchApi";
+
 const PageModulDetail = () => {
   const [open, setOpen] = useState(true);
   const toggleSidebar = () => {
@@ -74,6 +76,7 @@ const PageModulDetail = () => {
       onNextModule={handleNextModule}
       onPrevModule={handlePrevModule}
     >
+      <ReportVisitor />
       <Sidebar
         open={open}
         toggleSidebar={toggleSidebar}

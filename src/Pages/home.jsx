@@ -4,6 +4,7 @@ import CardNews from "../Components/Fragments/Card/CardNews";
 import CardAbout from "../Components/Fragments/Card/CardAbout";
 import Jumbotron from "../Components/Fragments/Jumbotron";
 import { useNavigate } from "react-router-dom";
+import ReportVisitor from "../Context/FetchApi";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Home = () => {
   };
   return (
     <>
+      <ReportVisitor />
       <LayoutHome>
         <Jumbotron
           heading="Jalan Pintas Menuju Web Developer Handal, Tanpa Biaya Sepeser Pun."
