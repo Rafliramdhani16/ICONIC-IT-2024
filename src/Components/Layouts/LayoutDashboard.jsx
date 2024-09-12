@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../Fragments/Navbar";
 import SideBarProfile from "../Fragments/SideBarProfile";
 import { SidebarProvider } from "../../Context/SidebarContext";
-import { sidebarItems } from "../../Context/SidebarItem";
+import { sidebarItems } from "../../Context/SidebarItem2";
 
 const LayoutProfile = ({ children, pageTitle, hideSidebar }) => {
   return (

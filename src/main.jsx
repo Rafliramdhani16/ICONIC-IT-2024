@@ -19,6 +19,7 @@ import { AuthProvider } from "./Context/AuthLogContext";
 import ProtectedRoute from "./Context/Protect";
 import { SessionProvider } from "./Context/SessionProvider";
 import AllMateri from "./Pages/allMateri";
+import Dashboard from "./Pages/dashboard";
 
 const router = createBrowserRouter([
   {
@@ -94,6 +95,15 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <PageModulDetail />
+      </ProtectedRoute>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <ProtectedRoute>
+        <Dashboard />
       </ProtectedRoute>
     ),
     errorElement: <ErrorPage />,

@@ -1,40 +1,9 @@
-import React, { useState, useContext, createContext } from "react";
 import { NavLink } from "react-router-dom";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import { FaHome, FaUser, FaEdit, FaKey } from "react-icons/fa";
-import { PiCertificate, PiCertificateFill } from "react-icons/pi";
+import { useSidebar } from "../../Context/SidebarContext";
 
-const SidebarContext = createContext();
-
-export function SidebarProvider({ children }) {
-  const [expanded, setExpanded] = useState(true);
-  const toggleSidebar = () => setExpanded((prev) => !prev);
-
-  return (
-    <SidebarContext.Provider value={{ expanded, toggleSidebar }}>
-      {children}
-    </SidebarContext.Provider>
-  );
-}
-
-export function useSidebar() {
-  return useContext(SidebarContext);
-}
-
-const SidebarProfile = () => {
+const SidebarProfile = ({ menuItems }) => {
   const { expanded, toggleSidebar } = useSidebar();
-
-  const menuItems = [
-    { path: "/", icon: FaHome, label: "Beranda" },
-    { path: "/profile", icon: FaUser, label: "Profile" },
-    { path: "/profile/edit", icon: FaEdit, label: "Edit Profile" },
-    { path: "/profile/ganti/password", icon: FaKey, label: "Ganti Password" },
-    {
-      path: "/profile/sertifikat",
-      icon: PiCertificateFill,
-      label: "Sertifikat",
-    },
-  ];
 
   return (
     <div
