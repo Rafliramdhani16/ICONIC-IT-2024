@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../Fragments/Navbar";
+import Navbar from "../Fragments/NavbarDashboard";
 import SideBarProfile from "../Fragments/SideBarProfile";
 import { SidebarProvider } from "../../Context/SidebarContext";
 import { sidebarItems } from "../../Context/SidebarItem2";
