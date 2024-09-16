@@ -20,6 +20,8 @@ import ProtectedRoute from "./Context/Protect";
 import { SessionProvider } from "./Context/SessionProvider";
 import AllMateri from "./Pages/allMateri";
 import Dashboard from "./Pages/dashboard";
+import DashboardAllUser from "./Pages/dashboardUser";
+import DashboardKategori from "./Pages/AdminKategori";
 
 const router = createBrowserRouter([
   {
@@ -104,6 +106,24 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Dashboard />
+      </ProtectedRoute>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/dashboard/semua/pengguna",
+    element: (
+      <ProtectedRoute>
+        <DashboardAllUser />
+      </ProtectedRoute>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/dashboard/semua/kategori",
+    element: (
+      <ProtectedRoute>
+        <DashboardKategori />
       </ProtectedRoute>
     ),
     errorElement: <ErrorPage />,

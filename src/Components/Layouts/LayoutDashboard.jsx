@@ -2,14 +2,14 @@ import React from "react";
 import Navbar from "../Fragments/NavbarDashboard";
 import SideBarProfile from "../Fragments/SideBarProfile";
 import { SidebarProvider } from "../../Context/SidebarContext";
-import { sidebarItems } from "../../Context/SidebarItem2";
+import { sidebarItems2 } from "../../Context/SidebarItem2";
 
 const LayoutProfile = ({ children, pageTitle, hideSidebar }) => {
   return (
     <SidebarProvider>
       <Navbar className="z-10" />
       <div className="flex flex-1">
-        <SideBarProfile hide={hideSidebar} menuItems={sidebarItems} />
+        <SideBarProfile hide={hideSidebar} menuItems={sidebarItems2} />
         <div className="flex-grow p-4 bg-gray-200  overflow-hidden h-[100dvh] pt-[79px] pl-20 md:pl-0">
           <div className="m-2 md:m-8 h[50dvh] pb-40">
             <h1 className="text-slate-800 text-2xl md:text-4xl font-bold">

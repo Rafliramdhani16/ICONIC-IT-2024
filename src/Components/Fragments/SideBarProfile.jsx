@@ -40,7 +40,7 @@ const SidebarProfile = ({ menuItems }) => {
           <NavLink
             key={item.path}
             to={item.path}
-            end={item.path === "/profile"}
+            end={item.path === "/dashboard" || item.path === "/profile"}
             className={({ isActive }) =>
               `text-black flex items-center gap-4 p-2 rounded-lg transition-all duration-200
               ${

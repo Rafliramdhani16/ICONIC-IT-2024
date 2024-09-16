@@ -3,13 +3,17 @@ import { BiSolidCategory } from "react-icons/bi";
 import { IoBookSharp } from "react-icons/io5";
 import { MdOutlineContentPaste } from "react-icons/md";
 
-export const sidebarItems = [
-  { path: "/statistik", icon: FaHome, label: "Beranda" },
-  { path: "/semua/user", icon: FaUser, label: "Pengguna" },
-  { path: "/semua/kategori", icon: BiSolidCategory, label: "Kategori" },
-  { path: "/semua/materi", icon: IoBookSharp, label: "Materi" },
+export const sidebarItems2 = [
+  { path: "/dashboard", icon: FaHome, label: "Beranda" },
+  { path: "/dashboard/semua/pengguna", icon: FaUser, label: "Pengguna" },
   {
-    path: "/semua/modul",
+    path: "/dashboard/semua/kategori",
+    icon: BiSolidCategory,
+    label: "Kategori",
+  },
+  { path: "/dashboard/semua/materi", icon: IoBookSharp, label: "Materi" },
+  {
+    path: "/dashboard/semua/modul",
     icon: MdOutlineContentPaste,
     label: "Modul",
   },
