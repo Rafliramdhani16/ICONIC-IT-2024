@@ -33,10 +33,10 @@ const DashboardKategori = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border-b border-r border-gray-300 p-2 text-left">
-                Kategori
+                Gambar
               </th>
               <th className="border-b border-r border-gray-300 p-2 text-left">
-                Cover
+                Kategori
               </th>
               <th className="border-b border-gray-300 p-2 text-center">
                 Actions
@@ -47,14 +47,14 @@ const DashboardKategori = () => {
             {kategoriData.map((item) => (
               <tr key={item.uuid}>
                 <td className="border-b border-r border-gray-300 p-2">
-                  {item.kategori}
-                </td>
-                <td className="border-b border-r border-gray-300 p-2">
                   <img
                     src={item.cover}
                     alt={item.kategori}
                     className="w-16 h-16 object-cover"
                   />
+                </td>
+                <td className="border-b border-r border-gray-300 p-2">
+                  {item.kategori}
                 </td>
                 <td className="border-b border-gray-300 p-2 text-center">
                   <button
