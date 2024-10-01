@@ -38,7 +38,9 @@ const SearchBar = ({ isMobile = false }) => {
     <div className="relative">
       <div
         className={`flex items-center ${
-          isMobile ? "w-full" : "w-full sm:w-[300px] lg:w-[400px] xl:w-[600px]"
+          isMobile
+            ? "w-full"
+            : "w-full sm:w-[300px] lg:w-[400px] xl:w-[600px] my-4"
         }`}
       >
         <div className="relative w-full">
