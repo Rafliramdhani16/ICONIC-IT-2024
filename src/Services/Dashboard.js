@@ -117,3 +117,57 @@ export const deleteUser = async (id) => {
     }
   }
 };
+
+export const restoreUser = async (id) => {
+  const token = getToken();
+  if (!token) {
+    return { success: false, message: "Token tidak tersedia." };
+  }
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/dashboard/user/${id}/restore`,
+      {},
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { success: false, message: "Tidak ada respons dari server." };
+    } else {
+      return { success: false, message: error.message };
+    }
+  }
+};
+
+export const getDeletedUsers = async () => {
+  const token = getToken();
+  if (!token) {
+    return { success: false, message: "Token tidak tersedia." };
+  }
+
+  try {
+    const response = await axios.get(`${API_URL}/dashboard/user/all/trash`, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { success: false, message: "Tidak ada respons dari server." };
+    } else {
+      return { success: false, message: error.message };
+    }
+  }
+};
