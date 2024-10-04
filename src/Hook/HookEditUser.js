@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { getUserById, editUser } from "../Services/Dashboard";
+import { useState, useEffect } from "react";
+import { getUserById, editUser, getAllRoles } from "../Services/Dashboard";
 
 export const useUserEdit = (fetchUsers) => {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -12,44 +12,72 @@ export const useUserEdit = (fetchUsers) => {
     role_id: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [roles, setRoles] = useState([]);
+
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const response = await getAllRoles();
+        if (response.success === 200) {
+          setRoles(response.data);
+        } else {
+          console.error("Failed to fetch roles:", response.message);
+        }
+      } catch (error) {
+        console.error("Error in fetchRoles:", error);
+      }
+    };
+
+    fetchRoles();
+  }, []);
+
   const handleEdit = async (id) => {
-    console.log("Editing user with id:", id);
-    const response = await getUserById(id);
-    console.log("User details:", response);
-    if (response.success === 200) {
-      setSelectedUser(response.data);
-      setEditForm({
-        username: response.data.username,
-        firstname: response.data.firstname,
-        lastname: response.data.lastname,
-        email: response.data.email,
-        role_id: response.data.role.id,
-      });
-      setIsModalOpen(true);
-    } else {
-      console.error("Error fetching user details:", response.message);
+    try {
+      setIsLoading(true);
+      const response = await getUserById(id);
+      if (response.success === 200) {
+        setSelectedUser(response.data);
+        setEditForm({
+          username: response.data.username,
+          firstname: response.data.firstname,
+          lastname: response.data.lastname,
+          email: response.data.email,
+          role_id: response.data.role.id,
+        });
+        setIsModalOpen(true);
+      } else {
+        throw new Error(response.message || "Failed to fetch user details");
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleInputChange = (e) => {
     setEditForm({ ...editForm, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Attempting to update user with data:", editForm);
-    const response = await editUser(selectedUser.uuid, editForm);
-    console.log("Response from editUser:", response);
-    if (response.success === 200 || response.success === true) {
-      console.log("Update successful");
-      setIsModalOpen(false);
-      fetchUsers();
-      alert("User berhasil diperbarui!");
-    } else {
-      console.error(
-        "Error updating user:",
-        response.errors || response.message
-      );
+    try {
+      setIsLoading(true);
+      const response = await editUser(selectedUser.uuid, editForm);
+      if (response.success === 200 || response.success === true) {
+        setIsModalOpen(false);
+        fetchUsers();
+        alert("User berhasil diperbarui!");
+      } else {
+        throw new Error(response.message || "Failed to update user");
+      }
+    } catch (err) {
+      setError(err.message);
       alert("Gagal memperbarui user. Silakan coba lagi.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -57,6 +85,9 @@ export const useUserEdit = (fetchUsers) => {
     selectedUser,
     isModalOpen,
     editForm,
+    roles,
+    isLoading,
+    error,
     setIsModalOpen,
     handleEdit,
     handleInputChange,
