@@ -13,7 +13,7 @@ export const MateriModal = ({
 
   const handleRadioChange = (e) => {
     const { name, value } = e.target;
-    onInputChange({ target: { name, value: value === "lanjutan" } });
+    onInputChange({ target: { name, value: value === "lanjutan" ? 1 : 0 } });
   };
 
   const handleSubmit = (e) => {
@@ -23,7 +23,7 @@ export const MateriModal = ({
       if (key === "cover" && form[key] instanceof File) {
         formData.append(key, form[key]);
       } else if (key === "lanjutan") {
-        formData.append(key, form[key] ? "true" : "false");
+        formData.append(key, form[key] ? 1 : 0);
       } else {
         formData.append(key, form[key]);
       }
@@ -104,7 +104,7 @@ export const MateriModal = ({
                   type="radio"
                   name="lanjutan"
                   value="dasar"
-                  checked={!form.lanjutan}
+                  checked={form.lanjutan === 0}
                   onChange={handleRadioChange}
                   className="mr-2"
                 />
@@ -115,7 +115,7 @@ export const MateriModal = ({
                   type="radio"
                   name="lanjutan"
                   value="lanjutan"
-                  checked={form.lanjutan}
+                  checked={form.lanjutan === 1}
                   onChange={handleRadioChange}
                   className="mr-2"
                 />
