@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { deleteUser } from "../Services/Dashboard"; // Assuming you have this function in your api file
+import { deleteUser } from "../Services/Dashboard";
 
 export const useUserDelete = (fetchUsers) => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -12,7 +12,7 @@ export const useUserDelete = (fetchUsers) => {
       try {
         const response = await deleteUser(id);
         if (response.success) {
-          fetchUsers(); // Refresh the user list after successful deletion
+          fetchUsers();
         } else {
           setDeleteError(response.message || "Failed to delete user");
         }
