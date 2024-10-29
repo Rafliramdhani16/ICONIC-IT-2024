@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchMateri, editMateri, deleteMateri } from "../Services/Dashboard"; // Assume these functions are implemented
+import { fetchMateri, editMateri } from "../Services/Dashboard";
 
 const useMateriTable = () => {
   const [materiList, setMateriList] = useState([]);
@@ -30,7 +30,7 @@ const useMateriTable = () => {
     try {
       const result = await editMateri(id, updatedData);
       if (result.success) {
-        loadMateri(); // Reload the data after successful edit
+        loadMateri();
       } else {
         setError(result.message);
       }
@@ -39,20 +39,7 @@ const useMateriTable = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      const result = await deleteMateri(id);
-      if (result.success) {
-        loadMateri(); // Reload the data after successful delete
-      } else {
-        setError(result.message);
-      }
-    } catch (err) {
-      setError("Failed to delete materi.");
-    }
-  };
-
-  return { materiList, isLoading, error, handleEdit, handleDelete };
+  return { materiList, isLoading, error, handleEdit, loadMateri };
 };
 
 export default useMateriTable;

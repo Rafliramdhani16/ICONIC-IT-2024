@@ -1,22 +1,93 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
-import useMateriTable from "../../Hook/HookDashboardMateri";
-import { useAddMateri } from "../../Hook/HookAddMateri";
 import { MateriModal } from "../Elements/Modal/ModalAddMateri";
+import {
+  fetchMateriList,
+  createMateri,
+  updateMateri,
+  removeMateri,
+} from "../../Redux/Features/materiSlice";
 
 const DashboardMateri = () => {
-  const { materiList, isLoading, error, handleDelete, fetchMateri } =
-    useMateriTable();
-  const {
-    isModalOpen,
-    setIsModalOpen,
-    form,
-    setForm,
-    handleInputChange,
-    handleSubmit,
-    errors,
-  } = useAddMateri(fetchMateri);
+  const dispatch = useDispatch();
+  const { materiList, isLoading, error } = useSelector((state) => state.materi);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [form, setForm] = useState({
+    cover: null,
+    materi: "",
+    deskripsi: "",
+    lanjutan: false,
+    id_kategori: "",
+    waktu: "",
+  });
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    dispatch(fetchMateriList());
+  }, [dispatch]);
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]:
+        type === "checkbox" ? checked : type === "file" ? files[0] : value,
+    }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!form.materi) newErrors.materi = "Materi is required";
+    if (!form.deskripsi) newErrors.deskripsi = "Deskripsi is required";
+    if (!form.waktu) newErrors.waktu = "Waktu is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    const formData = new FormData();
+    Object.keys(form).forEach((key) => {
+      if (form[key] !== null) {
+        formData.append(key, form[key]);
+      }
+    });
+
+    try {
+      if (isEditing) {
+        await dispatch(
+          updateMateri({ id: form.uuid, userData: formData })
+        ).unwrap();
+      } else {
+        await dispatch(createMateri(formData)).unwrap();
+      }
+      setIsModalOpen(false);
+      setForm({
+        cover: null,
+        materi: "",
+        deskripsi: "",
+        lanjutan: false,
+        id_kategori: "",
+        waktu: "",
+      });
+    } catch (error) {
+      setErrors({ submit: error.message });
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this materi?")) {
+      try {
+        await dispatch(removeMateri(id)).unwrap();
+      } catch (error) {
+        console.error("Failed to delete materi:", error);
+      }
+    }
+  };
 
   const openAddModal = () => {
     setForm({
@@ -40,14 +111,17 @@ const DashboardMateri = () => {
     setIsModalOpen(true);
   };
 
-  if (isLoading)
+  if (isLoading) {
     return <div className="text-center text-2xl font-semibold">Loading...</div>;
-  if (error)
+  }
+
+  if (error) {
     return (
       <div className="text-center text-2xl font-semibold text-red-500">
         {error}
       </div>
     );
+  }
 
   return (
     <div className="container mx-auto p-6">

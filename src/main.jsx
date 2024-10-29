@@ -23,6 +23,8 @@ import Dashboard from "./Pages/dashboard";
 import DashboardAllUser from "./Pages/dashUser";
 import DashboardKategori from "./Pages/AdminKategori";
 import DashboardAllMateri from "./Pages/dashMateri";
+import { Provider } from "react-redux";
+import { store } from "./Redux/Store/store";
 
 const router = createBrowserRouter([
   {
@@ -132,9 +134,11 @@ const router = createBrowserRouter([
   {
     path: "/dashboard/semua/materi",
     element: (
-      <ProtectedRoute>
-        <DashboardAllMateri />
-      </ProtectedRoute>
+      <Provider store={store}>
+        <ProtectedRoute>
+          <DashboardAllMateri />
+        </ProtectedRoute>
+      </Provider>
     ),
     errorElement: <ErrorPage />,
   },

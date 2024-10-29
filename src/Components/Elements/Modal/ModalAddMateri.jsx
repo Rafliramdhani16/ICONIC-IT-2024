@@ -13,12 +13,14 @@ export const MateriModal = ({
 
   const handleRadioChange = (e) => {
     const { name, value } = e.target;
+    // Set nilai lanjutan menjadi 1 atau 0 berdasarkan pilihan radio
     onInputChange({ target: { name, value: value === "lanjutan" ? 1 : 0 } });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
+    // Menambahkan data ke FormData
     Object.keys(form).forEach((key) => {
       if (key === "cover" && form[key] instanceof File) {
         formData.append(key, form[key]);
@@ -28,7 +30,10 @@ export const MateriModal = ({
         formData.append(key, form[key]);
       }
     });
+
     console.log("Form data before submission:", Object.fromEntries(formData));
+
+    // Memanggil fungsi onSubmit untuk mengirim data
     onSubmit(formData, isEditing);
   };
 

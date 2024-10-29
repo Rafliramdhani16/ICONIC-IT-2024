@@ -215,34 +215,6 @@ export const fetchMateri = async () => {
   }
 };
 
-export const deleteMateri = async (id) => {
-  const token = getToken();
-  if (!token) {
-    return { success: false, message: "Token tidak tersedia." };
-  }
-
-  try {
-    const response = await axios.delete(
-      `${API_URL}/dashboard/user/${id}/deleteMateri`,
-      {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    if (error.response) {
-      return error.response.data;
-    } else if (error.request) {
-      return { success: false, message: "No response from server." };
-    } else {
-      return { success: false, message: error.message };
-    }
-  }
-};
-
 // Fungsi untuk mengedit data user
 export const editMateri = async (id, userData) => {
   const token = getToken();
@@ -331,5 +303,37 @@ export const getMateriDetail = async (materi) => {
     } else {
       return { success: false, message: error.message };
     }
+  }
+};
+
+// hapus materi
+export const deleteMateri = async (materi) => {
+  const token = getToken();
+  if (!token) {
+    return { success: false, message: "Token tidak tersedia." };
+  }
+
+  try {
+    const response = await axios.delete(
+      `${API_URL}/dashboard/materi/${materi}/delete`,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      return {
+        success: false,
+        message: "Sesi anda telah berakhir. Silakan login kembali.",
+      };
+    }
+    return {
+      success: false,
+      message: error.response?.data?.message || "Gagal menghapus materi.",
+    };
   }
 };
