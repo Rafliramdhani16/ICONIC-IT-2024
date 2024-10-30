@@ -134,21 +134,21 @@ const router = createBrowserRouter([
   {
     path: "/dashboard/semua/materi",
     element: (
-      <Provider store={store}>
-        <ProtectedRoute>
-          <DashboardAllMateri />
-        </ProtectedRoute>
-      </Provider>
+      <ProtectedRoute>
+        <DashboardAllMateri />
+      </ProtectedRoute>
     ),
     errorElement: <ErrorPage />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <SessionProvider>
-        <RouterProvider router={router} />
-      </SessionProvider>
-    </AuthProvider>
+    <Provider store={store}>
+      <AuthProvider>
+        <SessionProvider>
+          <RouterProvider router={router} />
+        </SessionProvider>
+      </AuthProvider>
+    </Provider>
   </StrictMode>
 );

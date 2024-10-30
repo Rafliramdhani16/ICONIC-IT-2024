@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const ModalAddMateri = ({
+const ModalEditMateri = ({
   isOpen,
   onClose,
   form,
@@ -31,7 +31,7 @@ const ModalAddMateri = ({
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
       <div className="relative p-8 bg-white w-full max-w-md m-auto rounded-md shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">Tambah Materi Baru</h2>
+        <h2 className="text-2xl font-bold mb-4">Edit Materi</h2>
         <form onSubmit={handleFormSubmit}>
           <div className="mb-4">
             <label
@@ -48,6 +48,13 @@ const ModalAddMateri = ({
               accept="image/*"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
+            {form.cover && typeof form.cover === "string" && (
+              <img
+                src={form.cover}
+                alt="Current cover"
+                className="mt-2 w-20 h-20 object-cover"
+              />
+            )}
             {errors.cover && (
               <p className="text-red-500 text-xs italic">{errors.cover}</p>
             )}
@@ -188,7 +195,7 @@ const ModalAddMateri = ({
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-              Tambah Materi
+              Simpan Perubahan
             </button>
             <button
               type="button"
@@ -204,10 +211,11 @@ const ModalAddMateri = ({
   );
 };
 
-ModalAddMateri.propTypes = {
+ModalEditMateri.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   form: PropTypes.shape({
+    uuid: PropTypes.string,
     cover: PropTypes.any,
     materi: PropTypes.string,
     deskripsi: PropTypes.string,
@@ -220,8 +228,8 @@ ModalAddMateri.propTypes = {
   errors: PropTypes.object,
 };
 
-ModalAddMateri.defaultProps = {
+ModalEditMateri.defaultProps = {
   errors: {},
 };
 
-export default ModalAddMateri;
+export default ModalEditMateri;
