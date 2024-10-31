@@ -31,7 +31,7 @@ const ModalEditMateri = ({
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
       <div className="relative p-8 bg-white w-full max-w-md m-auto rounded-md shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">Edit Materi</h2>
+        <h2 className="text-2xl font-bold mb-4">Edit Materi detail</h2>
         <form onSubmit={handleFormSubmit}>
           <div className="mb-4">
             <label
