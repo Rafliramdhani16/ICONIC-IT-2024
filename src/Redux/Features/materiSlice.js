@@ -39,9 +39,9 @@ export const createMateri = createAsyncThunk(
 
 export const updateMateri = createAsyncThunk(
   "materi/updateMateri",
-  async ({ id, userData }, { rejectWithValue }) => {
+  async ({ materi, userData }, { rejectWithValue }) => {
     try {
-      const response = await editMateri(id, userData);
+      const response = await editMateri(materi, userData);
       if (!response.success) {
         return rejectWithValue(response.message);
       }

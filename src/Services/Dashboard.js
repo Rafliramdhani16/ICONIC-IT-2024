@@ -216,7 +216,7 @@ export const fetchMateri = async () => {
 };
 
 // Fungsi untuk mengedit data user
-export const editMateri = async (id, userData) => {
+export const editMateri = async (materi, userData) => {
   const token = getToken();
   if (!token) {
     return { success: false, message: "Token tidak tersedia." };
@@ -224,7 +224,7 @@ export const editMateri = async (id, userData) => {
 
   try {
     const response = await axios.put(
-      `${API_URL}/dashboard/materi/${id}/edit`,
+      `${API_URL}/dashboard/materi/${materi}/edit`,
       userData,
       {
         headers: {
@@ -237,7 +237,7 @@ export const editMateri = async (id, userData) => {
     return response.data;
   } catch (error) {
     if (error.response) {
-      return error.response.data;
+      return error.response.data; // Mengembalikan pesan error dari server
     } else if (error.request) {
       return { success: false, message: "No response from server." };
     } else {
@@ -245,7 +245,6 @@ export const editMateri = async (id, userData) => {
     }
   }
 };
-
 //fungsi create materi
 export const addMateri = async (materiData) => {
   const token = sessionStorage.getItem("token");
