@@ -224,12 +224,13 @@ export const editMateri = async (id, userData) => {
 
   try {
     const response = await axios.put(
-      `${API_URL}/dashboard/user/${id}/editMateri`,
+      `${API_URL}/dashboard/materi/${id}/edit`,
       userData,
       {
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       }
     );
