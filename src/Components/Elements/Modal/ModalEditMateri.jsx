@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const ModalEditMateri = ({
-  isOpen,
-  onClose,
-  form,
-  onInputChange,
-  onSubmit,
-  errors,
+  isOpen = false,
+  onClose = () => {},
+  form = {},
+  onInputChange = () => {},
+  onSubmit = () => {},
+  errors = {},
 }) => {
   if (!isOpen) return null;
 
@@ -15,15 +15,27 @@ const ModalEditMateri = ({
     e.preventDefault();
     const formData = new FormData();
 
+    // Tambahkan uuid ke formData
+    formData.append("uuid", form.uuid);
+
     Object.keys(form).forEach((key) => {
       if (key === "cover" && form[key] instanceof File) {
         formData.append(key, form[key]);
       } else if (key === "lanjutan") {
         formData.append(key, form[key]);
-      } else if (form[key] !== null && form[key] !== undefined) {
+      } else if (
+        form[key] !== null &&
+        form[key] !== undefined &&
+        key !== "uuid"
+      ) {
         formData.append(key, form[key]);
       }
     });
+
+    // debug
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
+    }
 
     onSubmit(formData);
   };
@@ -31,7 +43,7 @@ const ModalEditMateri = ({
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
       <div className="relative p-8 bg-white w-full max-w-md m-auto rounded-md shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">Edit Materi detail</h2>
+        <h2 className="text-2xl font-bold mb-4">Edit Materi</h2>
         <form onSubmit={handleFormSubmit}>
           <div className="mb-4">
             <label
@@ -74,6 +86,7 @@ const ModalEditMateri = ({
               value={form.materi || ""}
               onChange={onInputChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              required
             />
             {errors.materi && (
               <p className="text-red-500 text-xs italic">{errors.materi}</p>
@@ -94,6 +107,7 @@ const ModalEditMateri = ({
               onChange={onInputChange}
               rows="4"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              required
             />
             {errors.deskripsi && (
               <p className="text-red-500 text-xs italic">{errors.deskripsi}</p>
@@ -111,7 +125,7 @@ const ModalEditMateri = ({
                   name="lanjutan"
                   value="dasar"
                   checked={form.lanjutan === "0"}
-                  onChange={(e) =>
+                  onChange={() =>
                     onInputChange({
                       target: {
                         name: "lanjutan",
@@ -120,6 +134,7 @@ const ModalEditMateri = ({
                     })
                   }
                   className="mr-2"
+                  required
                 />
                 Dasar
               </label>
@@ -129,7 +144,7 @@ const ModalEditMateri = ({
                   name="lanjutan"
                   value="lanjutan"
                   checked={form.lanjutan === "1"}
-                  onChange={(e) =>
+                  onChange={() =>
                     onInputChange({
                       target: {
                         name: "lanjutan",
@@ -154,14 +169,20 @@ const ModalEditMateri = ({
             >
               Kategori *
             </label>
-            <input
-              type="text"
+            <select
               id="id_kategori"
               name="id_kategori"
               value={form.id_kategori || ""}
               onChange={onInputChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
+              required
+            >
+              <option value="">Pilih Kategori</option>
+              <option value="1">HTML</option>
+              <option value="2">CSS</option>
+              <option value="3">JavaScript</option>
+              <option value="4">PHP</option>
+            </select>
             {errors.id_kategori && (
               <p className="text-red-500 text-xs italic">
                 {errors.id_kategori}
@@ -184,6 +205,7 @@ const ModalEditMateri = ({
               onChange={onInputChange}
               min="1"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              required
             />
             {errors.waktu && (
               <p className="text-red-500 text-xs italic">{errors.waktu}</p>
@@ -212,8 +234,8 @@ const ModalEditMateri = ({
 };
 
 ModalEditMateri.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
   form: PropTypes.shape({
     uuid: PropTypes.string,
     cover: PropTypes.any,
@@ -222,14 +244,10 @@ ModalEditMateri.propTypes = {
     lanjutan: PropTypes.string,
     id_kategori: PropTypes.string,
     waktu: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  }).isRequired,
-  onInputChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  }),
+  onInputChange: PropTypes.func,
+  onSubmit: PropTypes.func,
   errors: PropTypes.object,
-};
-
-ModalEditMateri.defaultProps = {
-  errors: {},
 };
 
 export default ModalEditMateri;

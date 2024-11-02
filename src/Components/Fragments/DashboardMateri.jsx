@@ -1,3 +1,4 @@
+// DashboardMateri.jsx
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
@@ -25,6 +26,7 @@ const DashboardMateri = () => {
     uuid: "",
   });
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     dispatch(fetchMateriList());
@@ -54,8 +56,13 @@ const DashboardMateri = () => {
   };
 
   const handleEdit = (materi) => {
+    if (!materi || !materi.uuid) {
+      console.error("Invalid materi data");
+      return;
+    }
+
     setForm({
-      uuid: materi.uuid || "",
+      uuid: materi.uuid,
       materi: materi.materi || "",
       deskripsi: materi.deskripsi || "",
       lanjutan: materi.lanjutan === 1 ? "1" : "0",
@@ -67,6 +74,11 @@ const DashboardMateri = () => {
   };
 
   const handleDelete = async (id) => {
+    if (!id) {
+      console.error("Invalid ID for deletion");
+      return;
+    }
+
     if (window.confirm("Apakah Anda yakin ingin menghapus materi ini?")) {
       try {
         await dispatch(removeMateri(id)).unwrap();
@@ -79,6 +91,7 @@ const DashboardMateri = () => {
 
   const handleAddSubmit = async (formData) => {
     if (!validateForm()) return;
+    setIsSubmitting(true);
 
     try {
       await dispatch(createMateri(formData)).unwrap();
@@ -88,16 +101,23 @@ const DashboardMateri = () => {
     } catch (error) {
       console.error("Error:", error);
       setErrors({ submit: error.message });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleEditSubmit = async (formData) => {
     if (!validateForm()) return;
+    if (!form.uuid) {
+      setErrors({ submit: "ID materi tidak valid" });
+      return;
+    }
+    setIsSubmitting(true);
 
     try {
       await dispatch(
         updateMateri({
-          id: form.uuid,
+          materi: form.uuid, // Changed from id to materi
           userData: formData,
         })
       ).unwrap();
@@ -107,6 +127,8 @@ const DashboardMateri = () => {
     } catch (error) {
       console.error("Error:", error);
       setErrors({ submit: error.message });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -133,6 +155,7 @@ const DashboardMateri = () => {
             setIsAddModalOpen(true);
           }}
           className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 flex items-center gap-2"
+          disabled={isSubmitting}
         >
           <FaPlus /> Tambah Materi
         </button>
@@ -182,12 +205,14 @@ const DashboardMateri = () => {
                       <button
                         onClick={() => handleEdit(materi)}
                         className="text-blue-600 hover:text-blue-800"
+                        disabled={isSubmitting}
                       >
                         <FaEdit />
                       </button>
                       <button
                         onClick={() => handleDelete(materi.uuid)}
                         className="text-red-600 hover:text-red-800"
+                        disabled={isSubmitting}
                       >
                         <FaTrash />
                       </button>
@@ -210,6 +235,7 @@ const DashboardMateri = () => {
         onInputChange={handleInputChange}
         onSubmit={handleAddSubmit}
         errors={errors}
+        isSubmitting={isSubmitting}
       />
 
       <ModalEditMateri
@@ -222,6 +248,7 @@ const DashboardMateri = () => {
         onInputChange={handleInputChange}
         onSubmit={handleEditSubmit}
         errors={errors}
+        isSubmitting={isSubmitting}
       />
     </div>
   );

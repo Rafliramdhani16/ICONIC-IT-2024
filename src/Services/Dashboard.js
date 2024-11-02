@@ -215,15 +215,22 @@ export const fetchMateri = async () => {
   }
 };
 
-// Fungsi untuk mengedit data user
+// editMateri.js
 export const editMateri = async (materi, userData) => {
   const token = getToken();
   if (!token) {
-    return { success: false, message: "Token tidak tersedia." };
+    throw new Error("Token tidak tersedia.");
+  }
+
+  if (!materi) {
+    throw new Error("ID materi tidak valid.");
   }
 
   try {
-    const response = await axios.put(
+    userData["_method"] = "PUT";
+    console.log(userData);
+
+    const response = await axios.post(
       `${API_URL}/dashboard/materi/${materi}/edit`,
       userData,
       {
@@ -234,15 +241,19 @@ export const editMateri = async (materi, userData) => {
         },
       }
     );
+
+    if (!response.data.success) {
+      throw new Error(response.data.message || "Failed to update materi");
+    }
+
     return response.data;
   } catch (error) {
     if (error.response) {
-      return error.response.data; // Mengembalikan pesan error dari server
+      throw new Error(error.response.data.message || "Server error");
     } else if (error.request) {
-      return { success: false, message: "No response from server." };
-    } else {
-      return { success: false, message: error.message };
+      throw new Error("No response from server");
     }
+    throw error;
   }
 };
 //fungsi create materi
