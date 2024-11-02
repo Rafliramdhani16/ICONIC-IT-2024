@@ -17,7 +17,7 @@ const ModalEditMateri = ({
 
     // Tambahkan uuid ke formData
     formData.append("uuid", form.uuid);
-
+    formData.append("_method", "PUT");
     Object.keys(form).forEach((key) => {
       if (key === "cover" && form[key] instanceof File) {
         formData.append(key, form[key]);
@@ -31,11 +31,6 @@ const ModalEditMateri = ({
         formData.append(key, form[key]);
       }
     });
-
-    // debug
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
 
     onSubmit(formData);
   };
