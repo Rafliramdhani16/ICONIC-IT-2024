@@ -21,7 +21,7 @@ import { SessionProvider } from "./Context/SessionProvider";
 import AllMateri from "./Pages/allMateri";
 import Dashboard from "./Pages/dashboard";
 import DashboardAllUser from "./Pages/dashUser";
-import DashboardKategori from "./Pages/AdminKategori";
+import DashboardKategori from "./Pages/dashKategori";
 import DashboardAllMateri from "./Pages/dashMateri";
 import { Provider } from "react-redux";
 import { store } from "./Redux/Store/store";

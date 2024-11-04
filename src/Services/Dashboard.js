@@ -345,3 +345,153 @@ export const deleteMateri = async (materi) => {
     };
   }
 };
+
+//ambil data kategori
+export const fetchKategori = async () => {
+  const token = getToken();
+  if (!token) {
+    return { success: false, message: "Token tidak tersedia." };
+  }
+
+  try {
+    const response = await axios.get(`${API_URL}/dashboard/kategori/all`, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { success: false, message: "No response from server." };
+    } else {
+      return { success: false, message: error.message };
+    }
+  }
+};
+
+// ambil kategori detail
+export const getKategoriDetail = async (kategoriId) => {
+  const token = getToken();
+  if (!token) {
+    return { success: false, message: "Token tidak tersedia." };
+  }
+
+  try {
+    const response = await axios.get(
+      `${API_URL}/dashboard/kategori/${kategoriId}`,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { success: false, message: "No response from server." };
+    } else {
+      return { success: false, message: error.message };
+    }
+  }
+};
+
+// menambahkan kategori
+export const createKategori = async (kategoriData) => {
+  const token = getToken();
+  if (!token) {
+    return { success: false, message: "Token tidak tersedia." };
+  }
+
+  try {
+    const response = await axios.post(
+      `${API_URL}/dashboard/kategori/create`,
+      kategoriData,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    } else {
+      return {
+        success: false,
+        message: "Terjadi kesalahan saat menambahkan kategori.",
+      };
+    }
+  }
+};
+
+// mengubah kategri
+export const editKategori = async (kategoriId, kategoriData) => {
+  const token = getToken();
+  if (!token) {
+    return { success: false, message: "Token tidak tersedia." };
+  }
+
+  try {
+    const response = await axios.put(
+      `${API_URL}/dashboard/kategori/${kategoriId}/edit`,
+      kategoriData,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    } else if (error.request) {
+      return { success: false, message: "No response from server." };
+    } else {
+      return { success: false, message: error.message };
+    }
+  }
+};
+
+// hapus kategori
+export const deleteKategori = async (kategoriId) => {
+  const token = getToken();
+  if (!token) {
+    return { success: false, message: "Token tidak tersedia." };
+  }
+
+  try {
+    const response = await axios.delete(
+      `${API_URL}/dashboard/kategori/${kategoriId}/delete`,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      return {
+        success: false,
+        message: "Sesi anda telah berakhir. Silakan login kembali.",
+      };
+    }
+    return {
+      success: false,
+      message: error.response?.data?.message || "Gagal menghapus kategori.",
+    };
+  }
+};

@@ -1,7 +1,7 @@
 import LayoutDashboard from "../Components/Layouts/LayoutDashboard";
 import DashboardKategori from "../Components/Fragments/DashboardKategori";
 
-const AdminKategori = () => {
+const dashKategori = () => {
   return (
     <>
       <LayoutDashboard pageTitle={"Semua Kategori"}>
@@ -10,4 +10,4 @@ const AdminKategori = () => {
     </>
   );
 };
-export default AdminKategori;
+export default dashKategori;

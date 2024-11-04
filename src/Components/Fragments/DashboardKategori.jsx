@@ -1,33 +1,75 @@
-import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
-
-const kategoriData = [
-  {
-    uuid: "e29d3666-6ad3-3928-a3cb-fb7ca5488690",
-    cover:
-      "https://backend-gyanakaya.bhadrikais.my.id/storage/cover/66d43fd973d69_html.png",
-    kategori: "HTML",
-  },
-  {
-    uuid: "8f275dd9-993e-3835-a0e4-14b3fcada323",
-    cover:
-      "https://backend-gyanakaya.bhadrikais.my.id/storage/cover/66d43fd97e0f2_css.png",
-    kategori: "CSS",
-  },
-  {
-    uuid: "8c57f024-3e0e-34de-8cf7-90c95d162931",
-    cover:
-      "https://backend-gyanakaya.bhadrikais.my.id/storage/cover/66d43fd97ef63_js.png",
-    kategori: "Javascript",
-  },
-];
+import React, { useEffect, useState } from "react";
+import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchKategoriList,
+  createKategoriAsync,
+  updateKategoriAsync,
+  deleteKategoriAsync,
+} from "../../Redux/Features/kategoriSlice";
+import ModalKategori from "../Elements/Modal/ModalKategori";
+import ModalDelete from "../Elements/Modal/ModalDelete";
 
 const DashboardKategori = () => {
+  const dispatch = useDispatch();
+  const {
+    kategoriList,
+    isFetching,
+    isCreating,
+    isUpdating,
+    isDeleting,
+    error,
+  } = useSelector((state) => state.kategori);
+
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedKategori, setSelectedKategori] = useState(null);
+
+  useEffect(() => {
+    dispatch(fetchKategoriList());
+  }, [dispatch]);
+
+  const handleCreate = (formData) => {
+    dispatch(createKategoriAsync(formData)).then(() => {
+      setIsCreateModalOpen(false);
+    });
+  };
+
+  const handleEdit = (formData) => {
+    dispatch(
+      updateKategoriAsync({
+        kategoriId: selectedKategori.uuid,
+        kategoriData: formData,
+      })
+    ).then(() => {
+      setIsEditModalOpen(false);
+      setSelectedKategori(null);
+    });
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteKategoriAsync(selectedKategori.uuid)).then(() => {
+      setIsDeleteModalOpen(false);
+      setSelectedKategori(null);
+    });
+  };
+
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-start text-neutral-800">
-        Daftar Kategori
-      </h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-neutral-800">Daftar Kategori</h1>
+        <button
+          onClick={() => setIsCreateModalOpen(true)}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center gap-2"
+        >
+          <FaPlus /> Tambah Kategori
+        </button>
+      </div>
+
+      {isFetching && <p className="text-center p-4">Loading kategori...</p>}
+      {error && <p className="text-center text-red-500 p-4">{error}</p>}
+
       <div className="overflow-hidden rounded-lg border border-gray-300">
         <table className="w-full border-collapse bg-white">
           <thead>
@@ -44,7 +86,7 @@ const DashboardKategori = () => {
             </tr>
           </thead>
           <tbody>
-            {kategoriData.map((item) => (
+            {kategoriList.map((item) => (
               <tr key={item.uuid}>
                 <td className="border-b border-r border-gray-300 p-2">
                   <img
@@ -60,12 +102,20 @@ const DashboardKategori = () => {
                   <button
                     className="text-blue-500 hover:text-blue-700 mr-3"
                     title="Edit"
+                    onClick={() => {
+                      setSelectedKategori(item);
+                      setIsEditModalOpen(true);
+                    }}
                   >
                     <FaEdit size={18} />
                   </button>
                   <button
                     className="text-red-500 hover:text-red-700"
                     title="Delete"
+                    onClick={() => {
+                      setSelectedKategori(item);
+                      setIsDeleteModalOpen(true);
+                    }}
                   >
                     <FaTrash size={18} />
                   </button>
@@ -75,6 +125,33 @@ const DashboardKategori = () => {
           </tbody>
         </table>
       </div>
+
+      <ModalKategori
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        mode="create"
+        onSubmit={handleCreate}
+      />
+
+      <ModalKategori
+        isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setSelectedKategori(null);
+        }}
+        mode="edit"
+        kategoriData={selectedKategori}
+        onSubmit={handleEdit}
+      />
+
+      <ModalDelete
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          setIsDeleteModalOpen(false);
+          setSelectedKategori(null);
+        }}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 };
